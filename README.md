@@ -39,4 +39,4 @@ https://github.com/user-attachments/assets/db0bb23f-ae06-4135-a66a-1ff1669f4f84
 
 | Version | macOS | Windows |
 |---------|-------|---------|
-| v0.1.0 | [Download (.dmg)](https://github.com/VibingJustSpeakIt/Vibing/releases/download/v0.1.0/Vibing-v0.1.0-mac.dmg) | [Download (.exe)](https://github.com/VibingJustSpeakIt/Vibing/releases/download/v0.1.0/Vibing-v0.1.0-windows.exe) |
+| v0.1.0 | Coming soon | [Download (.exe)](https://github.com/VibingJustSpeakIt/Vibing/releases/download/v0.1.0/Vibing-v0.1.0-windows.exe) |
