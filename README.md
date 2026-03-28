@@ -3,7 +3,7 @@
 <img src="src/logo_transparent.png" alt="Vibing" width="360">
 
 [![Demo Page](https://img.shields.io/badge/Demo-Page-green?logo=githubpages)](https://vibingjustspeakit.github.io/Vibing/)
-[![GitHub](https://img.shields.io/badge/GitHub-Repo-blue?logo=github)](https://github.com/VibingJustSpeakIt/Vibing)
+[![GitHub](https://img.shields.io/badge/GitHub-Repo-black?logo=github)](https://github.com/VibingJustSpeakIt/Vibing)
 [![Powered by VibeVoice](https://img.shields.io/badge/Powered_by-VibeVoice-orange?logo=microsoft)](https://github.com/microsoft/VibeVoice)
 
 </div>
