@@ -414,14 +414,11 @@ async function animToggle() {
     document.getElementById('vt-copy-txt').textContent = polished;
     await wait(2000);
 
-    // Paste hint
+    // Paste hint — show immediately, stays until next loop
     vc.classList.remove('show');
-    await wait(300);
     pasteN.classList.add('show');
-    await wait(2000);
+    await wait(3000);
     pasteN.classList.remove('show');
-
-    await wait(2000);
   }
 }
 
@@ -488,14 +485,11 @@ async function animHold() {
     document.getElementById('vh-copy-txt').textContent = polished;
     await wait(2000);
 
-    // Paste hint
+    // Paste hint — show immediately, stays until next loop
     vc.classList.remove('show');
-    await wait(300);
     pasteN.classList.add('show');
-    await wait(2000);
+    await wait(3000);
     pasteN.classList.remove('show');
-
-    await wait(2000);
   }
 }
 
@@ -564,14 +558,11 @@ async function animTranslate() {
     document.getElementById('vx-copy-txt').textContent = translated;
     await wait(2000);
 
-    // Paste hint
+    // Paste hint — show immediately, stays until next loop
     vc.classList.remove('show');
-    await wait(300);
     pasteN.classList.add('show');
-    await wait(2000);
+    await wait(3000);
     pasteN.classList.remove('show');
-
-    await wait(2000);
   }
 }
 

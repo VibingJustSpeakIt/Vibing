@@ -625,13 +625,12 @@
   /* ── How to Use: Inline Demo ── */
   .idx-demo-wrap { display: flex; flex-direction: column; gap: 40px; }
   .idx-demo-panel {
-    flex: 1; max-width: 520px;
     background: rgba(255,255,255,0.75);
     border: 1px solid rgba(0,0,0,0.04);
     border-radius: 20px;
-    padding: 36px 28px 32px;
+    padding: 48px 48px 40px;
     box-shadow: 0 2px 16px rgba(0,0,0,0.03);
-    text-align: center;
+    text-align: left;
   }
   .idx-mode-badge {
     display: inline-block; font-size: 13px; font-weight: 700;
@@ -700,6 +699,7 @@
     white-space: nowrap; opacity: 0; transition: all .4s; pointer-events: none;
   }
   .idx-notif.cancelled { background: #ff3b30; color: #fff; }
+  .idx-notif.paste { background: #6694f5; color: #fff; }
   .idx-notif.show { opacity: 1; }
   .idx-demo-panel .kb-key.cancel-pressed { background: #ff3b30; color: #fff; box-shadow: 0 0 16px rgba(255,59,48,0.5); }
   .idx-kb-wrap { display: flex; gap: 28px; justify-content: center; flex-wrap: nowrap; }
@@ -770,7 +770,7 @@
       <!-- Transcription -->
       <div class="idx-demo-panel">
         <h3 style="font-size:24px;font-weight:700;margin-bottom:6px;">Transcription</h3>
-        <p class="idx-subtitle">Press <strong>Right ⌥ Option</strong> (Mac) or <strong>Ctrl + Win</strong> (Win) to start / stop recording</p>
+        <p class="idx-subtitle">Press <kbd class="highlight"><b>Right</b> ⌥ Option</kbd> (Mac) or <kbd class="highlight">Ctrl</kbd> + <kbd class="highlight">Win</kbd> (Win) to start / stop recording</p>
         <div class="idx-anim-area">
           <div class="idx-vc" id="idx-vc-toggle">
             <div class="idx-vc-stage idx-vc-rec" id="idx-vt-rec"><div class="idx-status-orb"><svg><use href="#idx-mic"/></svg></div><div class="idx-waveform"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div><span class="idx-vc-label">Listening...</span></div>
@@ -778,6 +778,7 @@
             <div class="idx-vc-stage idx-vc-exp" id="idx-vt-done"><div class="idx-vc-hdr"><div class="idx-status-orb"><svg><use href="#idx-check"/></svg></div><span class="idx-vc-label">Done</span></div><div class="idx-vc-txt" id="idx-vt-done-txt"></div></div>
             <div class="idx-vc-stage idx-vc-exp" id="idx-vt-copy"><div class="idx-vc-hdr"><div class="idx-status-orb"><svg><use href="#idx-clip"/></svg></div><span class="idx-vc-label">Copied to Clipboard</span></div><div class="idx-vc-txt" id="idx-vt-copy-txt"></div></div>
           </div>
+          <div class="idx-notif paste" id="idx-notif-toggle-paste">⌘V / Ctrl+V — Paste anywhere</div>
         </div>
         <div class="idx-steps-bar" id="idx-steps-toggle">
           <span class="idx-step-pill" data-step="press1">① Press to Start</span>
@@ -814,7 +815,7 @@
       <!-- How to Cancel -->
       <div class="idx-demo-panel">
         <h3 style="font-size:24px;font-weight:700;margin-bottom:6px;">How to Cancel</h3>
-        <p class="idx-subtitle">Press <strong>ESC</strong> at any stage to immediately cancel — nothing is transcribed or copied</p>
+        <p class="idx-subtitle">Press <kbd class="highlight">ESC</kbd> at any stage to immediately cancel — nothing is transcribed or copied</p>
         <div class="idx-anim-area">
           <div class="idx-vc" id="idx-vc-esc">
             <div class="idx-vc-stage idx-vc-rec" id="idx-ve-rec"><div class="idx-status-orb"><svg><use href="#idx-mic"/></svg></div><div class="idx-waveform"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div><span class="idx-vc-label">Listening...</span></div>
@@ -853,8 +854,8 @@
       </div>
     </div>
 
-    <a href="hotkeys-demo.html" class="btn btn-outline" style="margin-top:32px;font-size:16px;padding:12px 32px;">Learn More →</a>
-  </div>
+    <a href="hotkeys-demo.html" class="btn btn-outline" style="margin-top:32px;font-size:16px;padding:12px 32px;">More Usage Methods →</a>
+    </div>
 </section>
 
 <!-- Installation Guide -->
@@ -1446,8 +1447,12 @@ optimizer = torch.optim.<span class="fn">AdamW</span>(model.<span class="fn">par
       document.getElementById('idx-vt-copy-txt').textContent = polished;
       await idxWait(2000);
 
+      // Paste hint — show immediately
       vc.classList.remove('show');
-      await idxWait(2000);
+      var pasteN = document.getElementById('idx-notif-toggle-paste');
+      pasteN.classList.add('show');
+      await idxWait(3000);
+      pasteN.classList.remove('show');
     }
   }
 
