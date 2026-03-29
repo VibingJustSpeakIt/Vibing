@@ -25,6 +25,12 @@ https://github.com/user-attachments/assets/db0bb23f-ae06-4135-a66a-1ff1669f4f84
   <img src="src/usage.png" alt="How to Use" width="100%">
 </p>
 
+## Installation Guide (Mac)
+
+Step-by-step setup instructions for macOS — accessibility, screen recording & microphone permissions.
+
+👉 [**Mac Setup Guide**](https://vibingjustspeakit.github.io/Vibing/installation-guide.html)
+
 ## Key Features
 
 - **Long-Form Voice Input** — Over 5 minutes of continuous speech in a single recording.
