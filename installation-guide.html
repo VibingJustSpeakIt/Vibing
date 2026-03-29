@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibing for Mac — Setup Guide</title>
+<style>
+:root{--bg:#f5f5f7;--text:#1d1d1f;--text2:#86868b;--blue:#007aff;--callout:#ff3b30}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.5}
+.page{max-width:780px;margin:0 auto;padding:40px 20px 60px}
+.hdr{text-align:center;margin-bottom:48px}
+.hdr h1{font-size:32px;font-weight:700}
+.hdr p{font-size:14px;color:var(--text2);margin-top:4px}
+
+.step{margin-bottom:52px}
+.sh{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sn{width:30px;height:30px;border-radius:50%;background:var(--blue);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.st{font-size:20px;font-weight:600}
+.desc{font-size:14px;color:var(--text2);margin-bottom:14px;line-height:1.6}
+.desc strong{color:var(--text)}
+
+.shot{width:100%;border-radius:10px;box-shadow:0 2px 16px rgba(0,0,0,0.10),0 0 0 .5px rgba(0,0,0,0.06);display:block}
+
+/* Keyboard */
+.kb-wrap{margin:16px 0}
+.kb-static{width:100%;max-width:520px;display:flex;flex-direction:column;gap:4px;background:rgba(210,210,218,0.4);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.6);border-radius:12px;padding:14px 16px;box-shadow:0 4px 24px rgba(0,0,0,0.06);margin:0 auto}
+.kb-row{display:flex;gap:4px}
+.kb-key{height:30px;border-radius:5px;background:rgba(255,255,255,0.82);border:none;box-shadow:0 1px 2px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#333;font-family:-apple-system,"SF Pro Text",sans-serif;flex:1;overflow:hidden;white-space:nowrap;padding:0 2px;position:relative}
+.kb-key.w125{flex:1.25}.kb-key.w15{flex:1.5}.kb-key.w175{flex:1.75}.kb-key.w2{flex:2}.kb-key.w225{flex:2.25}.kb-key.w275{flex:2.75}.kb-key.space{flex:5.5}
+.kb-key.pressed{background:#6694f5;color:#fff;box-shadow:0 0 16px rgba(102,148,245,0.5),0 1px 2px rgba(0,0,0,0.1)}
+.kb-label{position:absolute;top:-26px;left:50%;transform:translateX(-50%);background:var(--callout);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;white-space:nowrap;z-index:2}
+.kb-label::after{content:'';position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);border-left:5px solid transparent;border-right:5px solid transparent;border-top:5px solid var(--callout)}
+.kb-hint{text-align:center;margin-top:10px;font-size:13px;color:var(--text2)}
+.kb-hint strong{color:var(--text)}
+
+.ok{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:24px 28px;margin-top:40px}
+.ok h3{font-size:18px;font-weight:600;color:#166534;margin-bottom:16px}
+.kb-legend{display:flex;justify-content:center;gap:24px;margin-top:14px;font-size:13px;color:var(--text2)}
+.kb-legend strong{color:var(--text);font-weight:600}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hdr">
+<h1>Vibing for Mac — Setup Guide</h1>
+<p>macOS 14+ · v0.1.0</p>
+</div>
+
+<!-- STEP 0: DMG Install -->
+<div class="step">
+<div class="sh"><div class="sn">1</div><div class="st">Drag to Applications</div></div>
+<p class="desc">Open <strong>Vibing.dmg</strong> and drag <strong>Vibing</strong> into the <strong>Applications</strong> folder.</p>
+<img class="shot" src="images/steps/0.png" alt="DMG — drag Vibing to Applications">
+</div>
+
+<!-- STEP 1: Accessibility dialog -->
+<div class="step">
+<div class="sh"><div class="sn">2</div><div class="st">Grant Accessibility</div></div>
+<p class="desc">Open Vibing. An <strong>Accessibility Access</strong> dialog appears. Click <strong>Open System Settings</strong>.</p>
+<img class="shot" src="images/steps/1.png" alt="Accessibility Access dialog">
+</div>
+
+<!-- STEP 2: Toggle Accessibility ON -->
+<div class="step">
+<div class="sh"><div class="sn">3</div><div class="st">Toggle Accessibility ON</div></div>
+<p class="desc">In <strong>System Settings → Privacy & Security → Accessibility</strong>, find <strong>Vibing</strong> and toggle it <strong>ON</strong>.</p>
+<img class="shot" src="images/steps/2.png" alt="Accessibility — toggle Vibing ON">
+</div>
+
+<!-- STEP 3: Enter password -->
+<div class="step">
+<div class="sh"><div class="sn">4</div><div class="st">Enter Password</div></div>
+<p class="desc">Enter your Mac password and click <strong>Modify Settings</strong>.</p>
+<img class="shot" src="images/steps/3.png" alt="Password dialog — Modify Settings">
+</div>
+
+<!-- STEP 4: Press Right Option → Screen Recording dialog -->
+<div class="step">
+<div class="sh"><div class="sn">5</div><div class="st">Press Right ⌥ Option</div></div>
+<p class="desc">Press <strong>Right ⌥ Option</strong> on your keyboard. This will trigger a <strong>Screen Recording</strong> permission dialog.</p>
+<div class="kb-wrap">
+<div class="kb-static">
+<div class="kb-row"><div class="kb-key">~</div><div class="kb-key">1</div><div class="kb-key">2</div><div class="kb-key">3</div><div class="kb-key">4</div><div class="kb-key">5</div><div class="kb-key">6</div><div class="kb-key">7</div><div class="kb-key">8</div><div class="kb-key">9</div><div class="kb-key">0</div><div class="kb-key">-</div><div class="kb-key">=</div><div class="kb-key w15">del</div></div>
+<div class="kb-row"><div class="kb-key w15">tab</div><div class="kb-key">Q</div><div class="kb-key">W</div><div class="kb-key">E</div><div class="kb-key">R</div><div class="kb-key">T</div><div class="kb-key">Y</div><div class="kb-key">U</div><div class="kb-key">I</div><div class="kb-key">O</div><div class="kb-key">P</div><div class="kb-key">[</div><div class="kb-key">]</div><div class="kb-key">\</div></div>
+<div class="kb-row"><div class="kb-key w175">caps</div><div class="kb-key">A</div><div class="kb-key">S</div><div class="kb-key">D</div><div class="kb-key">F</div><div class="kb-key">G</div><div class="kb-key">H</div><div class="kb-key">J</div><div class="kb-key">K</div><div class="kb-key">L</div><div class="kb-key">;</div><div class="kb-key">'</div><div class="kb-key w225">return</div></div>
+<div class="kb-row"><div class="kb-key w225">shift</div><div class="kb-key">Z</div><div class="kb-key">X</div><div class="kb-key">C</div><div class="kb-key">V</div><div class="kb-key">B</div><div class="kb-key">N</div><div class="kb-key">M</div><div class="kb-key">,</div><div class="kb-key">.</div><div class="kb-key">/</div><div class="kb-key w275">shift</div></div>
+<div class="kb-row"><div class="kb-key w125">fn</div><div class="kb-key w125">⌃</div><div class="kb-key w125">⌥</div><div class="kb-key w125">⌘</div><div class="kb-key space"></div><div class="kb-key w125">⌘</div><div class="kb-key w125 pressed"><span class="kb-label">Press this</span>⌥</div><div class="kb-key">←</div><div class="kb-key">↑↓</div><div class="kb-key">→</div></div>
+</div>
+<p class="kb-hint">Press <strong>Right ⌥ Option</strong> → the dialog below will appear</p>
+</div>
+<p class="desc" style="margin-top:14px">Click <strong>Open System Settings</strong>.</p>
+<img class="shot" src="images/steps/4.png" alt="Screen Recording permission dialog">
+</div>
+
+<!-- STEP 5: Toggle Screen Recording ON -->
+<div class="step">
+<div class="sh"><div class="sn">6</div><div class="st">Toggle Screen Recording ON</div></div>
+<p class="desc">In <strong>Screen & System Audio Recording</strong>, find <strong>Vibing</strong> and toggle it <strong>ON</strong>.</p>
+<img class="shot" src="images/steps/5.png" alt="Screen Recording — toggle Vibing ON">
+</div>
+
+<!-- STEP 6: Quit & Reopen -->
+<div class="step">
+<div class="sh"><div class="sn">7</div><div class="st">Quit & Reopen</div></div>
+<p class="desc">Click <strong>Quit & Reopen</strong> to apply the screen recording permission.</p>
+<img class="shot" src="images/steps/6.png" alt="Quit and Reopen dialog">
+</div>
+
+<!-- STEP 7: All set — Press Right Option to record -->
+<div class="step">
+<div class="sh"><div class="sn">8</div><div class="st">All Set! Press Right ⌥ Option</div></div>
+<p class="desc">Press <strong>Right ⌥ Option</strong> — the <strong>Recording...</strong> overlay appears, meaning Vibing is ready. Press again to transcribe.</p>
+<div class="kb-wrap">
+<div class="kb-static">
+<div class="kb-row"><div class="kb-key">~</div><div class="kb-key">1</div><div class="kb-key">2</div><div class="kb-key">3</div><div class="kb-key">4</div><div class="kb-key">5</div><div class="kb-key">6</div><div class="kb-key">7</div><div class="kb-key">8</div><div class="kb-key">9</div><div class="kb-key">0</div><div class="kb-key">-</div><div class="kb-key">=</div><div class="kb-key w15">del</div></div>
+<div class="kb-row"><div class="kb-key w15">tab</div><div class="kb-key">Q</div><div class="kb-key">W</div><div class="kb-key">E</div><div class="kb-key">R</div><div class="kb-key">T</div><div class="kb-key">Y</div><div class="kb-key">U</div><div class="kb-key">I</div><div class="kb-key">O</div><div class="kb-key">P</div><div class="kb-key">[</div><div class="kb-key">]</div><div class="kb-key">\</div></div>
+<div class="kb-row"><div class="kb-key w175">caps</div><div class="kb-key">A</div><div class="kb-key">S</div><div class="kb-key">D</div><div class="kb-key">F</div><div class="kb-key">G</div><div class="kb-key">H</div><div class="kb-key">J</div><div class="kb-key">K</div><div class="kb-key">L</div><div class="kb-key">;</div><div class="kb-key">'</div><div class="kb-key w225">return</div></div>
+<div class="kb-row"><div class="kb-key w225">shift</div><div class="kb-key">Z</div><div class="kb-key">X</div><div class="kb-key">C</div><div class="kb-key">V</div><div class="kb-key">B</div><div class="kb-key">N</div><div class="kb-key">M</div><div class="kb-key">,</div><div class="kb-key">.</div><div class="kb-key">/</div><div class="kb-key w275">shift</div></div>
+<div class="kb-row"><div class="kb-key w125">fn</div><div class="kb-key w125">⌃</div><div class="kb-key w125">⌥</div><div class="kb-key w125">⌘</div><div class="kb-key space"></div><div class="kb-key w125">⌘</div><div class="kb-key w125 pressed"><span class="kb-label">Press this</span>⌥</div><div class="kb-key">←</div><div class="kb-key">↑↓</div><div class="kb-key">→</div></div>
+</div>
+<p class="kb-hint">Press <strong>Right ⌥ Option</strong> → <strong>Recording...</strong> appears → press again to transcribe</p>
+</div>
+<img class="shot" src="images/steps/7.png" alt="Recording overlay active">
+</div>
+
+
+</div>
+</body>
+</html>
