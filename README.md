@@ -10,6 +10,10 @@
 
 ---
 
+## 📢 News
+
+🎉 **Mac version is now Apple notarized!** — The macOS build has been officially notarized by Apple. You no longer need to manually allow the app in System Settings. Just download, install, and run.
+
 ## Video Introduction
 
 <div align="center">
