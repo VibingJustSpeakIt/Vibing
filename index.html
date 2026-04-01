@@ -86,6 +86,58 @@
   }
   .btn-primary { color: #fff; background: #1a1a2e; }
   .btn-primary:hover { background: rgba(26,26,46,0.82); }
+
+  /* ── Download dropdown ── */
+  .download-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  .download-dropdown > .btn {
+    cursor: default;
+  }
+  .download-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 190px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    padding: 6px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .2s, visibility .2s;
+    z-index: 10;
+  }
+  .download-dropdown:hover .download-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+  }
+  .download-dropdown-menu a {
+    display: block;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1a1a2e;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background .15s;
+  }
+  .download-dropdown-menu a:hover {
+    background: rgba(26,26,46,0.06);
+  }
+  .download-dropdown-menu a .dl-label {
+    display: block;
+  }
+  .download-dropdown-menu a .dl-hint {
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(26,26,46,0.4);
+    margin-top: 1px;
+  }
+
   .btn-secondary {
     color: rgba(26,26,46,0.5); background: transparent;
     border: 1px solid rgba(26,26,46,0.15);
@@ -745,7 +797,19 @@
     </div>
     <div class="hero-actions">
       <a href="https://github.com/VibingJustSpeakIt/Vibing/releases/download/v0.1.0/Vibing-v0.1.0-mac.dmg" class="btn btn-primary">Download for Mac</a>
-      <a href="https://github.com/VibingJustSpeakIt/Vibing/releases/download/v0.1.0/Vibing-v0.1.0-windows.exe" class="btn btn-primary">Download for Windows</a>
+      <div class="download-dropdown">
+        <span class="btn btn-primary">Download for Windows ▾</span>
+        <div class="download-dropdown-menu">
+          <a href="https://github.com/VibingJustSpeakIt/Vibing/releases/download/v0.1.0/Vibing-v0.1.0-windows.exe">
+            <span class="dl-label">EXE Installer</span>
+            <span class="dl-hint">Standard installation</span>
+          </a>
+          <a href="https://github.com/VibingJustSpeakIt/Vibing/releases/download/v0.1.0/Vibing-v0.1.0-windows.zip">
+            <span class="dl-label">ZIP (Portable)</span>
+            <span class="dl-hint">No install needed</span>
+          </a>
+        </div>
+      </div>
       <a href="https://github.com/VibingJustSpeakIt/Vibing" class="btn btn-secondary">GitHub</a>
     </div>
   </div>
