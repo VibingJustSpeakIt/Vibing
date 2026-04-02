@@ -50,3 +50,9 @@ Step-by-step setup instructions for macOS — accessibility, screen recording & 
 | Version | macOS | Windows |
 |---------|-------|---------|
 | v0.1.0 | [Download (.dmg)](https://github.com/VibingJustSpeakIt/Vibing/releases/download/v0.1.0/Vibing-v0.1.0-mac.dmg) | [Download (.exe)](https://github.com/VibingJustSpeakIt/Vibing/releases/download/v0.1.0/Vibing-v0.1.0-windows.exe) |
+
+## Privacy
+
+**Data processing:** To provide more accurate transcription, context-aware rewriting, and translation results, Vibing sends your audio and contextual information (such as screenshots, text in the active input field, and the current application name) to our servers. This data is used solely to process your request and return results. It is not retained after processing is complete.
+
+**Privacy commitment:** Your data is never stored or used for model training, analytics, or any other purpose beyond fulfilling your immediate request.
