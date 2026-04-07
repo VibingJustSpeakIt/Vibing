@@ -25,6 +25,7 @@
     --green-soft: rgba(52,168,108,0.10);
     --violet: #8b6cf6;
     --red: #e5534b;
+    --red-soft: rgba(229,83,75,0.08);
     --radius-lg: 20px;
     --radius-md: 14px;
     --radius-sm: 10px;
@@ -308,7 +309,7 @@
     padding: 52px 52px 44px;
     box-shadow: var(--shadow-subtle);
     text-align: center;
-    margin-left: -60px; margin-right: -60px;
+    margin-left: -20px; margin-right: -20px;
     position: relative;
     overflow: hidden;
   }
@@ -332,8 +333,7 @@
   }
 
   /* Keyboard animation: finger slides, wave, typewriter */
-  .kb-col { position: relative; display: inline-block; }
-  .kb-container { position: relative; display: inline-block; overflow: visible; }
+  .kb-container { position: relative; display: inline-block; overflow: hidden; }
   .kb-fingers {
     position: absolute; bottom: -8px; left: 0; right: 0;
     pointer-events: none; z-index: 10;
@@ -343,19 +343,7 @@
   }
   .kb-fingers.show { opacity: 1; transform: translateY(0); }
   .kb-fingers.hide { opacity: 0; transform: translateY(30px); }
-  .finger-svg { filter: drop-shadow(0 2px 8px rgba(74,124,255,0.35)); }
-
-  .kb-anim-zone {
-    min-height: 56px; margin-top: 14px;
-    display: flex; align-items: center; justify-content: center;
-    position: relative;
-  }
-  .kb-anim-zone > div {
-    display: none; align-items: center; gap: 8px;
-    font-size: 14px; font-weight: 500; color: var(--ink-50);
-    animation: fadeInUp 0.35s var(--transition-smooth);
-  }
-  .kb-anim-zone > div.show { display: flex; }
+  .finger-svg { filter: drop-shadow(0 2px 6px rgba(15,15,26,0.15)); }
 
   .kb-anim-listening { color: var(--azure) !important; }
   .kb-anim-listening span { color: var(--azure); font-weight: 600; }
@@ -413,14 +401,59 @@
   .qs-notif.show { opacity: 1; }
 
   /* Keyboard */
-  .qs-kb-wrap { display: flex; gap: 32px; justify-content: center; flex-wrap: nowrap; }
+  .qs-kb-wrap {
+    display: flex; justify-content: center; flex-wrap: nowrap; align-items: stretch;
+    background: var(--cream-warm); border-radius: var(--radius-md);
+    border: 1px solid var(--ink-08); padding: 20px 24px 16px;
+    position: relative;
+  }
+  .kb-col {
+    position: relative; overflow: hidden;
+    width: 252px; padding-bottom: 40px;
+  }
+  .kb-col-win {
+    -webkit-mask-image: linear-gradient(to right, #000 70%, transparent 100%);
+    mask-image: linear-gradient(to right, #000 70%, transparent 100%);
+  }
+  .kb-col-mac {
+    -webkit-mask-image: linear-gradient(to left, #000 70%, transparent 100%);
+    mask-image: linear-gradient(to left, #000 70%, transparent 100%);
+  }
+  .kb-col-mac .kb-container {
+    margin-left: -244px;
+  }
+  .kb-divider {
+    width: 1px; align-self: stretch; margin: 0 12px;
+    border: none; border-left: 1.5px dashed var(--ink-15);
+    flex-shrink: 0;
+  }
+  .kb-shared-anim-zone {
+    min-height: 56px; margin-top: 14px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .kb-shared-anim-zone > div {
+    display: none; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 500; color: var(--ink-50);
+    animation: fadeInUp 0.35s var(--transition-smooth);
+  }
+  .kb-shared-anim-zone > div.show { display: flex; }
   .kb-col-label {
     font-size: 11px; font-weight: 700; color: var(--ink-30); margin-bottom: 10px;
     text-align: center; text-transform: uppercase; letter-spacing: 1.2px;
   }
+  .kb-col-label kbd {
+    display: inline-block; padding: 2px 8px; border-radius: 5px;
+    font-family: var(--font-display); font-size: 10.5px; font-weight: 600;
+    background: var(--azure-soft); color: var(--azure);
+    border: 1px solid rgba(74,124,255,0.18);
+    text-transform: none; letter-spacing: 0.2px;
+    margin-left: 4px; vertical-align: middle;
+  }
   .kb-static {
-    background: var(--cream-warm); border-radius: var(--radius-sm); padding: 8px;
-    display: inline-block; border: 1px solid var(--ink-08);
+    background: transparent; padding: 8px;
+    display: inline-block; border: none;
+    width: 480px;
   }
   .kb-row { display: flex; gap: 3px; margin-bottom: 3px; }
   .kb-key {
@@ -476,7 +509,8 @@
   }
   /* Before/After layout */
   .sc-ba {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    display: grid; grid-template-columns: 1fr auto 1fr; gap: 0;
+    align-items: stretch;
     margin-bottom: 20px;
   }
   .sc-ba-col { }
@@ -484,14 +518,59 @@
     font-size: 11px; font-weight: 700; text-transform: uppercase;
     letter-spacing: 0.8px; margin-bottom: 10px;
   }
-  .sc-ba-label.before { color: var(--ink-30); }
+  .sc-ba-label.before { color: var(--red); opacity: 0.7; }
   .sc-ba-label.after { color: var(--green); }
+  /* Middle arrow bridge between before/after */
+  .sc-ba-arrow {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 0 4px;
+    align-self: stretch;
+    position: relative;
+    min-width: 72px;
+    gap: 8px;
+  }
+  /* Logo above the arrow line */
+  .sc-ba-arrow img {
+    width: 28px; height: 28px; border-radius: 6px;
+    flex-shrink: 0;
+  }
+  /* Arrow line container */
+  .sc-ba-arrow-line {
+    position: relative;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--red), var(--green));
+  }
+  /* Arrowhead at right end */
+  .sc-ba-arrow-line::after {
+    content: '';
+    position: absolute;
+    top: 50%; right: -1px;
+    width: 0; height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 9px solid var(--green);
+    transform: translateY(-5px);
+  }
   .sc-ba-text {
     font-size: 14px; line-height: 1.85; color: var(--ink);
     background: var(--ink-04); border-radius: var(--radius-md);
     padding: 18px 22px; min-height: 80px;
     font-family: var(--font-serif);
     border: 1px solid var(--ink-04);
+  }
+  /* Before side: speech-bubble, red tint */
+  .sc-ba-col:first-child .sc-ba-text {
+    background: rgba(229,83,75,0.06);
+    border: 1.5px solid rgba(229,83,75,0.18);
+    border-radius: 20px 20px 4px 20px;
+  }
+  /* After side: clean editor, green tint */
+  .sc-ba-col:last-child .sc-ba-text {
+    background: rgba(52,168,108,0.06);
+    border: 1.5px solid rgba(52,168,108,0.18);
+    border-left: 3.5px solid var(--green);
+    border-radius: 3px;
   }
   .sc-ba-text .del {
     color: var(--red); text-decoration: line-through; opacity: 0.55;
@@ -776,13 +855,9 @@
       </h2>
 
       <div class="qs-panel">
-        <p class="qs-subtitle" style="font-size:16px; color:rgba(26,26,46,0.6); margin-bottom:8px;">
+        <p class="qs-subtitle" style="font-size:16px; color:rgba(26,26,46,0.6); margin-bottom:20px;">
           <span data-lang="en">Hold key to talk, release to insert text.</span>
           <span data-lang="zh">按住说话，松开即输入文本。</span>
-        </p>
-        <p class="qs-subtitle" style="margin-bottom:20px;">
-          <span data-lang="en">Windows: <kbd>Ctrl + ⊞ Win</kbd> &nbsp;│&nbsp; Mac: <kbd>Right ⌥ Option</kbd></span>
-          <span data-lang="zh">Windows: <kbd>Ctrl + ⊞ Win</kbd> &nbsp;│&nbsp; Mac: <kbd>Right ⌥ Option</kbd></span>
         </p>
 
         <!-- Step indicators -->
@@ -801,53 +876,46 @@
           </span>
         </div>
 
-        <!-- Keyboards: Windows + Mac side by side -->
+        <!-- Keyboards: Windows left half | Mac right half (full layout, CSS-clipped) -->
         <div class="qs-kb-wrap">
-          <div class="kb-col" style="text-align:center">
-            <div class="kb-col-label">Windows</div>
+          <div class="kb-col kb-col-win">
+            <div class="kb-col-label">Windows <kbd>Ctrl + Win</kbd></div>
             <div class="kb-container" id="kb-win-container">
-              <div class="kb-static" style="width:480px">
+              <div class="kb-static">
                 <div class="kb-row"><div class="kb-key">~</div><div class="kb-key">1</div><div class="kb-key">2</div><div class="kb-key">3</div><div class="kb-key">4</div><div class="kb-key">5</div><div class="kb-key">6</div><div class="kb-key">7</div><div class="kb-key">8</div><div class="kb-key">9</div><div class="kb-key">0</div><div class="kb-key">-</div><div class="kb-key">=</div><div class="kb-key w15">Bksp</div></div>
                 <div class="kb-row"><div class="kb-key w15">Tab</div><div class="kb-key">Q</div><div class="kb-key">W</div><div class="kb-key">E</div><div class="kb-key">R</div><div class="kb-key">T</div><div class="kb-key">Y</div><div class="kb-key">U</div><div class="kb-key">I</div><div class="kb-key">O</div><div class="kb-key">P</div><div class="kb-key">[</div><div class="kb-key">]</div><div class="kb-key">\</div></div>
                 <div class="kb-row"><div class="kb-key w175">Caps</div><div class="kb-key">A</div><div class="kb-key">S</div><div class="kb-key">D</div><div class="kb-key">F</div><div class="kb-key">G</div><div class="kb-key">H</div><div class="kb-key">J</div><div class="kb-key">K</div><div class="kb-key">L</div><div class="kb-key">;</div><div class="kb-key">'</div><div class="kb-key w225">Enter</div></div>
                 <div class="kb-row"><div class="kb-key w225">Shift</div><div class="kb-key">Z</div><div class="kb-key">X</div><div class="kb-key">C</div><div class="kb-key">V</div><div class="kb-key">B</div><div class="kb-key">N</div><div class="kb-key">M</div><div class="kb-key">,</div><div class="kb-key">.</div><div class="kb-key">/</div><div class="kb-key w275">Shift</div></div>
-                <div class="kb-row"><div class="kb-key w125" id="qs-win-ctrl">Ctrl</div><div class="kb-key w125" id="qs-win-key">⊞ Win</div><div class="kb-key w125">Alt</div><div class="kb-key space"></div><div class="kb-key w125">Alt</div><div class="kb-key w125">⊞</div><div class="kb-key w125">Menu</div><div class="kb-key w125">Ctrl</div></div>
+                <div class="kb-row"><div class="kb-key w125" id="qs-win-ctrl">Ctrl</div><div class="kb-key w125" id="qs-win-key">Win</div><div class="kb-key w125">Alt</div><div class="kb-key space"></div><div class="kb-key w125">Alt</div><div class="kb-key w125">Win</div><div class="kb-key w125">Menu</div><div class="kb-key w125">Ctrl</div></div>
               </div>
-              <!-- Finger SVGs for Windows (index + middle finger) -->
               <div class="kb-fingers" id="kb-win-fingers">
-                <svg class="finger-svg finger-left" viewBox="0 0 24 40" width="24" height="40"><ellipse cx="12" cy="6" rx="7" ry="6" fill="#4a7cff" opacity="0.85"/><rect x="7" y="6" width="10" height="24" rx="5" fill="#4a7cff" opacity="0.85"/></svg>
-                <svg class="finger-svg finger-right" viewBox="0 0 24 40" width="24" height="40"><ellipse cx="12" cy="6" rx="7" ry="6" fill="#4a7cff" opacity="0.85"/><rect x="7" y="6" width="10" height="24" rx="5" fill="#4a7cff" opacity="0.85"/></svg>
+                <svg class="finger-svg finger-left" viewBox="0 0 24 40" width="24" height="40"><ellipse cx="12" cy="6" rx="7" ry="6" fill="#e8834a" opacity="0.85"/><rect x="7" y="6" width="10" height="24" rx="5" fill="#e8834a" opacity="0.85"/></svg>
+                <svg class="finger-svg finger-right" viewBox="0 0 24 40" width="24" height="40"><ellipse cx="12" cy="6" rx="7" ry="6" fill="#e8834a" opacity="0.85"/><rect x="7" y="6" width="10" height="24" rx="5" fill="#e8834a" opacity="0.85"/></svg>
               </div>
-            </div>
-            <!-- Sub-keyboard animation zone -->
-            <div class="kb-anim-zone" id="kb-win-anim">
-              <div class="kb-anim-listening"><svg width="18" height="18" viewBox="0 0 24 24" fill="#4a7cff"><path d="M12 1a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1a1 1 0 1 0-2 0v1a9 9 0 0 0 8 8.94V22H8a1 1 0 1 0 0 2h8a1 1 0 1 0 0-2h-3v-2.06A9 9 0 0 0 21 11v-1a1 1 0 1 0-2 0z"/></svg> <div class="qs-wave-mini"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div> <span>Listening...</span></div>
-              <div class="kb-anim-processing"><svg width="18" height="18" viewBox="0 0 24 24" fill="#8b6cf6"><rect x="2" y="8" width="2" height="8" rx="1"/><rect x="6" y="5" width="2" height="14" rx="1"/><rect x="10" y="2" width="2" height="20" rx="1"/><rect x="14" y="6" width="2" height="12" rx="1"/><rect x="18" y="4" width="2" height="16" rx="1"/><rect x="22" y="9" width="2" height="6" rx="1"/></svg> <span>Processing...</span></div>
-              <div class="kb-anim-result"><div class="kb-mock-input"><span class="kb-typewriter" id="kb-win-typewriter"></span><span class="kb-cursor">|</span></div><span class="kb-anim-done-label">Auto-pasted ✓</span></div>
             </div>
           </div>
-          <div class="kb-col" style="text-align:center">
-            <div class="kb-col-label">Mac</div>
+          <div class="kb-divider"></div>
+          <div class="kb-col kb-col-mac">
+            <div class="kb-col-label">Mac <kbd>Right ⌥ Option</kbd></div>
             <div class="kb-container" id="kb-mac-container">
-              <div class="kb-static" style="width:480px">
+              <div class="kb-static">
                 <div class="kb-row"><div class="kb-key">~</div><div class="kb-key">1</div><div class="kb-key">2</div><div class="kb-key">3</div><div class="kb-key">4</div><div class="kb-key">5</div><div class="kb-key">6</div><div class="kb-key">7</div><div class="kb-key">8</div><div class="kb-key">9</div><div class="kb-key">0</div><div class="kb-key">-</div><div class="kb-key">=</div><div class="kb-key w15">del</div></div>
                 <div class="kb-row"><div class="kb-key w15">tab</div><div class="kb-key">Q</div><div class="kb-key">W</div><div class="kb-key">E</div><div class="kb-key">R</div><div class="kb-key">T</div><div class="kb-key">Y</div><div class="kb-key">U</div><div class="kb-key">I</div><div class="kb-key">O</div><div class="kb-key">P</div><div class="kb-key">[</div><div class="kb-key">]</div><div class="kb-key">\</div></div>
                 <div class="kb-row"><div class="kb-key w175">caps</div><div class="kb-key">A</div><div class="kb-key">S</div><div class="kb-key">D</div><div class="kb-key">F</div><div class="kb-key">G</div><div class="kb-key">H</div><div class="kb-key">J</div><div class="kb-key">K</div><div class="kb-key">L</div><div class="kb-key">;</div><div class="kb-key">'</div><div class="kb-key w225">return</div></div>
                 <div class="kb-row"><div class="kb-key w225">shift</div><div class="kb-key">Z</div><div class="kb-key">X</div><div class="kb-key">C</div><div class="kb-key">V</div><div class="kb-key">B</div><div class="kb-key">N</div><div class="kb-key">M</div><div class="kb-key">,</div><div class="kb-key">.</div><div class="kb-key">/</div><div class="kb-key w275">shift</div></div>
                 <div class="kb-row"><div class="kb-key w125">fn</div><div class="kb-key w125">⌃</div><div class="kb-key w125">⌥</div><div class="kb-key w125">⌘</div><div class="kb-key space"></div><div class="kb-key w125">⌘</div><div class="kb-key w125" id="qs-mac-opt">⌥</div><div class="kb-key">←</div><div class="kb-key">↑↓</div><div class="kb-key">→</div></div>
               </div>
-              <!-- Finger SVG for Mac (single index finger) -->
               <div class="kb-fingers" id="kb-mac-fingers">
-                <svg class="finger-svg finger-single" viewBox="0 0 24 40" width="24" height="40"><ellipse cx="12" cy="6" rx="7" ry="6" fill="#4a7cff" opacity="0.85"/><rect x="7" y="6" width="10" height="24" rx="5" fill="#4a7cff" opacity="0.85"/></svg>
+                <svg class="finger-svg finger-single" viewBox="0 0 24 40" width="24" height="40"><ellipse cx="12" cy="6" rx="7" ry="6" fill="#e8834a" opacity="0.85"/><rect x="7" y="6" width="10" height="24" rx="5" fill="#e8834a" opacity="0.85"/></svg>
               </div>
             </div>
-            <!-- Sub-keyboard animation zone -->
-            <div class="kb-anim-zone" id="kb-mac-anim">
-              <div class="kb-anim-listening"><svg width="18" height="18" viewBox="0 0 24 24" fill="#4a7cff"><path d="M12 1a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1a1 1 0 1 0-2 0v1a9 9 0 0 0 8 8.94V22H8a1 1 0 1 0 0 2h8a1 1 0 1 0 0-2h-3v-2.06A9 9 0 0 0 21 11v-1a1 1 0 1 0-2 0z"/></svg> <div class="qs-wave-mini"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div> <span>Listening...</span></div>
-              <div class="kb-anim-processing"><svg width="18" height="18" viewBox="0 0 24 24" fill="#8b6cf6"><rect x="2" y="8" width="2" height="8" rx="1"/><rect x="6" y="5" width="2" height="14" rx="1"/><rect x="10" y="2" width="2" height="20" rx="1"/><rect x="14" y="6" width="2" height="12" rx="1"/><rect x="18" y="4" width="2" height="16" rx="1"/><rect x="22" y="9" width="2" height="6" rx="1"/></svg> <span>Processing...</span></div>
-              <div class="kb-anim-result"><div class="kb-mock-input"><span class="kb-typewriter" id="kb-mac-typewriter"></span><span class="kb-cursor">|</span></div><span class="kb-anim-done-label">Auto-pasted ✓</span></div>
-            </div>
           </div>
+        </div>
+        <!-- Shared animation zone below both keyboards -->
+        <div class="kb-shared-anim-zone" id="kb-shared-anim">
+          <div class="kb-anim-listening"><svg width="18" height="18" viewBox="0 0 24 24" fill="#4a7cff"><path d="M12 1a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1a1 1 0 1 0-2 0v1a9 9 0 0 0 8 8.94V22H8a1 1 0 1 0 0 2h8a1 1 0 1 0 0-2h-3v-2.06A9 9 0 0 0 21 11v-1a1 1 0 1 0-2 0z"/></svg> <div class="qs-wave-mini"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div> <span>Listening...</span></div>
+          <div class="kb-anim-processing"><svg width="18" height="18" viewBox="0 0 24 24" fill="#8b6cf6"><rect x="2" y="8" width="2" height="8" rx="1"/><rect x="6" y="5" width="2" height="14" rx="1"/><rect x="10" y="2" width="2" height="20" rx="1"/><rect x="14" y="6" width="2" height="12" rx="1"/><rect x="18" y="4" width="2" height="16" rx="1"/><rect x="22" y="9" width="2" height="6" rx="1"/></svg> <span>Processing...</span></div>
+          <div class="kb-anim-result"><div class="kb-mock-input"><span class="kb-typewriter" id="kb-shared-typewriter"></span><span class="kb-cursor">|</span></div><span class="kb-anim-done-label">Auto-pasted ✓</span></div>
         </div>
       </div>
 
@@ -1206,6 +1274,57 @@
           </div>
         </div>
 
+        <!-- Card 9: Vibe Coding -->
+        <div class="sc-card">
+          <span class="sc-badge">Vibe Coding</span>
+          <div data-lang-block="en">
+            <div class="sc-app-mock">
+              <div class="sc-app-bar" style="background:#1a1a2e;">
+                <span class="sc-app-dot r"></span><span class="sc-app-dot y"></span><span class="sc-app-dot g"></span>
+                <span style="margin-left:8px;">Claude Code — Terminal</span>
+              </div>
+              <div class="sc-app-body" style="font-size:12px; color:#a0a0b8; font-family:monospace;">
+                <span style="color:#7c7cff;">$</span> claude
+              </div>
+            </div>
+            <div class="sc-ba">
+              <div class="sc-ba-col">
+                <div class="sc-ba-label before">Voice input</div>
+                <div class="sc-ba-text">OK so basically what I want is, <span class="del">um</span>, a voice input app, right, and it needs to <span class="del">like</span> work system-wide on both Windows and Mac, and <span class="del">uh</span> the key thing is it should use an LLM to clean up what you say, <span class="del">you know</span>, remove filler words and fix grammar, and also it should be context-aware, <span class="del">like</span> it reads your screen to figure out if you're in an email or a chat or a doc, and then format the output accordingly, <span class="del">oh and also</span> it needs to support hotwords for technical terms, and <span class="del">um</span> mixed language input like Chinese and English together, and <span class="del">I guess</span> one more thing, it should be really fast, <span class="del">like</span> the latency needs to be low enough that it feels real-time</div>
+              </div>
+              <div class="sc-ba-col">
+                <div class="sc-ba-label after">Output</div>
+                <div class="sc-ba-text">Build a system-wide voice input app (Windows + Mac) with the following requirements:<br><br>1. LLM-powered text cleanup — remove fillers, fix grammar, keep intent<br>2. Context-aware formatting — read screen to detect app context (email / chat / doc) and adapt output<br>3. Hotword support for technical terms and proper nouns<br>4. Mixed-language input (e.g., Chinese + English)<br>5. Low-latency pipeline — output should feel real-time</div>
+              </div>
+            </div>
+          </div>
+          <div data-lang-block="zh">
+            <div class="sc-app-mock">
+              <div class="sc-app-bar" style="background:#1a1a2e;">
+                <span class="sc-app-dot r"></span><span class="sc-app-dot y"></span><span class="sc-app-dot g"></span>
+                <span style="margin-left:8px;">Claude Code — Terminal</span>
+              </div>
+              <div class="sc-app-body" style="font-size:12px; color:#a0a0b8; font-family:monospace;">
+                <span style="color:#7c7cff;">$</span> claude
+              </div>
+            </div>
+            <div class="sc-ba">
+              <div class="sc-ba-col">
+                <div class="sc-ba-label before">语音输入</div>
+                <div class="sc-ba-text">我想做一个语音输入法，<span class="del">就是</span>那种全局的，Windows 和 Mac 都能用，<span class="del">然后呢</span>核心功能是用大模型来清理语音识别的结果，<span class="del">就是</span>把那些废话啊语气词什么的都去掉，<span class="del">嗯</span>然后还要能根据上下文来调整格式，<span class="del">比如说</span>它要能截屏看你当前在什么应用里面，<span class="del">如果是</span>邮件就用邮件格式，聊天就保持口语，<span class="del">对对对</span>然后还要支持热词，<span class="del">就是</span>一些专有名词它要能识别对，<span class="del">还有就是</span>要支持中英文混合输入，<span class="del">嗯</span>最后一点，延迟要低，语音说完之后文字要很快出来，<span class="del">就是</span>那种实时的感觉</div>
+              </div>
+              <div class="sc-ba-col">
+                <div class="sc-ba-label after">Vibing 输出</div>
+                <div class="sc-ba-text">开发一个全局语音输入法（Windows + Mac），具体需求如下：<br><br>1. 大模型文本清理——去除语气词、修正语法、保留核心意图<br>2. 上下文感知格式化——截屏识别当前应用（邮件/聊天/文档），自动调整输出格式<br>3. 热词支持：识别专有名词和技术术语<br>4. 中英文混合输入<br>5. 低延迟管线：输出需要达到实时体验</div>
+              </div>
+            </div>
+          </div>
+          <div class="sc-desc">
+            <span data-lang="en">The longer you speak, the more time Vibing saves. A 30-second stream of thought becomes a structured, actionable spec — ready for Claude to build.</span>
+            <span data-lang="zh">说得越长，Vibing 省的时间越多。30 秒的口语需求变成结构清晰的技术规格——Claude 拿来就能开工。</span>
+          </div>
+        </div>
+
       </div><!-- /sc-grid -->
     </div>
   </section>
@@ -1328,11 +1447,6 @@
         <p style="margin-bottom:20px;">
           <span data-lang="en">Screenshots are used solely for context-aware formatting — helping Vibing understand whether you're in an email, a document, or a chat.</span>
           <span data-lang="zh">截图仅用于上下文感知格式化——帮助 Vibing 理解你是在邮件、文档还是聊天中。</span>
-        </p>
-        <p>
-          <strong><span data-lang="en">Your Control</span><span data-lang="zh">您的控制权</span></strong><br>
-          <span data-lang="en">You can disable screenshot capture in Settings. Without it, Vibing still works — just without context-aware formatting and language adaptation.</span>
-          <span data-lang="zh">您可以在设置中关闭截图功能。关闭后 Vibing 仍然可用，只是没有上下文感知的格式调整。</span>
         </p>
       </div>
     </div>
@@ -1473,6 +1587,31 @@ function setLang(lang) {
 })();
 
 /* ── Sidebar: highlight active section on scroll ── */
+
+/* ── Inject arrow bridge into all before/after grids ── */
+(function() {
+  var arrow = '<div class="sc-ba-arrow">' +
+    '<img src="src/logo.png" alt="Vibing">' +
+    '<div class="sc-ba-arrow-line"></div>' +
+    '</div>';
+  var micSvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;opacity:0.8;">' +
+    '<path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>' +
+    '<path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>';
+  document.querySelectorAll('.sc-ba').forEach(function(ba) {
+    var cols = ba.querySelectorAll(':scope > .sc-ba-col');
+    if (cols.length === 2) {
+      // Insert arrow bridge
+      cols[1].insertAdjacentHTML('beforebegin', arrow);
+      // Replace before label with mic icon only
+      var beforeLabel = cols[0].querySelector('.sc-ba-label.before');
+      if (beforeLabel) beforeLabel.innerHTML = micSvg;
+      // Simplify after label
+      var afterLabel = cols[1].querySelector('.sc-ba-label.after');
+      if (afterLabel) afterLabel.innerHTML = '&#x2714; On screen';
+    }
+  });
+})();
+
 (function() {
   var navLinks = document.querySelectorAll('.sidebar-nav a[href^="#"]');
   var sections = [];
@@ -1508,16 +1647,16 @@ function setLang(lang) {
     if (t) t.classList.add('active');
   }
 
-  function showAnimZone(prefix, zone) {
-    var el = document.getElementById(prefix + '-anim');
+  function showSharedAnim(zone) {
+    var el = document.getElementById('kb-shared-anim');
     if (!el) return;
     el.querySelectorAll(':scope > div').forEach(function(d) {
       d.classList.toggle('show', d.classList.contains('kb-anim-' + zone));
     });
   }
 
-  function hideAnimZone(prefix) {
-    var el = document.getElementById(prefix + '-anim');
+  function hideSharedAnim() {
+    var el = document.getElementById('kb-shared-anim');
     if (!el) return;
     el.querySelectorAll(':scope > div').forEach(function(d) { d.classList.remove('show'); });
   }
@@ -1552,8 +1691,7 @@ function setLang(lang) {
     var wKey = document.getElementById('qs-win-key');
     var winFingers = document.getElementById('kb-win-fingers');
     var macFingers = document.getElementById('kb-mac-fingers');
-    var winTypewriter = document.getElementById('kb-win-typewriter');
-    var macTypewriter = document.getElementById('kb-mac-typewriter');
+    var sharedTypewriter = document.getElementById('kb-shared-typewriter');
 
     while (true) {
       // Reset all
@@ -1562,8 +1700,8 @@ function setLang(lang) {
       macFingers.classList.remove('show'); macFingers.classList.add('hide');
       wCtrl.classList.remove('pressed'); wKey.classList.remove('pressed');
       macOpt.classList.remove('pressed');
-      hideAnimZone('kb-win'); hideAnimZone('kb-mac');
-      winTypewriter.textContent = ''; macTypewriter.textContent = '';
+      hideSharedAnim();
+      sharedTypewriter.textContent = '';
       await wait(1500);
 
       // ① Press & Hold — fingers slide up
@@ -1577,32 +1715,24 @@ function setLang(lang) {
       macOpt.classList.add('pressed');
       await wait(400);
 
-      // ② Speaking — wave animation under keyboards
+      // ② Speaking — wave animation below keyboards
       setStep('recording');
-      showAnimZone('kb-win', 'listening');
-      showAnimZone('kb-mac', 'listening');
+      showSharedAnim('listening');
       await wait(3500);
 
       // ③ Release — fingers slide out, keys un-press
       setStep('release');
-      hideAnimZone('kb-win'); hideAnimZone('kb-mac');
       wCtrl.classList.remove('pressed'); wKey.classList.remove('pressed');
       macOpt.classList.remove('pressed');
       winFingers.classList.remove('show'); winFingers.classList.add('hide');
       macFingers.classList.remove('show'); macFingers.classList.add('hide');
-      showAnimZone('kb-win', 'processing');
-      showAnimZone('kb-mac', 'processing');
+      showSharedAnim('processing');
       await wait(1500);
 
       // ④ Auto-pasted — typewriter effect
       setStep('done');
-      hideAnimZone('kb-win'); hideAnimZone('kb-mac');
-      showAnimZone('kb-win', 'result');
-      showAnimZone('kb-mac', 'result');
-      await Promise.all([
-        typeText(winTypewriter, 'Meeting moved to Thursday'),
-        typeText(macTypewriter, 'Meeting moved to Thursday')
-      ]);
+      showSharedAnim('result');
+      await typeText(sharedTypewriter, 'Meeting moved to Thursday');
       await wait(2000);
     }
   }
