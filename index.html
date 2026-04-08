@@ -333,17 +333,17 @@
   }
 
   /* Keyboard animation: finger slides, wave, typewriter */
-  .kb-container { position: relative; display: inline-block; overflow: hidden; }
+  .kb-container { position: relative; display: inline-block; overflow: visible; }
   .kb-fingers {
-    position: absolute; bottom: -8px; left: 0; right: 0;
+    position: absolute; bottom: 0; left: 0; right: 0;
     pointer-events: none; z-index: 10;
     display: flex; justify-content: flex-start; gap: 4px;
-    opacity: 0; transform: translateY(30px);
-    transition: opacity 0.5s var(--transition-smooth), transform 0.5s var(--transition-smooth);
+    opacity: 0; transform: translateY(60px);
+    transition: opacity 0.6s var(--transition-smooth), transform 0.6s var(--transition-smooth);
   }
-  .kb-fingers.show { opacity: 1; transform: translateY(0); }
-  .kb-fingers.hide { opacity: 0; transform: translateY(30px); }
-  .finger-svg { filter: drop-shadow(0 2px 6px rgba(15,15,26,0.15)); }
+  .kb-fingers.show { opacity: 0.5; transform: translateY(0); }
+  .kb-fingers.hide { opacity: 0; transform: translateY(60px); }
+  .finger-svg { filter: drop-shadow(0 2px 6px rgba(15,15,26,0.1)); }
 
   .kb-anim-listening { color: var(--azure) !important; }
   .kb-anim-listening span { color: var(--azure); font-weight: 600; }
@@ -408,7 +408,7 @@
     position: relative;
   }
   .kb-col {
-    position: relative; overflow: hidden;
+    position: relative; overflow: visible;
     width: 252px; padding-bottom: 40px;
   }
   .kb-col-win {
@@ -1673,7 +1673,7 @@ function setLang(lang) {
       var cx = keyRect.left + keyRect.width/2 - kbRect.left;
       svgs[i].style.position = 'absolute';
       svgs[i].style.left = (cx - 12) + 'px';
-      svgs[i].style.bottom = '0';
+      svgs[i].style.bottom = '-10px';
     });
   }
 
