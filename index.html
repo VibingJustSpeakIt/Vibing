@@ -341,7 +341,7 @@
     opacity: 0; transform: translateY(60px);
     transition: opacity 0.6s var(--transition-smooth), transform 0.6s var(--transition-smooth);
   }
-  .kb-fingers.show { opacity: 0.5; transform: translateY(0); }
+  .kb-fingers.show { opacity: 0.75; transform: translateY(0); }
   .kb-fingers.hide { opacity: 0; transform: translateY(60px); }
   .finger-svg { filter: drop-shadow(0 2px 6px rgba(15,15,26,0.1)); }
 
@@ -889,8 +889,8 @@
                 <div class="kb-row"><div class="kb-key w125" id="qs-win-ctrl">Ctrl</div><div class="kb-key w125" id="qs-win-key">Win</div><div class="kb-key w125">Alt</div><div class="kb-key space"></div><div class="kb-key w125">Alt</div><div class="kb-key w125">Win</div><div class="kb-key w125">Menu</div><div class="kb-key w125">Ctrl</div></div>
               </div>
               <div class="kb-fingers" id="kb-win-fingers">
-                <svg class="finger-svg finger-left" viewBox="0 0 24 40" width="24" height="40"><ellipse cx="12" cy="6" rx="7" ry="6" fill="#e8834a" opacity="0.85"/><rect x="7" y="6" width="10" height="24" rx="5" fill="#e8834a" opacity="0.85"/></svg>
-                <svg class="finger-svg finger-right" viewBox="0 0 24 40" width="24" height="40"><ellipse cx="12" cy="6" rx="7" ry="6" fill="#e8834a" opacity="0.85"/><rect x="7" y="6" width="10" height="24" rx="5" fill="#e8834a" opacity="0.85"/></svg>
+                <svg class="finger-svg finger-left" viewBox="0 0 28 58" width="28" height="58"><path d="M4 56 V16 Q4 4 14 4 Q24 4 24 16 V56" fill="none" stroke="#c96b3c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 14 Q14 6 21 14" fill="none" stroke="#c96b3c" stroke-width="1.4" opacity="0.7"/><path d="M6 32 Q14 35 22 32" fill="none" stroke="#c96b3c" stroke-width="1.2" opacity="0.5"/></svg>
+                <svg class="finger-svg finger-right" viewBox="0 0 28 58" width="28" height="58"><path d="M4 56 V16 Q4 4 14 4 Q24 4 24 16 V56" fill="none" stroke="#c96b3c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 14 Q14 6 21 14" fill="none" stroke="#c96b3c" stroke-width="1.4" opacity="0.7"/><path d="M6 32 Q14 35 22 32" fill="none" stroke="#c96b3c" stroke-width="1.2" opacity="0.5"/></svg>
               </div>
             </div>
           </div>
@@ -906,7 +906,7 @@
                 <div class="kb-row"><div class="kb-key w125">fn</div><div class="kb-key w125">⌃</div><div class="kb-key w125">⌥</div><div class="kb-key w125">⌘</div><div class="kb-key space"></div><div class="kb-key w125">⌘</div><div class="kb-key w125" id="qs-mac-opt">⌥</div><div class="kb-key">←</div><div class="kb-key">↑↓</div><div class="kb-key">→</div></div>
               </div>
               <div class="kb-fingers" id="kb-mac-fingers">
-                <svg class="finger-svg finger-single" viewBox="0 0 24 40" width="24" height="40"><ellipse cx="12" cy="6" rx="7" ry="6" fill="#e8834a" opacity="0.85"/><rect x="7" y="6" width="10" height="24" rx="5" fill="#e8834a" opacity="0.85"/></svg>
+                <svg class="finger-svg finger-single" viewBox="0 0 28 58" width="28" height="58"><path d="M4 56 V16 Q4 4 14 4 Q24 4 24 16 V56" fill="none" stroke="#c96b3c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 14 Q14 6 21 14" fill="none" stroke="#c96b3c" stroke-width="1.4" opacity="0.7"/><path d="M6 32 Q14 35 22 32" fill="none" stroke="#c96b3c" stroke-width="1.2" opacity="0.5"/></svg>
               </div>
             </div>
           </div>
@@ -1672,8 +1672,8 @@ function setLang(lang) {
       var keyRect = key.getBoundingClientRect();
       var cx = keyRect.left + keyRect.width/2 - kbRect.left;
       svgs[i].style.position = 'absolute';
-      svgs[i].style.left = (cx - 12) + 'px';
-      svgs[i].style.bottom = '-10px';
+      svgs[i].style.left = (cx - 14) + 'px';
+      svgs[i].style.bottom = '-44px';
     });
   }
 
