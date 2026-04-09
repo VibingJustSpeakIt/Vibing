@@ -49,7 +49,7 @@ Step-by-step setup instructions for macOS — accessibility, screen recording & 
 
 | Version | macOS | Windows |
 |---------|-------|---------|
-| v0.1.0 | [Download (.dmg)](https://github.com/VibingJustSpeakIt/Vibing/releases/download/v0.1.0/Vibing-v0.1.0-mac.dmg) | [Download (.exe)](https://github.com/VibingJustSpeakIt/Vibing/releases/download/v0.1.0/Vibing-v0.1.0-windows.exe) |
+| v0.1.3 | [Download (.dmg)](https://github.com/VibingJustSpeakIt/Vibing/releases/download/v0.1.3/Vibing-v0.1.3-mac.dmg) | [Download (.exe)](https://github.com/VibingJustSpeakIt/Vibing/releases/download/v0.1.3/Vibing-v0.1.3-windows.exe) · [Download (.zip)](https://github.com/VibingJustSpeakIt/Vibing/releases/download/v0.1.3/Vibing-v0.1.3-windows.zip) |
 
 ## Privacy
 
