@@ -5,1645 +5,1495 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.25, shrink-to-fit=no">
 <title>Vibing — Just Speak It!</title>
 <style>
+  :root {
+    --ink: #1d1d1f;
+    --ink-80: rgba(29,29,31,0.80);
+    --ink-50: rgba(29,29,31,0.50);
+    --ink-30: rgba(29,29,31,0.30);
+    --ink-15: rgba(29,29,31,0.15);
+    --ink-08: rgba(29,29,31,0.08);
+    --ink-04: rgba(29,29,31,0.04);
+    --cream: #f5f5f7;
+    --cream-warm: #f5f5f7;
+    --azure: #0071e3;
+    --azure-soft: rgba(0,113,227,0.10);
+    --azure-glow: rgba(0,113,227,0.06);
+    --green: #34a86c;
+    --green-soft: rgba(52,168,108,0.10);
+    --violet: #8b6cf6;
+    --red: #e5534b;
+    --red-soft: rgba(229,83,75,0.08);
+    --radius-lg: 12px;
+    --radius-md: 8px;
+    --radius-sm: 8px;
+    --radius-pill: 980px;
+    --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Helvetica, Arial, sans-serif;
+    --font-serif: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Helvetica, Arial, sans-serif;
+    --shadow-subtle: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.03);
+    --shadow-medium: rgba(0,0,0,0.22) 3px 5px 30px 0px;
+    --shadow-elevated: rgba(0,0,0,0.22) 3px 5px 30px 0px;
+    --transition-spring: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html {
-    scroll-behavior: smooth;
-  }
+  html { scroll-behavior: smooth; }
 
   body {
-    font-family: -apple-system, "SF Pro Display", "Helvetica Neue", sans-serif;
-    background: linear-gradient(160deg, #f0f4ff 0%, #e8ecf8 40%, #f5f0ff 100%);
-    color: #1a1a2e;
-    line-height: 1.6;
+    font-family: var(--font-display);
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.47;
+    letter-spacing: -0.374px;
     min-width: 1100px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: relative;
   }
 
-  .container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 40px;
+  /* ── No decorative overlays — Apple: solid colors only ── */
+
+  /* ── Scroll reveal ── */
+  .reveal {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.7s var(--transition-smooth), transform 0.7s var(--transition-smooth);
+  }
+  .reveal.visible {
+    opacity: 1; transform: translateY(0);
   }
 
-  /* ── Header ── */
-  .header {
-    position: fixed; top: 0; left: 0; width: 100%;
-    z-index: 100;
-    background: rgba(240,244,255,0.85);
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(0,0,0,0.04);
+  /* ── Bilingual: hide inactive language ── */
+  [data-lang] { display: none; }
+  html[data-current-lang="en"] [data-lang="en"] { display: inline; }
+  html[data-current-lang="zh"] [data-lang="zh"] { display: inline; }
+  html[data-current-lang="en"] [data-lang-block="en"] { display: block; }
+  html[data-current-lang="zh"] [data-lang-block="zh"] { display: block; }
+  html[data-current-lang="en"] .hero-subtitle[data-lang-block="en"] { display: inline-grid; }
+  html[data-current-lang="zh"] .hero-subtitle[data-lang-block="zh"] { display: inline-grid; }
+  html[data-current-lang="en"] [data-lang-block="zh"] { display: none; }
+  html[data-current-lang="zh"] [data-lang-block="en"] { display: none; }
+  [data-lang-block] { display: none; }
+
+  /* ── Left Sidebar Navigation ── */
+  .sidebar {
+    position: fixed; top: 0; left: 0;
+    width: 170px; height: 100vh;
+    z-index: 200;
+    display: flex; flex-direction: column;
+    padding: 32px 22px 28px;
+    background: #ffffff;
+    border-right: 1px solid var(--ink-08);
   }
-  .header-inner {
-    display: flex; align-items: center; justify-content: space-between;
-    height: 60px;
-  }
-  .logo {
+  .sidebar-logo {
     display: flex; align-items: center; gap: 10px;
-    text-decoration: none; color: #1a1a2e;
-    font-size: 20px; font-weight: 700;
+    text-decoration: none; color: var(--ink);
+    font-size: 19px; font-weight: 600;
+    letter-spacing: -0.3px;
+    margin-bottom: 44px;
   }
-  .logo img { width: 32px; height: 32px; border-radius: 8px; }
-  .nav { display: flex; gap: 28px; }
-  .nav a {
-    text-decoration: none; color: rgba(26,26,46,0.55);
-    font-size: 14px; font-weight: 500;
-    transition: color .2s;
+  .sidebar-logo img { width: 30px; height: 30px; border-radius: 8px; }
+  .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+  .sidebar-nav a {
+    display: block; padding: 9px 14px; border-radius: var(--radius-sm);
+    text-decoration: none; font-size: 13.5px; font-weight: 500;
+    color: var(--ink-50); transition: all .2s var(--transition-smooth);
+    letter-spacing: 0.1px;
   }
-  .nav a:hover { color: #1a1a2e; }
+  .sidebar-nav a:hover { color: var(--ink-80); background: var(--ink-04); }
+  .sidebar-nav a.active { color: var(--ink); background: var(--ink-08); font-weight: 600; }
+  .sidebar-nav .nav-download {
+    margin-top: auto;
+    text-align: center; padding: 11px 14px;
+    color: #fff; background: var(--azure); border-radius: var(--radius-sm);
+    font-weight: 600; letter-spacing: 0.2px;
+    transition: all .25s var(--transition-smooth);
+  }
+  .sidebar-nav .nav-download:hover { background: #0077ED; transform: translateY(-1px); box-shadow: var(--shadow-medium); }
+
+  /* ── Language Switcher (top-right) ── */
+  .lang-switch {
+    position: fixed; top: 18px; right: 28px;
+    z-index: 300;
+    display: flex; gap: 0;
+    background: #ffffff;
+    border-radius: var(--radius-sm); border: 1px solid var(--ink-08);
+    overflow: hidden;
+  }
+  .lang-switch button {
+    border: none; background: transparent; cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 13px; font-weight: 500; padding: 7px 16px;
+    color: var(--ink-30); transition: all .2s var(--transition-smooth);
+  }
+  .lang-switch button:hover { color: var(--ink-80); }
+  .lang-switch button.active {
+    background: var(--ink-15); color: var(--ink); font-weight: 600;
+  }
+
+  /* ── Main Content ── */
+  .main-content {
+    min-height: 100vh;
+  }
+  .container {
+    max-width: 1020px;
+    margin: 0 auto;
+    padding: 0 52px;
+  }
 
   /* ── Hero ── */
   .hero {
-    padding: 120px 0 60px;
+    padding: 0;
     text-align: center;
+    position: relative;
+    height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-tagline {
+    display: inline-block;
+    font-size: 13px; font-weight: 500; letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--ink-50);
+    margin-bottom: 20px;
+    padding: 6px 18px;
+    border: 1px solid var(--ink-08);
+    border-radius: var(--radius-pill);
+  }
+  .hero-tagline strong {
+    color: var(--azure); font-weight: 600;
   }
   .hero h1 {
-    font-size: 56px; font-weight: 700; letter-spacing: -0.5px;
-    line-height: 1.15;
-    margin-bottom: 20px;
+    font-size: 56px; font-weight: 600; letter-spacing: -0.28px;
+    line-height: 1.07;
+    margin-bottom: 24px;
   }
   .hero-subtitle {
-    font-size: 21px; color: rgba(26,26,46,0.4);
-    margin: 0 auto 28px; line-height: 2.1;
+    font-size: 19px; color: var(--ink-50);
+    margin: 0 auto 36px; line-height: 1.47;
     display: inline-grid;
     grid-template-columns: auto auto;
     gap: 0 0.35em;
     text-align: left;
+    letter-spacing: -0.374px;
   }
   .hero-subtitle .pre { text-align: right; }
-  .hero-subtitle .hline { display: block; }
   .hero-subtitle em {
-    font-style: normal; font-weight: 700; color: rgba(26,26,46,0.88);
+    font-style: italic; font-weight: 600; color: var(--ink-80);
   }
   .hero-actions {
-    display: flex; gap: 14px; justify-content: center;
+    display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
   }
+
+  /* ── Buttons ── */
   .btn {
     display: inline-block;
-    font-size: 15px; font-weight: 500; letter-spacing: 0.3px;
-    padding: 12px 32px; border-radius: 980px;
+    font-family: var(--font-display);
+    font-size: 17px; font-weight: 400; letter-spacing: normal;
+    padding: 10px 28px; border-radius: var(--radius-pill);
     text-decoration: none;
-    transition: all .25s ease;
+    transition: all .3s var(--transition-smooth);
   }
-  .btn-primary { color: #fff; background: #1a1a2e; }
-  .btn-primary:hover { background: rgba(26,26,46,0.82); }
+  .btn-primary {
+    color: #fff; background: var(--ink);
+  }
+  .btn-primary:hover { background: #333; transform: translateY(-1px); }
+  .btn-secondary {
+    color: var(--azure); background: transparent;
+    border: 1px solid var(--azure);
+  }
+  .btn-secondary:hover { background: rgba(0,113,227,0.06); transform: translateY(-1px); }
+
+  /* ── Split button (Mac download + setup guide) ── */
+  .btn-split {
+    display: inline-flex; border-radius: var(--radius-pill); overflow: hidden;
+    background: var(--ink); border: 1px solid var(--ink);
+    transition: all .3s var(--transition-smooth);
+  }
+  .btn-split:hover { transform: translateY(-1px); }
+  .btn-split a {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 10px 14px; font-size: 17px; font-weight: 400;
+    color: #fff; text-decoration: none;
+    transition: background .2s, opacity .2s;
+  }
+  .btn-split a:hover { background: rgba(255,255,255,0.12); }
+  .btn-split a:first-child { padding-left: 34px; }
+  .btn-split a:last-child { padding-right: 34px; }
+  .btn-split .split-divider {
+    width: 1px; background: rgba(255,255,255,0.25); align-self: stretch;
+  }
 
   /* ── Download dropdown ── */
   .download-dropdown {
-    position: relative;
-    display: inline-block;
+    position: relative; display: inline-block;
   }
-  .download-dropdown > .btn {
-    cursor: default;
-  }
+  .download-dropdown > .btn { cursor: default; }
   .download-dropdown-menu {
     position: absolute;
-    top: calc(100% + 6px);
-    left: 50%;
-    transform: translateX(-50%);
-    min-width: 190px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-    padding: 6px;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity .2s, visibility .2s;
+    top: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(4px);
+    min-width: 200px; background: #ffffff;
+    border-radius: var(--radius-md); border: 1px solid var(--ink-08);
+    box-shadow: var(--shadow-medium);
+    padding: 6px; opacity: 0; visibility: hidden;
+    transition: opacity .25s, visibility .25s, transform .25s var(--transition-smooth);
     z-index: 10;
   }
   .download-dropdown:hover .download-dropdown-menu {
-    opacity: 1;
-    visibility: visible;
+    opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0);
   }
   .download-dropdown-menu a {
-    display: block;
-    padding: 10px 16px;
-    font-size: 14px;
-    font-weight: 500;
-    color: #1a1a2e;
-    text-decoration: none;
-    border-radius: 8px;
+    display: block; padding: 10px 16px; font-size: 14px; font-weight: 500;
+    color: var(--ink); text-decoration: none; border-radius: var(--radius-sm);
     transition: background .15s;
   }
-  .download-dropdown-menu a:hover {
-    background: rgba(26,26,46,0.06);
+  .download-dropdown-menu a:hover { background: var(--ink-04); }
+  .download-dropdown-menu .dl-label { display: block; }
+  .download-dropdown-menu .dl-hint {
+    display: block; font-size: 12px; font-weight: 400;
+    color: var(--ink-30); margin-top: 2px;
   }
-  .download-dropdown-menu a .dl-label {
-    display: block;
-  }
-  .download-dropdown-menu a .dl-hint {
-    display: block;
-    font-size: 12px;
-    font-weight: 400;
-    color: rgba(26,26,46,0.4);
-    margin-top: 1px;
-  }
-
-  .btn-secondary {
-    color: rgba(26,26,46,0.5); background: transparent;
-    border: 1px solid rgba(26,26,46,0.15);
-  }
-  .btn-secondary:hover { color: #1a1a2e; border-color: rgba(26,26,46,0.4); }
 
   /* ── Section common ── */
-  .section { padding: 60px 0; }
+  .section { padding: 96px 0; }
   .section-title {
-    font-size: 36px; font-weight: 700; text-align: center;
-    margin-bottom: 32px;
+    font-size: 40px; font-weight: 600; text-align: center;
+    margin-bottom: 48px; letter-spacing: -0.5px;
+    line-height: 1.10;
   }
   .section-desc {
-    font-size: 18px; color: rgba(26,26,46,0.5); text-align: center;
-    max-width: 600px; margin: 0 auto 60px;
+    font-size: 17px; color: var(--ink-50); text-align: center;
+    max-width: 600px; margin: 0 auto 56px;
+    letter-spacing: -0.374px;
   }
 
-  /* ── Step sections ── */
-  .step {
-    padding: 40px 0;
-  }
-  .step-card {
-    background: rgba(255,255,255,0.75);
-    border: 1px solid rgba(0,0,0,0.04);
-    border-radius: 20px;
-    padding: 48px 48px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.03);
-  }
-  .step-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-    gap: 24px 40px;
-  }
-  .step-inner.reverse { flex-direction: row-reverse; }
-  .step-text { grid-column: 1; grid-row: 1; }
-  .step-capsule { grid-column: 2; grid-row: 1; }
-  .step-kb-mac { grid-column: 1; grid-row: 2; }
-  .step-kb-win { grid-column: 2; grid-row: 2; }
-  .step-label {
-    display: inline-block;
-    font-size: 13px; font-weight: 600; color: #6694f5;
-    background: rgba(102,148,245,0.08);
-    border: 1px solid rgba(102,148,245,0.2);
-    border-radius: 20px; padding: 4px 16px;
-    margin-bottom: 16px;
-  }
-  .step-text h3 {
-    font-size: 30px; font-weight: 700; line-height: 1.3;
-    margin-bottom: 14px;
-  }
-  .shortcut-table {
-    margin: 10px 0 6px;
-    font-size: 15px; color: rgba(26,26,46,0.55);
-  }
-  .shortcut-table td {
-    padding: 4px 0;
-  }
-  .shortcut-table .platform {
-    font-weight: 600; color: rgba(26,26,46,0.7);
-    padding-right: 12px; white-space: nowrap;
-  }
-  .step-text p {
-    font-size: 15px; color: rgba(26,26,46,0.5); line-height: 1.7;
-    margin-top: 6px;
-  }
-  kbd {
-    display: inline-block;
-    background: rgba(255,255,255,0.82);
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 5px;
-    padding: 2px 8px;
-    font-size: 13px; font-weight: 600; font-family: -apple-system, "SF Pro Text", sans-serif;
-    color: #333;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
-    vertical-align: middle;
-  }
-  kbd.highlight {
-    background: #6694f5; color: #fff;
-    border-color: #6694f5;
-    box-shadow: 0 0 8px rgba(102,148,245,0.4);
-  }
-
-  /* ── Keyboard ── */
-  .kb-static {
-    width: 100%; max-width: 560px;
-    display: flex; flex-direction: column; gap: 4px;
-    background: rgba(210,210,218,0.4);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.6);
-    border-radius: 12px;
-    padding: 14px 16px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-  }
-  .kb-row { display: flex; gap: 4px; }
-  .kb-key {
-    height: 32px; border-radius: 5px;
-    background: rgba(255,255,255,0.82);
-    border: none;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px; font-weight: 500; color: #333;
-    font-family: -apple-system, "SF Pro Text", sans-serif;
-    flex: 1;
-    overflow: hidden; white-space: nowrap;
-    padding: 0 2px;
-  }
-  .kb-key.w125 { flex: 1.25; }
-  .kb-key.w15 { flex: 1.5; }
-  .kb-key.w175 { flex: 1.75; }
-  .kb-key.w2 { flex: 2; }
-  .kb-key.w225 { flex: 2.25; }
-  .kb-key.w275 { flex: 2.75; }
-  .kb-key.space { flex: 5.5; }
-  .kb-key.pressed {
-    background: #6694f5;
-    color: #fff;
-    box-shadow: 0 0 16px rgba(102,148,245,0.5), 0 1px 2px rgba(0,0,0,0.1);
-  }
-  .kb-col-label {
-    font-size: 13px; font-weight: 600; color: rgba(26,26,46,0.5);
-    text-align: center; margin-bottom: 8px;
-  }
-  .step-kb-mac .kb-static, .step-kb-win .kb-static { max-width: 100%; }
-  .step-kb-mac .kb-key, .step-kb-win .kb-key { height: 26px; font-size: 8px; }
-
-  /* ── VS Code card (static) ── */
-  .card-static {
-    border-radius: 14px;
-    overflow: hidden;
-    background: #fff;
-    border: 1px solid rgba(0,0,0,0.06);
-    box-shadow: 0 12px 48px rgba(80,60,140,0.12), 0 2px 8px rgba(0,0,0,0.04);
-    font-size: 13px;
-  }
-  .card-titlebar {
-    height: 36px; display: flex; align-items: center; padding: 0 12px; gap: 6px;
-    background: #323233;
-  }
-  .card-dot { width: 11px; height: 11px; border-radius: 50%; }
-  .card-dot.r { background: #ff5f57; }
-  .card-dot.y { background: #febc2e; }
-  .card-dot.g { background: #28c840; }
-  .card-body {
-    background: #1e1e1e; display: flex; height: 320px;
-  }
-  .card-sidebar {
-    width: 42px; background: #252526;
-    display: flex; flex-direction: column; align-items: center; padding-top: 10px; gap: 14px;
-  }
-  .card-sidebar .icon {
-    width: 22px; height: 22px; border-radius: 4px;
-    background: rgba(255,255,255,0.07);
-  }
-  .card-sidebar .icon.active {
-    background: rgba(102,148,245,0.35);
-    border-left: 2px solid #6694f5;
-  }
-  .card-filetree {
-    width: 160px; background: #252526; border-right: 1px solid #333;
-    padding: 8px 6px; font-size: 11px; color: #bbb; line-height: 2;
-  }
-  .card-filetree div::before { content: "📄 "; }
-  .card-filetree div.folder::before { content: "📁 "; }
-  .card-editor {
-    flex: 1; padding: 12px 14px;
-    font-family: "Fira Code", "JetBrains Mono", Menlo, monospace;
-    font-size: 12px; line-height: 1.7; color: #d4d4d4;
-    white-space: pre; overflow: hidden;
-  }
-  .card-editor .kw { color: #c586c0; }
-  .card-editor .fn { color: #dcdcaa; }
-  .card-editor .str { color: #ce9178; }
-  .card-editor .cmt { color: #6a9955; }
-  .card-editor .typ { color: #4ec9b0; }
-
-  /* ── Voice capsule (matching demo-slide) ── */
-  .voice-capsule-static {
-    display: inline-flex; align-items: center;
-    border-radius: 980px;
-    background: linear-gradient(
-      135deg,
-      rgba(255,255,255,0.72),
-      rgba(250,250,252,0.88)
-    );
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.22);
-    box-shadow:
-      0 0 0 1px rgba(102,148,245,0.18),
-      0 0 20px rgba(102,148,245,0.18),
-      0 8px 32px rgba(0,0,0,0.06);
-    padding: 12px 22px 12px 16px;
-    gap: 14px;
-    font-size: 14px; font-weight: 500;
-    color: rgba(26,26,46,0.85);
-  }
-  .voice-capsule-static.expanded {
-    border-radius: 28px;
-    flex-direction: column; align-items: flex-start;
-    padding: 14px 18px;
-    max-width: 100%;
-  }
-  .voice-capsule-static .cap-header {
-    display: flex; align-items: center; gap: 12px;
-  }
-  .voice-capsule-static .cap-text {
-    font-size: 14px; font-weight: 500; color: rgba(26,26,46,0.93);
-    line-height: 1.55; margin-top: 10px;
-  }
-  .status-orb {
-    width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    background: linear-gradient(135deg, rgba(102,148,245,0.28), rgba(102,148,245,0.08));
-    border: 1px solid rgba(255,255,255,0.18);
-  }
-  .status-orb svg { width: 14px; height: 14px; color: #6694f5; }
-  .waveform-static {
-    display: flex; align-items: center; gap: 3px; height: 22px;
-  }
-  .waveform-static .bar {
-    width: 4px; border-radius: 2px; background: #6694f5;
-  }
-  .capsule-label { font-size: 14px; font-weight: 500; color: #6694f5; }
-
-  /* ── Polished text box ── */
-  .polished-box {
-    background: #f8f9fc;
-    border: 1px solid rgba(0,0,0,0.06);
-    border-radius: 12px;
-    padding: 20px 24px;
-    font-size: 14px; line-height: 1.8;
-    color: #333;
-    white-space: pre-line;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-  }
-
-  /* ── Features grid ── */
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
-    justify-items: center;
-  }
-  .feature-card {
-    background: rgba(255,255,255,0.7);
-    border: 1px solid rgba(0,0,0,0.04);
-    border-radius: 16px;
-    padding: 28px 24px;
-    text-align: center;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.03);
-  }
-  .feature-card h3 {
-    font-size: 20px; font-weight: 700; margin-bottom: 8px;
-  }
-  .feature-card p {
-    font-size: 15px; color: rgba(26,26,46,0.5); line-height: 1.6;
-  }
-
-  /* ── Download section ── */
-  .download-section {
-    padding: 100px 0;
-    text-align: center;
-  }
-  .download-section .hero-actions {
-    margin-top: 32px;
+  /* ── Hairline section dividers ── */
+  .section + .section {
+    border-top: 1px solid var(--ink-08);
   }
 
   /* ── Footer ── */
   .footer {
-    padding: 32px 0;
-    border-top: 1px solid rgba(0,0,0,0.06);
+    border-top: 1px solid var(--ink-08);
+    padding: 20px 0;
   }
   .footer-inner {
     display: flex; align-items: center; justify-content: space-between;
-    font-size: 13px; color: rgba(26,26,46,0.4);
+    font-size: 13px; color: var(--ink-30); line-height: 1;
   }
-  .footer-brand {
-    display: flex; align-items: center; gap: 8px;
-    font-weight: 600; color: rgba(26,26,46,0.6);
-  }
-  .footer-brand img { width: 20px; height: 20px; border-radius: 5px; }
+  .footer-brand { display: flex; align-items: center; gap: 8px; }
+  .footer-brand img { width: 20px; height: 20px; border-radius: 5px; opacity: 0.45; }
+  .footer-brand span { font-size: 13px; font-weight: 600; color: var(--ink-30); }
 
-  /* Mobile: body min-width ensures desktop layout, browser pinch-zoom handles the rest */
-
-  /* ═══════════════════════════════════════════
-     Demo Cards Section — animated app cards
-     ═══════════════════════════════════════════ */
-  .demo-cards-section { padding: 60px 0 40px; }
-  .demo-cards-wrapper {
-    display: flex; flex-direction: column; gap: 56px;
-    max-width: 1200px; margin: 0 auto; padding: 0 40px;
-  }
-  .demo-row {
-    background: rgba(255,255,255,0.75);
-    border: 1px solid rgba(0,0,0,0.04);
-    border-radius: 20px;
-    padding: 40px 48px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.03);
-    display: flex; align-items: center; gap: 48px;
-    flex-direction: column;
-  }
-  .demo-label h3 {
-    font-size: 26px; font-weight: 700; color: #1a1a2e;
+  /* ── Placeholder sections ── */
+  .placeholder-section {
+    padding: 80px 0;
     text-align: center;
+    color: var(--ink-15);
+    font-size: 18px;
+    border-bottom: 1px dashed var(--ink-08);
   }
 
-  /* ── Card (overrides for normal flow) ── */
-  .demo-cards-wrapper .card {
+  /* ═══ Quick Start Section ═══ */
+  .qs-panel {
+    background: #ffffff;
+    border: none;
+    border-radius: var(--radius-lg);
+    padding: 52px 52px 44px;
+    box-shadow: var(--shadow-subtle);
+    text-align: center;
+    margin-left: -20px; margin-right: -20px;
     position: relative;
-    width: 820px; height: 530px;
-    min-width: 820px; min-height: 530px;
-    flex-shrink: 0;
-    border-radius: 18px; overflow: hidden;
-    background: #fff;
-    border: 1px solid rgba(0,0,0,.06);
-    box-shadow: 0 12px 48px rgba(80,60,140,.12), 0 2px 8px rgba(0,0,0,.04);
+    overflow: hidden;
   }
-  .demo-cards-wrapper .card .titlebar {
-    height: 38px; display: flex; align-items: center; padding: 0 14px; gap: 7px;
+  .qs-subtitle {
+    font-size: 14px; color: var(--ink-50); margin-bottom: 20px;
+    position: relative;
   }
-  .demo-cards-wrapper .card .dot { width: 12px; height: 12px; border-radius: 50%; }
-  .demo-cards-wrapper .card .dot.r { background: #ff5f57; }
-  .demo-cards-wrapper .card .dot.y { background: #febc2e; }
-  .demo-cards-wrapper .card .dot.g { background: #28c840; }
-  .demo-cards-wrapper .card .body { height: calc(100% - 38px); position: relative; overflow: hidden; }
-
-  /* ── VS Code ── */
-  #dc-vscode .titlebar { background: #323233; }
-  #dc-vscode .body { background: #1e1e1e; display: flex; }
-  .dc-sidebar {
-    width: 48px; background: #252526;
-    display: flex; flex-direction: column; align-items: center; padding-top: 12px; gap: 18px;
-  }
-  .dc-sidebar .icon { width: 26px; height: 26px; border-radius: 4px; background: rgba(255,255,255,.07); }
-  .dc-sidebar .icon.active { background: rgba(102,148,245,.35); border-left: 2px solid #6694f5; }
-  .dc-file-tree {
-    width: 200px; background: #252526; border-right: 1px solid #333;
-    padding: 10px 8px; font-size: 12px; color: #bbb; line-height: 2;
-  }
-  .dc-file-tree div::before { content: "\1F4C4  "; }
-  .dc-file-tree div.folder::before { content: "\1F4C1  "; }
-  .dc-editor-area {
-    flex: 1; padding: 14px 18px;
-    font-family: "Fira Code", "JetBrains Mono", Menlo, monospace;
-    font-size: 13.5px; line-height: 1.7; color: #d4d4d4; white-space: pre; overflow: hidden;
-  }
-  .dc-editor-area .kw  { color: #c586c0; }
-  .dc-editor-area .fn  { color: #dcdcaa; }
-  .dc-editor-area .str { color: #ce9178; }
-  .dc-editor-area .cmt { color: #6a9955; }
-  .dc-editor-area .typ { color: #4ec9b0; }
-
-  /* ── PowerPoint ── */
-  #dc-ppt .titlebar { background: #b7472a; }
-  #dc-ppt .body { background: #f0f0f0; display: flex; }
-  .dc-slide-panel {
-    width: 120px; background: #e8e8e8; padding: 10px;
-    display: flex; flex-direction: column; gap: 8px;
-  }
-  .dc-slide-thumb {
-    width: 100px; height: 68px; background: #fff; border-radius: 3px;
-    border: 2px solid transparent;
-    display: flex; align-items: center; justify-content: center; font-size: 10px; color: #999;
-  }
-  .dc-slide-thumb.active { border-color: #b7472a; }
-  .dc-slide-canvas { flex: 1; display: flex; align-items: center; justify-content: center; }
-  .dc-slide-canvas .slide {
-    width: 540px; height: 380px; background: #fff; border-radius: 4px;
-    display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start;
-    color: #222; box-shadow: 0 2px 12px rgba(0,0,0,.08);
-    text-align: left; padding: 40px 44px; border-top: 5px solid #2b579a;
-  }
-  .dc-slide-canvas .slide h1 { font-size: 26px; font-weight: 700; margin-bottom: 6px; color: #1a1a2e; }
-  .dc-slide-canvas .slide .slide-sub { font-size: 14px; color: #888; margin-bottom: 18px; }
-  .dc-slide-canvas .slide p { font-size: 14px; color: #444; line-height: 1.7; }
-
-  /* ── Office Word ── */
-  #dc-office .titlebar { background: #2b579a; }
-  #dc-office .body { background: #f6f6f6; display: flex; flex-direction: column; align-items: center; }
-  .dc-ribbon {
-    width: 100%; height: 40px; background: #2b579a;
-    display: flex; align-items: center; padding: 0 20px; gap: 22px;
-    font-size: 12px; color: rgba(255,255,255,.85);
-  }
-  .dc-ribbon span.active-tab { border-bottom: 2px solid #fff; padding-bottom: 2px; }
-  .dc-doc-page {
-    width: 540px; margin-top: 18px; padding: 36px;
-    background: #fff; color: #333; box-shadow: 0 1px 8px rgba(0,0,0,.07);
-    font-size: 14px; line-height: 1.9; height: 390px; overflow: hidden; border-radius: 2px;
-  }
-  .dc-doc-page h2 { font-size: 19px; color: #2b579a; margin-bottom: 8px; }
-
-  /* ── Microsoft Teams ── */
-  #dc-teams .titlebar { background: #464775; }
-  #dc-teams .body { background: #f5f5f5; display: flex; }
-  .dc-teams-sidebar {
-    width: 68px; background: #464775;
-    display: flex; flex-direction: column; align-items: center; padding-top: 14px; gap: 20px;
-  }
-  .dc-teams-sidebar .t-icon {
-    width: 32px; height: 32px; border-radius: 6px; background: rgba(255,255,255,.12);
-    display: flex; align-items: center; justify-content: center; font-size: 14px; color: rgba(255,255,255,.8);
-  }
-  .dc-teams-sidebar .t-icon.active { background: rgba(255,255,255,.25); }
-  .dc-teams-channels {
-    width: 220px; background: #fff; border-right: 1px solid #e0e0e0;
-    padding: 14px 12px; font-size: 12.5px; color: #444;
-  }
-  .dc-teams-channels .ch-header { font-weight: 700; font-size: 14px; margin-bottom: 10px; color: #222; }
-  .dc-teams-channels .ch-item { padding: 7px 10px; border-radius: 6px; margin-bottom: 2px; }
-  .dc-teams-channels .ch-item.active { background: #e8e8ff; color: #464775; font-weight: 600; }
-  .dc-teams-channels .ch-item::before { content: "# "; color: #999; }
-  .dc-teams-chat { flex: 1; display: flex; flex-direction: column; }
-  .dc-teams-chat-header {
-    padding: 12px 20px; border-bottom: 1px solid #e0e0e0;
-    font-size: 15px; font-weight: 600; color: #222;
-  }
-  .dc-teams-messages {
-    flex: 1; padding: 20px; overflow: hidden;
-    display: flex; flex-direction: column; gap: 16px;
-  }
-  .dc-teams-msg { display: flex; gap: 10px; align-items: flex-start; }
-  .dc-teams-avatar {
-    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 600; color: #fff;
-  }
-  .dc-teams-msg-body { flex: 1; }
-  .dc-teams-msg-name { font-size: 13px; font-weight: 600; color: #222; }
-  .dc-teams-msg-time { font-size: 11px; color: #999; margin-left: 8px; }
-  .dc-teams-msg-text { font-size: 13.5px; color: #333; line-height: 1.5; margin-top: 3px; }
-  .dc-teams-compose { padding: 12px 20px; border-top: 1px solid #e0e0e0; }
-  .dc-teams-compose-box {
-    background: #fff; border: 1.5px solid #d0d0d0; border-radius: 8px;
-    padding: 10px 14px; font-size: 13.5px; color: #999; min-height: 40px; line-height: 1.5;
+  .qs-subtitle kbd {
+    display: inline-block; padding: 3px 10px; border-radius: 6px;
+    font-family: var(--font-display); font-size: 12.5px; font-weight: 600;
+    background: var(--azure-soft); color: var(--azure);
+    border: 1px solid rgba(0,113,227,0.2);
+    letter-spacing: 0.3px;
   }
 
-  /* ── Claude Code Terminal ── */
-  .dc-claude-terminal {
-    height: 150px; border-top: 1px solid #333;
-    display: flex; flex-direction: column; background: #1a1a2e;
+  /* Keyboard animation: finger slides, wave, typewriter */
+  .kb-container { position: relative; display: inline-block; overflow: visible; }
+  .kb-fingers {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    pointer-events: none; z-index: 10;
+    display: flex; justify-content: flex-start; gap: 4px;
+    opacity: 0; transform: translateY(60px);
+    transition: opacity 0.6s var(--transition-smooth), transform 0.6s var(--transition-smooth);
   }
-  .dc-claude-header {
-    height: 30px; background: #252536; border-bottom: 1px solid #333;
-    display: flex; align-items: center; padding: 0 12px; gap: 8px; font-size: 12px;
-  }
-  .dc-claude-icon { font-size: 13px; }
-  .dc-claude-title { color: #c5a5f5; font-weight: 600; }
-  .dc-claude-path { color: #666; margin-left: auto; font-family: "Fira Code", Menlo, monospace; font-size: 11px; }
-  .dc-claude-body {
-    flex: 1; padding: 10px 14px; overflow: hidden;
-    font-family: "Fira Code", "JetBrains Mono", Menlo, monospace;
-    font-size: 13px; line-height: 1.6; color: #d4d4d4; white-space: pre-wrap;
-  }
-  .dc-claude-prompt { display: flex; gap: 6px; flex-wrap: wrap; }
-  .dc-claude-gt { color: #c5a5f5; font-weight: 700; }
-  .dc-claude-input { color: #e0e0e0; }
+  .kb-fingers.show { opacity: 0.75; transform: translateY(0); }
+  .kb-fingers.hide { opacity: 0; transform: translateY(60px); }
+  .finger-svg { filter: drop-shadow(0 2px 6px rgba(0,0,0,0.1)); }
 
-  /* ═══ Voice Capsule (animated) ═══ */
-  .demo-cards-wrapper .voice-capsule {
-    position: absolute; bottom: 46px; left: 50%;
-    transform: translateX(-50%) translateY(12px);
-    border-radius: 24px;
-    display: flex; flex-direction: column; gap: 0;
-    opacity: 0; z-index: 20; overflow: hidden;
-    transition: opacity .35s ease, transform .35s cubic-bezier(.32,.72,.45,1),
-                border-radius .4s cubic-bezier(.32,.72,.45,1),
-                min-width .5s cubic-bezier(.32,.72,.45,1),
-                max-width .5s cubic-bezier(.32,.72,.45,1),
-                background .6s ease, box-shadow .6s ease;
-    min-width: 244px; max-width: 300px;
-    --tint: #6694f5;
-    --tint-18: rgba(102,148,245,0.18);
-    --tint-05: rgba(102,148,245,0.05);
-    --glow: rgba(102,148,245,0.10);
-    --orb-top: rgba(102,148,245,0.28);
-    --orb-bot: rgba(102,148,245,0.08);
-    background:
-      linear-gradient(135deg, rgba(255,255,255,0.24), var(--tint-18), var(--tint-05)),
-      rgba(250,250,252,0.88);
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.22);
-    box-shadow: 0 0 0 1px var(--glow), 0 0 20px var(--glow), 0 8px 32px rgba(0,0,0,.06);
-  }
-  .demo-cards-wrapper .voice-capsule.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  .demo-cards-wrapper .voice-capsule.expanded-mode { border-radius: 28px; min-width: 460px; max-width: 560px; }
+  /* Listening: mouth + speech bubble */
+  .kb-anim-listening { flex-direction: column !important; align-items: center !important; gap: 4px !important; }
+  .kb-anim-processing span { color: var(--azure); font-weight: 600; }
+  .kb-anim-done-label { color: var(--green); font-weight: 700; font-size: 13px; letter-spacing: 0.3px; }
 
-  .demo-cards-wrapper .voice-capsule .status-orb {
-    background: linear-gradient(135deg, var(--orb-top), var(--orb-bot));
+  /* CSS Mouth: two lips with animated gap */
+  .qs-mouth { display: flex; flex-direction: column; align-items: center; }
+  .qs-lip-top {
+    width: 52px; height: 14px; background: linear-gradient(180deg, #ff85a2, #ff5c7a);
+    position: relative; z-index: 2;
+    clip-path: path('M0,11 C5,11 10,2 16,2 C20,2 23,6 26,7 C29,6 32,2 36,2 C42,2 47,11 52,11 L52,14 L0,14 Z');
   }
-  .demo-cards-wrapper .voice-capsule .status-orb svg { color: var(--tint); }
-
-  /* Capsule stages */
-  .dc-capsule-stage { display: none; }
-  .dc-capsule-stage.active { display: block; }
-  .dc-stage-recording {
-    align-items: center; gap: 14px;
-    padding: 12px 22px 12px 16px; white-space: nowrap;
+  .qs-mouth-gap { width: 38px; height: 1px; background: #c43a5a; border-radius: 50%; transition: height 0.12s; }
+  .qs-lip-bottom { width: 44px; height: 8px; background: linear-gradient(180deg, #ff4d6d, #e8405f); border-radius: 0 0 50% 50%; position: relative; z-index: 2; }
+  .qs-mouth.talking .qs-mouth-gap { animation: mouthGap 0.28s ease-in-out infinite alternate; }
+  .qs-speech-bubble {
+    position: relative; background: #fff;
+    border: 1.5px solid rgba(0,113,227,0.18); border-radius: 12px;
+    padding: 7px 14px; font-size: 13px; font-weight: 400; color: var(--ink);
+    max-width: 300px; min-height: 22px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    line-height: 1.47;
+    margin-bottom: 12px;
   }
-  .dc-capsule-stage.dc-stage-recording.active { display: flex; }
-  .dc-stage-expanded { padding: 14px 18px; }
-  .dc-stage-expanded .dc-stage-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-  .dc-stage-expanded .dc-stage-text {
-    font-size: 15px; font-weight: 500; color: rgba(26,26,46,0.93);
-    line-height: 1.55; min-height: 22px; white-space: pre-wrap;
+  .qs-speech-bubble::after {
+    content: ''; position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%);
+    border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 7px solid #fff;
+  }
+  .qs-speech-bubble::before {
+    content: ''; position: absolute; bottom: -9px; left: 50%; transform: translateX(-50%);
+    border-left: 8px solid transparent; border-right: 8px solid transparent;
+    border-top: 8px solid rgba(0,113,227,0.18); z-index: -1;
   }
 
-  .dc-capsule-label { font-size: 15px; font-weight: 600; color: #1a1a2e; line-height: 1; }
+  /* Persistent input field */
+  .qs-input-field {
+    margin-top: 16px; display: inline-flex; align-items: center;
+    background: #fff; border: 1.5px solid #d0d5dd; border-radius: 8px;
+    padding: 10px 16px; font-size: 14px; color: var(--ink);
+    min-height: 20px; min-width: 320px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .qs-input-field.active {
+    border-color: var(--azure);
+    box-shadow: 0 0 0 3px rgba(0,113,227,0.12), 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .qs-input-cursor {
+    display: inline-block; color: var(--azure); font-weight: 300;
+    animation: blink 0.8s step-end infinite; margin-left: 1px;
+  }
+  .qs-input-done {
+    margin-top: 8px; font-size: 13px; font-weight: 700; color: var(--green);
+    letter-spacing: 0.3px; opacity: 0; transform: translateY(4px);
+    transition: opacity 0.35s, transform 0.35s;
+  }
+  .qs-input-done.show { opacity: 1; transform: translateY(0); }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  @keyframes fadeInUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes mouthGap { 0% { height: 2px; } 100% { height: 10px; } }
 
-  /* Waveform */
-  .dc-waveform { display: flex; align-items: center; gap: 3px; height: 22px; }
-  .dc-waveform .bar {
-    width: 4px; border-radius: 2px; background: var(--tint, #6694f5);
-    animation: dcWaveAnimate 1.1s ease-in-out infinite alternate;
+  /* Step timeline */
+  .qs-steps-bar { display: flex; align-items: center; margin-bottom: 24px; justify-content: center; position: relative; gap: 0; }
+  .qs-step-pill {
+    display: flex; align-items: center; gap: 0;
+    font-size: 12px; font-weight: 500; color: var(--ink-30);
+    cursor: default; user-select: none;
+    transition: color .35s var(--transition-smooth);
+    letter-spacing: -0.12px;
   }
-  .dc-waveform .bar:nth-child(1) { height: 8px;  animation-delay: 0s; }
-  .dc-waveform .bar:nth-child(2) { height: 12px; animation-delay: .04s; }
-  .dc-waveform .bar:nth-child(3) { height: 17px; animation-delay: .08s; }
-  .dc-waveform .bar:nth-child(4) { height: 20px; animation-delay: .12s; }
-  .dc-waveform .bar:nth-child(5) { height: 22px; animation-delay: .16s; }
-  .dc-waveform .bar:nth-child(6) { height: 19px; animation-delay: .20s; }
-  .dc-waveform .bar:nth-child(7) { height: 16px; animation-delay: .24s; }
-  .dc-waveform .bar:nth-child(8) { height: 11px; animation-delay: .28s; }
-  .dc-waveform .bar:nth-child(9) { height: 7px;  animation-delay: .32s; }
-
-  /* Typing cursor */
-  .dc-typing-cursor { display: none; }
-  .dc-typing-cursor.visible { display: inline; }
-  .dc-typing-cursor.visible::after {
-    content: "|"; animation: dcBlink .55s steps(2) infinite;
-    color: var(--tint, #6694f5);
+  .qs-step-pill::before {
+    content: '';
+    display: inline-block; width: 8px; height: 8px;
+    border-radius: 50%; margin-right: 6px; flex-shrink: 0;
+    background: var(--ink-08);
+    transition: all .35s var(--transition-smooth);
   }
-
-  @keyframes dcWaveAnimate { from { transform: scaleY(.55); } to { transform: scaleY(1.3); } }
-  @keyframes dcBlink { 50% { opacity: 0; } }
-
-  /* ── How to Use: Inline Demo ── */
-  .idx-demo-wrap { display: flex; flex-direction: column; gap: 40px; }
-  .idx-demo-panel {
-    background: rgba(255,255,255,0.75);
-    border: 1px solid rgba(0,0,0,0.04);
-    border-radius: 20px;
-    padding: 48px 48px 40px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.03);
-    text-align: left;
+  .qs-step-pill.active { color: var(--azure); font-weight: 600; }
+  .qs-step-pill.active::before { background: var(--azure); box-shadow: 0 0 0 3px rgba(0,113,227,0.15); }
+  .qs-step-pill.done-pill { color: var(--green); }
+  .qs-step-pill.done-pill::before { background: var(--green); }
+  /* Connector line between steps */
+  .qs-step-connector {
+    width: 32px; height: 1px; background: var(--ink-08); margin: 0 8px; flex-shrink: 0;
   }
-  .idx-mode-badge {
-    display: inline-block; font-size: 13px; font-weight: 700;
-    padding: 4px 14px; border-radius: 20px; margin-bottom: 12px;
-  }
-  .idx-mode-badge.toggle { background: rgba(102,148,245,0.12); color: #6694f5; border: 1px solid rgba(102,148,245,0.3); }
-  .idx-mode-badge.esc { background: rgba(255,59,48,0.1); color: #ff3b30; border: 1px solid rgba(255,59,48,0.25); }
-  .idx-demo-panel .idx-subtitle { font-size: 14px; color: rgba(26,26,46,0.5); margin-bottom: 20px; }
-  .idx-anim-area {
-    position: relative; min-height: 160px;
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 16px;
-  }
-  .idx-vc {
-    position: relative; border-radius: 24px;
-    display: flex; flex-direction: column; overflow: hidden;
-    opacity: 0; transform: translateY(12px);
-    transition: all .4s cubic-bezier(.32,.72,.45,1);
-    min-width: 200px; max-width: 260px;
-    --tint: #6694f5; --tint-18: rgba(102,148,245,0.18); --tint-05: rgba(102,148,245,0.05);
-    --glow: rgba(102,148,245,0.10); --orb-top: rgba(102,148,245,0.28); --orb-bot: rgba(102,148,245,0.08);
-    background: linear-gradient(135deg, rgba(255,255,255,0.24), var(--tint-18), var(--tint-05)), rgba(250,250,252,0.88);
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.22);
-    box-shadow: 0 0 0 1px var(--glow), 0 0 20px var(--glow), 0 8px 32px rgba(0,0,0,.06);
-  }
-  .idx-vc.show { opacity: 1; transform: translateY(0); }
-  .idx-vc.expanded { border-radius: 28px; min-width: 360px; max-width: 440px; }
-  .idx-vc-stage { display: none; }
-  .idx-vc-stage.active { display: block; }
-  .idx-vc-rec { padding: 12px 22px 12px 16px; white-space: nowrap; }
-  .idx-vc-stage.idx-vc-rec.active { display: flex; align-items: center; gap: 14px; }
-  .idx-vc-exp { padding: 14px 18px; }
-  .idx-vc-exp .idx-vc-hdr { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-  .idx-vc-exp .idx-vc-txt { font-size: 14px; font-weight: 500; color: rgba(26,26,46,0.93); line-height: 1.55; min-height: 22px; white-space: pre-wrap; text-align: left; }
-  .idx-vc-label { font-size: 14px; font-weight: 600; color: #1a1a2e; line-height: 1; }
-  .idx-status-orb {
-    width: 28px; height: 28px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    background: linear-gradient(135deg, var(--orb-top), var(--orb-bot));
-  }
-  .idx-status-orb svg { width: 14px; height: 14px; color: var(--tint); }
-  .idx-waveform { display: flex; align-items: center; gap: 3px; height: 22px; }
-  .idx-waveform .bar { width: 4px; border-radius: 2px; background: var(--tint, #6694f5); animation: idxWaveAnim 1.1s ease-in-out infinite alternate; }
-  .idx-waveform .bar:nth-child(1){height:8px;animation-delay:0s}
-  .idx-waveform .bar:nth-child(2){height:12px;animation-delay:.04s}
-  .idx-waveform .bar:nth-child(3){height:17px;animation-delay:.08s}
-  .idx-waveform .bar:nth-child(4){height:20px;animation-delay:.12s}
-  .idx-waveform .bar:nth-child(5){height:22px;animation-delay:.16s}
-  .idx-waveform .bar:nth-child(6){height:19px;animation-delay:.20s}
-  .idx-waveform .bar:nth-child(7){height:16px;animation-delay:.24s}
-  .idx-waveform .bar:nth-child(8){height:11px;animation-delay:.28s}
-  .idx-waveform .bar:nth-child(9){height:7px;animation-delay:.32s}
-  @keyframes idxWaveAnim { from { transform: scaleY(.55); } to { transform: scaleY(1.3); } }
-  .idx-steps-bar { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; justify-content: center; }
-  .idx-step-pill {
-    font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 20px;
-    background: rgba(0,0,0,0.04); color: rgba(26,26,46,0.4); transition: all .3s;
-  }
-  .idx-step-pill.active { background: #6694f5; color: #fff; }
-  .idx-step-pill.done-pill { background: #42bd78; color: #fff; }
-  .idx-step-pill.cancel-pill { background: #ff3b30; color: #fff; }
-  .idx-notif {
+  .qs-notif {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
     font-size: 14px; font-weight: 600; padding: 8px 20px; border-radius: 12px;
     white-space: nowrap; opacity: 0; transition: all .4s; pointer-events: none;
+    background: var(--azure); color: #fff;
   }
-  .idx-notif.cancelled { background: #ff3b30; color: #fff; }
-  .idx-notif.paste { background: #6694f5; color: #fff; }
-  .idx-notif.show { opacity: 1; }
-  .idx-demo-panel .kb-key.cancel-pressed { background: #ff3b30; color: #fff; box-shadow: 0 0 16px rgba(255,59,48,0.5); }
-  .idx-kb-wrap { display: flex; gap: 28px; justify-content: center; flex-wrap: nowrap; }
-  .btn-outline {
-    color: rgba(26,26,46,0.6); background: transparent;
-    border: 1.5px solid rgba(26,26,46,0.18); border-radius: 980px;
+  .qs-notif.show { opacity: 1; }
+
+  /* Keyboard */
+  .qs-kb-wrap {
+    display: flex; justify-content: center; flex-wrap: nowrap; align-items: stretch;
+    background: var(--cream-warm); border-radius: var(--radius-md);
+    border: 1px solid var(--ink-08); padding: 20px 24px 16px;
+    position: relative;
   }
-  .btn-outline:hover { color: #1a1a2e; border-color: rgba(26,26,46,0.4); }
+  .kb-col {
+    position: relative; overflow: visible;
+    width: 252px; padding-bottom: 40px;
+  }
+  .kb-col-win {
+    -webkit-mask-image: linear-gradient(to right, #000 70%, transparent 100%);
+    mask-image: linear-gradient(to right, #000 70%, transparent 100%);
+  }
+  .kb-col-mac {
+    -webkit-mask-image: linear-gradient(to left, #000 70%, transparent 100%);
+    mask-image: linear-gradient(to left, #000 70%, transparent 100%);
+  }
+  .kb-col-mac .kb-container {
+    margin-left: -244px;
+  }
+  .kb-divider {
+    width: 1px; align-self: stretch; margin: 0 12px;
+    border: none; border-left: 1.5px dashed var(--ink-15);
+    flex-shrink: 0;
+  }
+  .kb-shared-anim-zone {
+    height: 96px; margin-top: 14px;
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+    position: relative;
+  }
+  .kb-shared-anim-zone > .qs-speech-bubble {
+    flex-shrink: 0;
+  }
+  .kb-shared-anim-zone > div.kb-anim-listening,
+  .kb-shared-anim-zone > div.kb-anim-processing {
+    display: none; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 500; color: var(--ink-50);
+    animation: fadeInUp 0.35s var(--transition-smooth);
+  }
+  .kb-shared-anim-zone > div.kb-anim-listening.show,
+  .kb-shared-anim-zone > div.kb-anim-processing.show { display: flex; }
+  .kb-col-label {
+    font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 10px;
+    text-align: center; text-transform: uppercase; letter-spacing: 0.8px;
+  }
+  .kb-col-label kbd {
+    display: inline-block; padding: 2px 8px; border-radius: 5px;
+    font-family: var(--font-display); font-size: 10.5px; font-weight: 600;
+    background: var(--azure-soft); color: var(--azure);
+    border: 1px solid rgba(0,113,227,0.18);
+    text-transform: none; letter-spacing: 0.2px;
+    margin-left: 4px; vertical-align: middle;
+  }
+  .kb-static {
+    background: transparent; padding: 8px;
+    display: inline-block; border: none;
+    width: 480px;
+  }
+  .kb-row { display: flex; gap: 3px; margin-bottom: 3px; }
+  .kb-key {
+    flex: 1; min-width: 30px; height: 28px;
+    background: #fff; border-radius: 5px; border: 1px solid var(--ink-08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 500; color: var(--ink-50);
+    transition: all .3s var(--transition-smooth);
+  }
+  .kb-key.w125 { flex: 1.25; }
+  .kb-key.w15 { flex: 1.5; }
+  .kb-key.w175 { flex: 1.75; }
+  .kb-key.w225 { flex: 2.25; }
+  .kb-key.w275 { flex: 2.75; }
+  .kb-key.space { flex: 5; }
+  .kb-key.pressed {
+    background: var(--azure); color: #fff; border-color: var(--azure);
+    box-shadow: 0 0 20px rgba(0,113,227,0.45), 0 0 4px rgba(0,113,227,0.6);
+  }
+  .qs-more-link {
+    display: inline-block; margin-top: 28px;
+    font-size: 14px; font-weight: 400; color: var(--azure);
+    text-decoration: none; padding: 8px 22px;
+    border: 1px solid var(--azure); border-radius: var(--radius-pill);
+    transition: all .3s var(--transition-smooth);
+    letter-spacing: -0.224px;
+  }
+  .qs-more-link:hover { background: rgba(0,113,227,0.06); transform: translateY(-1px); }
+
+  /* ═══ Scenario Cards ═══ */
+  .sc-grid {
+    display: flex; flex-direction: column; gap: 44px;
+  }
+  .sc-card {
+    background: #ffffff;
+    border: none;
+    border-radius: var(--radius-lg);
+    padding: 44px 48px;
+    box-shadow: var(--shadow-subtle);
+    transition: box-shadow .3s var(--transition-smooth);
+  }
+  .sc-card:hover { box-shadow: var(--shadow-medium); }
+  .sc-badge {
+    display: inline-block; font-size: 21px; font-weight: 600;
+    margin-bottom: 18px;
+    color: var(--ink);
+    letter-spacing: -0.3px;
+  }
+  .sc-card h3 {
+    font-size: 21px; font-weight: 600; margin-bottom: 24px; color: var(--ink);
+    letter-spacing: -0.3px; line-height: 1.19;
+  }
+  /* Before/After layout */
+  .sc-ba {
+    display: grid; grid-template-columns: 1fr auto 1fr; gap: 0;
+    align-items: stretch;
+    margin-bottom: 20px;
+  }
+  .sc-ba-col { }
+  .sc-ba-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.8px; margin-bottom: 10px;
+  }
+  .sc-ba-label.before { color: var(--red); opacity: 0.7; }
+  .sc-ba-label.after { color: var(--green); }
+  /* Middle arrow bridge between before/after */
+  .sc-ba-arrow {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 0 4px;
+    align-self: stretch;
+    position: relative;
+    min-width: 72px;
+    gap: 8px;
+  }
+  /* Logo above the arrow line */
+  .sc-ba-arrow img {
+    width: 28px; height: 28px; border-radius: 6px;
+    flex-shrink: 0;
+  }
+  /* Arrow line container */
+  .sc-ba-arrow-line {
+    position: relative;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--red), var(--green));
+  }
+  /* Arrowhead at right end */
+  .sc-ba-arrow-line::after {
+    content: '';
+    position: absolute;
+    top: 50%; right: -1px;
+    width: 0; height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 9px solid var(--green);
+    transform: translateY(-5px);
+  }
+  .sc-ba-text {
+    font-size: 14px; line-height: 1.47; color: var(--ink);
+    background: var(--ink-04); border-radius: var(--radius-md);
+    padding: 18px 22px; min-height: 80px;
+    font-family: var(--font-serif);
+    letter-spacing: -0.224px;
+    border: 1px solid var(--ink-04);
+  }
+  /* Before side: speech-bubble, red tint */
+  .sc-ba-col:first-child .sc-ba-text {
+    background: rgba(229,83,75,0.06);
+    border: 1.5px solid rgba(229,83,75,0.18);
+    border-radius: 20px 20px 4px 20px;
+  }
+  /* After side: clean editor, green tint */
+  .sc-ba-col:last-child .sc-ba-text {
+    background: rgba(52,168,108,0.06);
+    border: 1.5px solid rgba(52,168,108,0.18);
+    border-left: 3.5px solid var(--green);
+    border-radius: 3px;
+  }
+  .sc-ba-text .del {
+    color: var(--red); text-decoration: line-through; opacity: 0.55;
+  }
+  .sc-ba-text .silence {
+    color: var(--ink-30); font-style: italic;
+  }
+  .sc-ba-text .ins {
+    color: var(--green); font-weight: 600;
+  }
+  .sc-ba-text .hl {
+    color: var(--azure); font-weight: 600;
+  }
+  .sc-desc {
+    font-size: 14px; color: var(--ink-50); line-height: 1.47;
+    padding-top: 18px;
+    letter-spacing: -0.224px;
+  }
+  /* Dual card (side by side) */
+  .sc-dual {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    margin-bottom: 20px;
+  }
+  .sc-dual-card {
+    background: var(--ink-04); border-radius: var(--radius-md);
+    padding: 22px; text-align: left;
+    border: 1px solid var(--ink-04);
+  }
+  .sc-dual-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.8px; color: var(--ink-30); margin-bottom: 10px;
+  }
+  .sc-dual-text {
+    font-size: 14px; line-height: 1.47; color: var(--ink);
+  }
+  /* Fork layout: one input → two outputs */
+  .sc-fork {
+    display: grid; grid-template-columns: 1fr auto 1fr;
+    align-items: center; margin-bottom: 20px;
+  }
+  .sc-fork-input .sc-ba-text {
+    background: rgba(229,83,75,0.06);
+    border: 1.5px solid rgba(229,83,75,0.18);
+    border-radius: 20px 20px 4px 20px;
+  }
+  .sc-fork-mid {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; padding: 0 4px; min-width: 72px; gap: 10px;
+  }
+  .sc-fork-mid img { width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0; }
+  .sc-fork-outputs { display: flex; flex-direction: column; gap: 24px; }
+  .sc-fork-out .sc-ba-text {
+    background: rgba(52,168,108,0.06);
+    border: 1.5px solid rgba(52,168,108,0.18);
+    border-left: 3.5px solid var(--green);
+    border-radius: 3px; min-height: auto; padding: 14px 18px;
+  }
+  .sc-fork-out-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.8px; color: var(--ink-30); margin-bottom: 6px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  /* Shared voice input bar */
+  .sc-voice-bar {
+    text-align: center; margin-bottom: 20px;
+    font-size: 14px; color: var(--ink-50);
+    padding: 14px 22px; background: var(--azure-soft);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(0,113,227,0.08);
+  }
+  .sc-voice-bar .mic { color: var(--azure); }
+  /* App mockup card */
+  .sc-app-mock {
+    background: var(--cream-warm); border-radius: var(--radius-md); overflow: hidden;
+    border: 1px solid var(--ink-08); margin-bottom: 20px;
+  }
+  .sc-app-bar {
+    height: 34px; display: flex; align-items: center; padding: 0 14px; gap: 6px;
+    font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,0.9);
+    letter-spacing: 0.2px;
+  }
+  .sc-app-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .sc-app-dot.r { background: #ff5f57; } .sc-app-dot.y { background: #febc2e; } .sc-app-dot.g { background: #28c840; }
+  .sc-app-body {
+    padding: 20px; font-size: 14px; line-height: 1.47; color: var(--ink-80);
+    background: #fff;
+  }
+  .sc-app-body pre {
+    font-family: inherit; white-space: pre-wrap; margin: 0;
+  }
+  .sc-tag {
+    display: inline-block; font-size: 10.5px; font-weight: 700;
+    padding: 4px 12px; border-radius: var(--radius-sm); margin-top: 10px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .sc-tag.green { background: var(--green-soft); color: var(--green); }
+  .sc-tag.blue { background: var(--azure-soft); color: var(--azure); }
+  /* Hotword card: chat mock left + stacked compare right */
+  .sc-hw-layout {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center;
+  }
+  .sc-hw-right { display: flex; flex-direction: column; gap: 24px; }
+  .sc-hw-right .sc-hw-item { position: relative; }
+  .sc-hw-right .sc-hw-arrow {
+    display: flex; align-items: center; gap: 6px; margin-bottom: 6px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px;
+  }
+  .sc-hw-right .sc-hw-arrow::before {
+    content: '→'; font-size: 14px;
+  }
+  .sc-hw-right .sc-hw-arrow.other { color: var(--red); opacity: 0.7; }
+  .sc-hw-right .sc-hw-arrow.vibing { color: var(--green); }
+  .sc-hw-right .sc-hw-arrow.vibing img { width: 16px; height: 16px; border-radius: 3px; vertical-align: -2px; }
+
+  /* ═══ Key Features Grid ═══ */
+  .kf-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    max-width: 920px; margin: 0 auto;
+  }
+  .kf-grid .kf-row2 { grid-column: span 4; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin: 0 auto; }
+  .kf-card {
+    background: #ffffff;
+    border: none;
+    border-radius: var(--radius-lg); padding: 32px 26px;
+    text-align: center;
+    box-shadow: var(--shadow-subtle);
+    transition: box-shadow .3s var(--transition-smooth);
+  }
+  .kf-card:hover { box-shadow: var(--shadow-medium); }
+  .kf-icon {
+    width: 48px; height: 48px; border-radius: 12px; margin: 0 auto 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    background: var(--azure-soft);
+    border: none;
+  }
+  .kf-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; color: var(--ink); letter-spacing: -0.2px; }
+  .kf-card p { font-size: 14px; color: var(--ink-50); line-height: 1.47; letter-spacing: -0.224px; }
+
+  /* ═══ Installation Guide ═══ */
+  .inst-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 36px;
+  }
+  .inst-col h3 {
+    font-size: 21px; font-weight: 600; margin-bottom: 22px; color: var(--ink);
+    letter-spacing: -0.3px;
+  }
+  .inst-method {
+    background: #ffffff;
+    border: none;
+    border-radius: var(--radius-md); padding: 22px 26px; margin-bottom: 16px;
+    box-shadow: var(--shadow-subtle);
+    transition: box-shadow .2s var(--transition-smooth);
+  }
+  .inst-method:hover { box-shadow: var(--shadow-medium); }
+  .inst-method h4 { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  .inst-method .inst-rec {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    padding: 3px 10px; border-radius: var(--radius-pill); margin-left: 8px;
+    background: var(--green-soft); color: var(--green);
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .inst-method p { font-size: 14px; color: var(--ink-50); line-height: 1.47; margin-bottom: 14px; letter-spacing: -0.224px; }
+  .inst-btn {
+    display: inline-block; font-family: var(--font-display);
+    font-size: 13px; font-weight: 600;
+    padding: 9px 22px; border-radius: var(--radius-sm); text-decoration: none;
+    transition: all .25s var(--transition-smooth);
+    letter-spacing: 0.2px;
+  }
+  .inst-btn-primary { background: var(--azure); color: #fff; }
+  .inst-btn-primary:hover { background: #0077ED; transform: translateY(-1px); }
+  .inst-btn-secondary { background: transparent; color: var(--ink); border: 1.5px solid var(--ink-15); }
+  .inst-btn-secondary:hover { border-color: var(--ink-30); transform: translateY(-1px); }
+
+  /* ═══ FAQ Accordion ═══ */
+  .faq-list { max-width: 720px; margin: 0 auto; }
+  .faq-item {
+    border-bottom: 1px solid var(--ink-08);
+  }
+  .faq-q {
+    width: 100%; background: none; border: none; cursor: pointer;
+    font-family: var(--font-display);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 0; font-size: 17px; font-weight: 600; color: var(--ink);
+    text-align: left;
+    letter-spacing: -0.374px;
+    transition: color .2s;
+  }
+  .faq-q:hover { color: var(--azure); }
+  .faq-arrow {
+    font-size: 18px; color: var(--ink-30);
+    transition: transform .3s var(--transition-smooth);
+  }
+  .faq-item.open .faq-arrow { transform: rotate(180deg); }
+  .faq-a {
+    max-height: 0; overflow: hidden;
+    transition: max-height .35s var(--transition-smooth), padding .35s var(--transition-smooth);
+    font-size: 17px; color: var(--ink-50); line-height: 1.47;
+    padding: 0 0;
+    letter-spacing: -0.374px;
+  }
+  .faq-item.open .faq-a { max-height: 200px; padding: 0 0 22px; }
+
+  /* ═══ Download CTA ═══ */
+  .dl-cta {
+    text-align: center; padding: 96px 0;
+    position: relative;
+  }
+  .dl-cta h2 { font-size: 40px; font-weight: 600; margin-bottom: 14px; letter-spacing: -0.5px; line-height: 1.10; }
+  .dl-cta p { font-size: 17px; color: var(--ink-30); margin-bottom: 36px; letter-spacing: -0.374px; }
 </style>
 </head>
 <body>
 
-<!-- Header -->
-<header class="header">
-  <div class="container header-inner">
-    <a class="logo">
-      <img src="src/logo.png" alt="Vibing">
-      <span>Vibing</span>
-    </a>
-    <nav class="nav">
-      <a href="#video">Watch the Video</a>
-      <a href="#installation">Installation</a>
-      <a href="#features">Feature</a>
-    </nav>
-  </div>
-</header>
+<!-- Language Switcher -->
+<div class="lang-switch">
+  <button id="lang-en" class="active" onclick="setLang('en')">EN</button>
+  <button id="lang-zh" onclick="setLang('zh')">中文</button>
+</div>
 
-<!-- Hero -->
-<section class="hero">
-  <div class="container">
-    <h1>Vibing — Just Speak It!</h1>
-    <div style="text-align: center; margin-top: -8px; margin-bottom: 12px;">
-      <a href="https://github.com/microsoft/VibeVoice" style="font-size: 16px; color: #1a1a2e; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
-        Powered by <svg width="18" height="18" viewBox="0 0 24 24" fill="#1a1a2e"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg> VibeVoice
+<!-- Main Content -->
+<div class="main-content">
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div>
+      <h1 style="font-size:120px; font-weight:700; letter-spacing:-2px; line-height:1; margin-bottom:20px;">
+        Vibing
+      </h1>
+      <div style="font-size:100px; font-weight:700; color:var(--ink-50); letter-spacing:-2px; line-height:1; margin-bottom:40px; padding:0 40px;">
+        <span data-lang="en">The <strong style="font-weight:700; background:linear-gradient(90deg, #6ec3f4, #3a3af4, #b44aff, #ff6723); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">Intelligent</strong> Voice Input Method</span>
+        <span data-lang="zh"><strong style="font-weight:700; background:linear-gradient(90deg, #6ec3f4, #3a3af4, #b44aff, #ff6723); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">智能</strong>语音输入法</span>
+      </div>
+      <div style="text-align: center;">
+        <p data-lang-block="en" style="font-size:32px; color:var(--ink-50); margin-bottom:56px; font-weight:400;">More than a voice input method, Vibing understands your intention, and types what you actually mean.</p>
+        <p data-lang-block="zh" style="font-size:32px; color:var(--ink-50); margin-bottom:56px; font-weight:400;">不只是语音输入法，Vibing 理解你的意图，为你打出真正想说的话。</p>
+      </div>
+      <div class="hero-actions">
+        <a href="https://get.microsoft.com/installer/download/9pjf89frgg1d" class="btn btn-primary">
+          <span data-lang="en">Download for Windows</span>
+          <span data-lang="zh">下载 Windows 版</span>
+        </a>
+        <div class="btn-split">
+          <a href="https://github.com/VibingJustSpeakIt/Vibing/releases/download/v0.1.0/Vibing-v0.1.0-mac.dmg">
+            <span data-lang="en">Download for Mac</span>
+            <span data-lang="zh">下载 Mac 版</span>
+          </a>
+          <span class="split-divider"></span>
+          <a href="installation-guide.html">
+            <span data-lang="en">Setup Guide</span>
+            <span data-lang="zh">安装指南</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Start -->
+  <section id="quick-start" class="section" style="padding-top:24px;">
+    <div class="container" style="text-align:center">
+      <h2 class="section-title">
+        <span data-lang="en">Just Speak It.</span>
+        <span data-lang="zh">开口即用</span>
+      </h2>
+
+      <div class="qs-panel">
+        <p class="qs-subtitle" style="font-size:16px; color:rgba(26,26,46,0.6); margin-bottom:20px;">
+          <span data-lang="en">Hold key to talk, release to insert text.</span>
+          <span data-lang="zh">按住说话，松开即输入文本。</span>
+        </p>
+
+        <!-- Step indicators -->
+        <div class="qs-steps-bar" id="qs-steps-hold">
+          <span class="qs-step-pill" data-step="hold">
+            <span data-lang="en">Press &amp; Hold</span><span data-lang="zh">按住</span>
+          </span>
+          <span class="qs-step-connector"></span>
+          <span class="qs-step-pill" data-step="recording">
+            <span data-lang="en">Speaking</span><span data-lang="zh">说话</span>
+          </span>
+          <span class="qs-step-connector"></span>
+          <span class="qs-step-pill" data-step="release">
+            <span data-lang="en">Release</span><span data-lang="zh">松开</span>
+          </span>
+          <span class="qs-step-connector"></span>
+          <span class="qs-step-pill" data-step="done">
+            <span data-lang="en">Auto-pasted</span><span data-lang="zh">自动粘贴</span>
+          </span>
+        </div>
+
+        <!-- Keyboards: Windows left half | Mac right half (full layout, CSS-clipped) -->
+        <div class="qs-kb-wrap">
+          <div class="kb-col kb-col-win">
+            <div class="kb-col-label">Windows <kbd>Ctrl + Win</kbd></div>
+            <div class="kb-container" id="kb-win-container">
+              <div class="kb-static">
+                <div class="kb-row"><div class="kb-key">~</div><div class="kb-key">1</div><div class="kb-key">2</div><div class="kb-key">3</div><div class="kb-key">4</div><div class="kb-key">5</div><div class="kb-key">6</div><div class="kb-key">7</div><div class="kb-key">8</div><div class="kb-key">9</div><div class="kb-key">0</div><div class="kb-key">-</div><div class="kb-key">=</div><div class="kb-key w15">Bksp</div></div>
+                <div class="kb-row"><div class="kb-key w15">Tab</div><div class="kb-key">Q</div><div class="kb-key">W</div><div class="kb-key">E</div><div class="kb-key">R</div><div class="kb-key">T</div><div class="kb-key">Y</div><div class="kb-key">U</div><div class="kb-key">I</div><div class="kb-key">O</div><div class="kb-key">P</div><div class="kb-key">[</div><div class="kb-key">]</div><div class="kb-key">\</div></div>
+                <div class="kb-row"><div class="kb-key w175">Caps</div><div class="kb-key">A</div><div class="kb-key">S</div><div class="kb-key">D</div><div class="kb-key">F</div><div class="kb-key">G</div><div class="kb-key">H</div><div class="kb-key">J</div><div class="kb-key">K</div><div class="kb-key">L</div><div class="kb-key">;</div><div class="kb-key">'</div><div class="kb-key w225">Enter</div></div>
+                <div class="kb-row"><div class="kb-key w225">Shift</div><div class="kb-key">Z</div><div class="kb-key">X</div><div class="kb-key">C</div><div class="kb-key">V</div><div class="kb-key">B</div><div class="kb-key">N</div><div class="kb-key">M</div><div class="kb-key">,</div><div class="kb-key">.</div><div class="kb-key">/</div><div class="kb-key w275">Shift</div></div>
+                <div class="kb-row"><div class="kb-key w125" id="qs-win-ctrl">Ctrl</div><div class="kb-key w125" id="qs-win-key">Win</div><div class="kb-key w125">Alt</div><div class="kb-key space"></div><div class="kb-key w125">Alt</div><div class="kb-key w125">Win</div><div class="kb-key w125">Menu</div><div class="kb-key w125">Ctrl</div></div>
+              </div>
+              <div class="kb-fingers" id="kb-win-fingers">
+                <svg class="finger-svg finger-left" viewBox="0 0 28 58" width="28" height="58"><path d="M4 56 V16 Q4 4 14 4 Q24 4 24 16 V56" fill="none" stroke="#c96b3c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 14 Q14 6 21 14" fill="none" stroke="#c96b3c" stroke-width="1.4" opacity="0.7"/><path d="M6 32 Q14 35 22 32" fill="none" stroke="#c96b3c" stroke-width="1.2" opacity="0.5"/></svg>
+                <svg class="finger-svg finger-right" viewBox="0 0 28 58" width="28" height="58"><path d="M4 56 V16 Q4 4 14 4 Q24 4 24 16 V56" fill="none" stroke="#c96b3c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 14 Q14 6 21 14" fill="none" stroke="#c96b3c" stroke-width="1.4" opacity="0.7"/><path d="M6 32 Q14 35 22 32" fill="none" stroke="#c96b3c" stroke-width="1.2" opacity="0.5"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="kb-divider"></div>
+          <div class="kb-col kb-col-mac">
+            <div class="kb-col-label">Mac <kbd>Right ⌥ Option</kbd></div>
+            <div class="kb-container" id="kb-mac-container">
+              <div class="kb-static">
+                <div class="kb-row"><div class="kb-key">~</div><div class="kb-key">1</div><div class="kb-key">2</div><div class="kb-key">3</div><div class="kb-key">4</div><div class="kb-key">5</div><div class="kb-key">6</div><div class="kb-key">7</div><div class="kb-key">8</div><div class="kb-key">9</div><div class="kb-key">0</div><div class="kb-key">-</div><div class="kb-key">=</div><div class="kb-key w15">del</div></div>
+                <div class="kb-row"><div class="kb-key w15">tab</div><div class="kb-key">Q</div><div class="kb-key">W</div><div class="kb-key">E</div><div class="kb-key">R</div><div class="kb-key">T</div><div class="kb-key">Y</div><div class="kb-key">U</div><div class="kb-key">I</div><div class="kb-key">O</div><div class="kb-key">P</div><div class="kb-key">[</div><div class="kb-key">]</div><div class="kb-key">\</div></div>
+                <div class="kb-row"><div class="kb-key w175">caps</div><div class="kb-key">A</div><div class="kb-key">S</div><div class="kb-key">D</div><div class="kb-key">F</div><div class="kb-key">G</div><div class="kb-key">H</div><div class="kb-key">J</div><div class="kb-key">K</div><div class="kb-key">L</div><div class="kb-key">;</div><div class="kb-key">'</div><div class="kb-key w225">return</div></div>
+                <div class="kb-row"><div class="kb-key w225">shift</div><div class="kb-key">Z</div><div class="kb-key">X</div><div class="kb-key">C</div><div class="kb-key">V</div><div class="kb-key">B</div><div class="kb-key">N</div><div class="kb-key">M</div><div class="kb-key">,</div><div class="kb-key">.</div><div class="kb-key">/</div><div class="kb-key w275">shift</div></div>
+                <div class="kb-row"><div class="kb-key w125">fn</div><div class="kb-key w125">⌃</div><div class="kb-key w125">⌥</div><div class="kb-key w125">⌘</div><div class="kb-key space"></div><div class="kb-key w125">⌘</div><div class="kb-key w125" id="qs-mac-opt">⌥</div><div class="kb-key">←</div><div class="kb-key">↑↓</div><div class="kb-key">→</div></div>
+              </div>
+              <div class="kb-fingers" id="kb-mac-fingers">
+                <svg class="finger-svg finger-single" viewBox="0 0 28 58" width="28" height="58"><path d="M4 56 V16 Q4 4 14 4 Q24 4 24 16 V56" fill="none" stroke="#c96b3c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 14 Q14 6 21 14" fill="none" stroke="#c96b3c" stroke-width="1.4" opacity="0.7"/><path d="M6 32 Q14 35 22 32" fill="none" stroke="#c96b3c" stroke-width="1.2" opacity="0.5"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Shared animation zone below both keyboards -->
+        <div class="kb-shared-anim-zone" id="kb-shared-anim">
+          <div class="qs-speech-bubble" id="qs-speech-bubble" style="display:none;"><span id="qs-speech-text"></span></div>
+          <div class="kb-anim-listening"><div class="qs-mouth" id="qs-mouth"><div class="qs-lip-top"></div><div class="qs-mouth-gap"></div><div class="qs-lip-bottom"></div></div></div>
+          <div class="kb-anim-processing"><svg width="18" height="18" viewBox="0 0 24 24" fill="var(--azure)"><rect x="2" y="8" width="2" height="8" rx="1"/><rect x="6" y="5" width="2" height="14" rx="1"/><rect x="10" y="2" width="2" height="20" rx="1"/><rect x="14" y="6" width="2" height="12" rx="1"/><rect x="18" y="4" width="2" height="16" rx="1"/><rect x="22" y="9" width="2" height="6" rx="1"/></svg> <span>Processing...</span></div>
+        </div>
+        <div class="qs-input-field" id="qs-input-field"><span id="qs-input-text"></span><span class="qs-input-cursor">|</span></div>
+        <div class="qs-input-done" id="qs-input-done"><span data-lang="en">Auto-pasted ✓</span><span data-lang="zh">已自动粘贴 ✓</span></div>
+      </div>
+
+      <a href="hotkeys-demo.html" class="qs-more-link">
+        <span data-lang="en">More input modes →</span>
+        <span data-lang="zh">更多输入模式 →</span>
       </a>
     </div>
-    <div style="text-align: center;">
-    <div class="hero-subtitle">
-      <span class="pre">More than</span><span><em>your intelligent voice input method</em>,</span>
-      <span class="pre">but also</span><span><em>your intention expression assistant</em>,</span>
-      <span class="pre">and</span><span><em>your interface to the AI-native world.</em></span>
-    </div>
-    </div>
-    <div class="hero-actions">
-      <a href="https://github.com/VibingJustSpeakIt/Vibing/releases/download/v0.1.0/Vibing-v0.1.0-mac.dmg" class="btn btn-primary">Download for Mac</a>
-      <div class="download-dropdown">
-        <span class="btn btn-primary">Download for Windows ▾</span>
-        <div class="download-dropdown-menu">
-          <a href="https://get.microsoft.com/installer/download/9pjf89frgg1d">
-            <span class="dl-label">Microsoft Store</span>
-            <span class="dl-hint">Recommended</span>
-          </a>
-          <a href="https://github.com/VibingJustSpeakIt/Vibing/releases/download/v0.1.3/Vibing-v0.1.3-windows.zip">
-            <span class="dl-label">ZIP (Portable)</span>
-            <span class="dl-hint">No install needed</span>
-          </a>
-        </div>
-      </div>
-      <a href="https://github.com/VibingJustSpeakIt/Vibing" class="btn btn-secondary">GitHub</a>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- How to Use -->
-<section id="how-it-works" class="section">
-  <div class="container" style="text-align:center">
-    <h2 class="section-title">How to Use</h2>
+  <!-- Scenario Cards -->
+  <section id="scenarios" class="section">
+    <div class="container">
+      <h2 class="section-title">
+        <span data-lang="en">Vibing Handles the Rest.</span>
+        <span data-lang="zh">你只管说，剩下的交给 Vibing。</span>
+      </h2>
 
-    <!-- SVG defs for capsule icons -->
-    <svg style="display:none">
-      <defs>
-        <symbol id="idx-mic" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path fill="currentColor" d="M19 10v1a7 7 0 0 1-14 0v-1a1 1 0 1 0-2 0v1a9 9 0 0 0 8 8.94V22H8a1 1 0 1 0 0 2h8a1 1 0 1 0 0-2h-3v-2.06A9 9 0 0 0 21 11v-1a1 1 0 1 0-2 0z"/></symbol>
-        <symbol id="idx-wave" viewBox="0 0 24 24"><rect fill="currentColor" x="2" y="8" width="2" height="8" rx="1"/><rect fill="currentColor" x="6" y="5" width="2" height="14" rx="1"/><rect fill="currentColor" x="10" y="2" width="2" height="20" rx="1"/><rect fill="currentColor" x="14" y="6" width="2" height="12" rx="1"/><rect fill="currentColor" x="18" y="4" width="2" height="16" rx="1"/><rect fill="currentColor" x="22" y="9" width="2" height="6" rx="1"/></symbol>
-        <symbol id="idx-check" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></symbol>
-        <symbol id="idx-clip" viewBox="0 0 24 24"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></symbol>
-      </defs>
-    </svg>
+      <div class="sc-grid">
 
-    <div class="idx-demo-wrap">
-      <!-- Transcription -->
-      <div class="idx-demo-panel">
-        <h3 style="font-size:24px;font-weight:700;margin-bottom:6px;">Transcription</h3>
-        <p class="idx-subtitle">Press <kbd class="highlight"><b>Right</b> ⌥ Option</kbd> (Mac) or <kbd class="highlight">Ctrl</kbd> + <kbd class="highlight">Win</kbd> (Win) to start / stop recording</p>
-        <div class="idx-anim-area">
-          <div class="idx-vc" id="idx-vc-toggle">
-            <div class="idx-vc-stage idx-vc-rec" id="idx-vt-rec"><div class="idx-status-orb"><svg><use href="#idx-mic"/></svg></div><div class="idx-waveform"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div><span class="idx-vc-label">Listening...</span></div>
-            <div class="idx-vc-stage idx-vc-exp" id="idx-vt-recog"><div class="idx-vc-hdr"><div class="idx-status-orb"><svg><use href="#idx-wave"/></svg></div><span class="idx-vc-label">Recognizing...</span></div><div class="idx-vc-txt" id="idx-vt-recog-txt"></div></div>
-            <div class="idx-vc-stage idx-vc-exp" id="idx-vt-done"><div class="idx-vc-hdr"><div class="idx-status-orb"><svg><use href="#idx-check"/></svg></div><span class="idx-vc-label">Done</span></div><div class="idx-vc-txt" id="idx-vt-done-txt"></div></div>
-            <div class="idx-vc-stage idx-vc-exp" id="idx-vt-copy"><div class="idx-vc-hdr"><div class="idx-status-orb"><svg><use href="#idx-clip"/></svg></div><span class="idx-vc-label">Copied to Clipboard</span></div><div class="idx-vc-txt" id="idx-vt-copy-txt"></div></div>
-          </div>
-          <div class="idx-notif paste" id="idx-notif-toggle-paste">⌘V / Ctrl+V — Paste anywhere</div>
-        </div>
-        <div class="idx-steps-bar" id="idx-steps-toggle">
-          <span class="idx-step-pill" data-step="press1">① Press to Start</span>
-          <span class="idx-step-pill" data-step="recording">② Recording</span>
-          <span class="idx-step-pill" data-step="press2">③ Press Again to Stop</span>
-          <span class="idx-step-pill" data-step="recognizing">④ Recognizing</span>
-          <span class="idx-step-pill" data-step="done">⑤ Done</span>
-          <span class="idx-step-pill" data-step="clipboard">⑥ Copied to Clipboard</span>
-        </div>
-        <div class="idx-kb-wrap">
-          <div style="text-align:center">
-            <div class="kb-col-label">Mac</div>
-            <div class="kb-static" style="width:480px">
-              <div class="kb-row"><div class="kb-key">~</div><div class="kb-key">1</div><div class="kb-key">2</div><div class="kb-key">3</div><div class="kb-key">4</div><div class="kb-key">5</div><div class="kb-key">6</div><div class="kb-key">7</div><div class="kb-key">8</div><div class="kb-key">9</div><div class="kb-key">0</div><div class="kb-key">-</div><div class="kb-key">=</div><div class="kb-key w15">del</div></div>
-              <div class="kb-row"><div class="kb-key w15">tab</div><div class="kb-key">Q</div><div class="kb-key">W</div><div class="kb-key">E</div><div class="kb-key">R</div><div class="kb-key">T</div><div class="kb-key">Y</div><div class="kb-key">U</div><div class="kb-key">I</div><div class="kb-key">O</div><div class="kb-key">P</div><div class="kb-key">[</div><div class="kb-key">]</div><div class="kb-key">\</div></div>
-              <div class="kb-row"><div class="kb-key w175">caps</div><div class="kb-key">A</div><div class="kb-key">S</div><div class="kb-key">D</div><div class="kb-key">F</div><div class="kb-key">G</div><div class="kb-key">H</div><div class="kb-key">J</div><div class="kb-key">K</div><div class="kb-key">L</div><div class="kb-key">;</div><div class="kb-key">'</div><div class="kb-key w225">return</div></div>
-              <div class="kb-row"><div class="kb-key w225">shift</div><div class="kb-key">Z</div><div class="kb-key">X</div><div class="kb-key">C</div><div class="kb-key">V</div><div class="kb-key">B</div><div class="kb-key">N</div><div class="kb-key">M</div><div class="kb-key">,</div><div class="kb-key">.</div><div class="kb-key">/</div><div class="kb-key w275">shift</div></div>
-              <div class="kb-row"><div class="kb-key w125">fn</div><div class="kb-key w125">⌃</div><div class="kb-key w125">⌥</div><div class="kb-key w125">⌘</div><div class="kb-key space"></div><div class="kb-key w125">⌘</div><div class="kb-key w125" id="idx-mac-opt-toggle">⌥</div><div class="kb-key">←</div><div class="kb-key">↑↓</div><div class="kb-key">→</div></div>
-            </div>
-          </div>
-          <div style="text-align:center">
-            <div class="kb-col-label">Windows</div>
-            <div class="kb-static" style="width:480px">
-              <div class="kb-row"><div class="kb-key">~</div><div class="kb-key">1</div><div class="kb-key">2</div><div class="kb-key">3</div><div class="kb-key">4</div><div class="kb-key">5</div><div class="kb-key">6</div><div class="kb-key">7</div><div class="kb-key">8</div><div class="kb-key">9</div><div class="kb-key">0</div><div class="kb-key">-</div><div class="kb-key">=</div><div class="kb-key w15">Bksp</div></div>
-              <div class="kb-row"><div class="kb-key w15">Tab</div><div class="kb-key">Q</div><div class="kb-key">W</div><div class="kb-key">E</div><div class="kb-key">R</div><div class="kb-key">T</div><div class="kb-key">Y</div><div class="kb-key">U</div><div class="kb-key">I</div><div class="kb-key">O</div><div class="kb-key">P</div><div class="kb-key">[</div><div class="kb-key">]</div><div class="kb-key">\</div></div>
-              <div class="kb-row"><div class="kb-key w175">Caps</div><div class="kb-key">A</div><div class="kb-key">S</div><div class="kb-key">D</div><div class="kb-key">F</div><div class="kb-key">G</div><div class="kb-key">H</div><div class="kb-key">J</div><div class="kb-key">K</div><div class="kb-key">L</div><div class="kb-key">;</div><div class="kb-key">'</div><div class="kb-key w225">Enter</div></div>
-              <div class="kb-row"><div class="kb-key w225">Shift</div><div class="kb-key">Z</div><div class="kb-key">X</div><div class="kb-key">C</div><div class="kb-key">V</div><div class="kb-key">B</div><div class="kb-key">N</div><div class="kb-key">M</div><div class="kb-key">,</div><div class="kb-key">.</div><div class="kb-key">/</div><div class="kb-key w275">Shift</div></div>
-              <div class="kb-row"><div class="kb-key w125" id="idx-win-ctrl-toggle">Ctrl</div><div class="kb-key w125" id="idx-win-key-toggle">⊞ Win</div><div class="kb-key w125">Alt</div><div class="kb-key space"></div><div class="kb-key w125">Alt</div><div class="kb-key w125">⊞</div><div class="kb-key w125">Menu</div><div class="kb-key w125">Ctrl</div></div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- How to Cancel -->
-      <div class="idx-demo-panel">
-        <h3 style="font-size:24px;font-weight:700;margin-bottom:6px;">How to Cancel</h3>
-        <p class="idx-subtitle">Press <kbd class="highlight">ESC</kbd> at any stage to immediately cancel — nothing is transcribed or copied</p>
-        <div class="idx-anim-area">
-          <div class="idx-vc" id="idx-vc-esc">
-            <div class="idx-vc-stage idx-vc-rec" id="idx-ve-rec"><div class="idx-status-orb"><svg><use href="#idx-mic"/></svg></div><div class="idx-waveform"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div><span class="idx-vc-label">Listening...</span></div>
-            <div class="idx-vc-stage idx-vc-exp" id="idx-ve-recog"><div class="idx-vc-hdr"><div class="idx-status-orb"><svg><use href="#idx-wave"/></svg></div><span class="idx-vc-label">Recognizing...</span></div><div class="idx-vc-txt" id="idx-ve-recog-txt"></div></div>
-          </div>
-          <div class="idx-notif cancelled" id="idx-notif-esc">✕ Cancelled</div>
-        </div>
-        <div class="idx-steps-bar" id="idx-steps-esc">
-          <span class="idx-step-pill" data-step="press1">① Press to Start</span>
-          <span class="idx-step-pill" data-step="recording">② Recording</span>
-          <span class="idx-step-pill" data-step="esc">③ Press ESC to Cancel</span>
-          <span class="idx-step-pill" data-step="cancelled">④ Cancelled</span>
-        </div>
-        <div class="idx-kb-wrap">
-          <div style="text-align:center">
-            <div class="kb-col-label">Mac</div>
-            <div class="kb-static" style="width:480px">
-              <div class="kb-row"><div class="kb-key" id="idx-mac-esc">esc</div><div class="kb-key">~</div><div class="kb-key">1</div><div class="kb-key">2</div><div class="kb-key">3</div><div class="kb-key">4</div><div class="kb-key">5</div><div class="kb-key">6</div><div class="kb-key">7</div><div class="kb-key">8</div><div class="kb-key">9</div><div class="kb-key">0</div><div class="kb-key">-</div><div class="kb-key">=</div></div>
-              <div class="kb-row"><div class="kb-key w15">tab</div><div class="kb-key">Q</div><div class="kb-key">W</div><div class="kb-key">E</div><div class="kb-key">R</div><div class="kb-key">T</div><div class="kb-key">Y</div><div class="kb-key">U</div><div class="kb-key">I</div><div class="kb-key">O</div><div class="kb-key">P</div><div class="kb-key">[</div><div class="kb-key">]</div><div class="kb-key">\</div></div>
-              <div class="kb-row"><div class="kb-key w175">caps</div><div class="kb-key">A</div><div class="kb-key">S</div><div class="kb-key">D</div><div class="kb-key">F</div><div class="kb-key">G</div><div class="kb-key">H</div><div class="kb-key">J</div><div class="kb-key">K</div><div class="kb-key">L</div><div class="kb-key">;</div><div class="kb-key">'</div><div class="kb-key w225">return</div></div>
-              <div class="kb-row"><div class="kb-key w225">shift</div><div class="kb-key">Z</div><div class="kb-key">X</div><div class="kb-key">C</div><div class="kb-key">V</div><div class="kb-key">B</div><div class="kb-key">N</div><div class="kb-key">M</div><div class="kb-key">,</div><div class="kb-key">.</div><div class="kb-key">/</div><div class="kb-key w275">shift</div></div>
-              <div class="kb-row"><div class="kb-key w125">fn</div><div class="kb-key w125">⌃</div><div class="kb-key w125">⌥</div><div class="kb-key w125">⌘</div><div class="kb-key space"></div><div class="kb-key w125">⌘</div><div class="kb-key w125" id="idx-mac-opt-esc">⌥</div><div class="kb-key">←</div><div class="kb-key">↑↓</div><div class="kb-key">→</div></div>
-            </div>
-          </div>
-          <div style="text-align:center">
-            <div class="kb-col-label">Windows</div>
-            <div class="kb-static" style="width:480px">
-              <div class="kb-row"><div class="kb-key" id="idx-win-esc">esc</div><div class="kb-key">~</div><div class="kb-key">1</div><div class="kb-key">2</div><div class="kb-key">3</div><div class="kb-key">4</div><div class="kb-key">5</div><div class="kb-key">6</div><div class="kb-key">7</div><div class="kb-key">8</div><div class="kb-key">9</div><div class="kb-key">0</div><div class="kb-key">-</div><div class="kb-key">=</div></div>
-              <div class="kb-row"><div class="kb-key w15">Tab</div><div class="kb-key">Q</div><div class="kb-key">W</div><div class="kb-key">E</div><div class="kb-key">R</div><div class="kb-key">T</div><div class="kb-key">Y</div><div class="kb-key">U</div><div class="kb-key">I</div><div class="kb-key">O</div><div class="kb-key">P</div><div class="kb-key">[</div><div class="kb-key">]</div><div class="kb-key">\</div></div>
-              <div class="kb-row"><div class="kb-key w175">Caps</div><div class="kb-key">A</div><div class="kb-key">S</div><div class="kb-key">D</div><div class="kb-key">F</div><div class="kb-key">G</div><div class="kb-key">H</div><div class="kb-key">J</div><div class="kb-key">K</div><div class="kb-key">L</div><div class="kb-key">;</div><div class="kb-key">'</div><div class="kb-key w225">Enter</div></div>
-              <div class="kb-row"><div class="kb-key w225">Shift</div><div class="kb-key">Z</div><div class="kb-key">X</div><div class="kb-key">C</div><div class="kb-key">V</div><div class="kb-key">B</div><div class="kb-key">N</div><div class="kb-key">M</div><div class="kb-key">,</div><div class="kb-key">.</div><div class="kb-key">/</div><div class="kb-key w275">Shift</div></div>
-              <div class="kb-row"><div class="kb-key w125" id="idx-win-ctrl-esc">Ctrl</div><div class="kb-key w125" id="idx-win-key-esc">⊞ Win</div><div class="kb-key w125">Alt</div><div class="kb-key space"></div><div class="kb-key w125">Alt</div><div class="kb-key w125">⊞</div><div class="kb-key w125">Menu</div><div class="kb-key w125">Ctrl</div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <a href="hotkeys-demo.html" class="btn btn-outline" style="margin-top:32px;font-size:16px;padding:12px 32px;">More Usage Methods →</a>
-    </div>
-</section>
-
-<!-- Installation Guide -->
-<section id="installation" class="section">
-  <div class="container" style="text-align: center;">
-    <h2 class="section-title">Installation Guide</h2>
-    <p style="font-size: 18px; color: rgba(26,26,46,0.5); margin-bottom: 28px;">Step-by-step setup instructions for macOS — accessibility, screen recording & microphone permissions.</p>
-    <a href="installation-guide.html" class="btn btn-primary" style="font-size: 16px; padding: 14px 36px;">Mac Setup Guide →</a>
-  </div>
-</section>
-
-<!-- Video Introduction -->
-<section id="video" class="section">
-  <div class="container">
-    <h2 class="section-title">Video Introduction</h2>
-    <div style="text-align: center;">
-      <video src="src/intro.mp4" controls playsinline style="width: 100%; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08);"></video>
-    </div>
-  </div>
-</section>
-
-<!-- Features -->
-<section id="features" class="section">
-  <div class="container">
-    <h2 class="section-title">Key Features</h2>
-    <div class="features-grid">
-      <div class="feature-card">
-        <h3>Long-Form Voice Input</h3>
-        <p>Over 5 minutes of continuous speech in a single recording.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Personalized Hotwords</h3>
-        <p>Custom vocabulary for names, jargon, and domain-specific terms.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Context-Aware Intent Understanding</h3>
-        <p>Understands what you mean, not just what you say.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Multilingual</h3>
-        <p>Speak in any of 50+ languages with automatic detection.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Mixed-Language Input</h3>
-        <p>Switch between languages freely within a single sentence.</p>
-      </div>
-      <div class="feature-card">
-        <h3>LLM-Powered Rewriting</h3>
-        <p>AI rewrites your speech into polished, context-appropriate text.</p>
-      </div>
-      <div class="feature-card" style="grid-column: 2;">
-        <h3>Translation</h3>
-        <p>Real-time voice translation across languages.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Demo Cards: Animated App Scenarios -->
-<section class="demo-cards-section">
-  <div class="container">
-    <h2 class="section-title">Works Everywhere You Type</h2>
-  </div>
-
-  <!-- SVG icons for voice capsule -->
-  <svg style="display:none">
-    <symbol id="dc-mic-icon" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M12 1a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-      <path fill="currentColor" d="M19 10v1a7 7 0 0 1-14 0v-1a1 1 0 1 0-2 0v1a9 9 0 0 0 8 8.94V22H8a1 1 0 1 0 0 2h8a1 1 0 1 0 0-2h-3v-2.06A9 9 0 0 0 21 11v-1a1 1 0 1 0-2 0z"/>
-    </symbol>
-    <symbol id="dc-wave-icon" viewBox="0 0 24 24">
-      <rect fill="currentColor" x="2" y="8" width="2" height="8" rx="1"/>
-      <rect fill="currentColor" x="6" y="5" width="2" height="14" rx="1"/>
-      <rect fill="currentColor" x="10" y="2" width="2" height="20" rx="1"/>
-      <rect fill="currentColor" x="14" y="6" width="2" height="12" rx="1"/>
-      <rect fill="currentColor" x="18" y="4" width="2" height="16" rx="1"/>
-      <rect fill="currentColor" x="22" y="9" width="2" height="6" rx="1"/>
-    </symbol>
-    <symbol id="dc-check-icon" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-    </symbol>
-  </svg>
-
-  <div class="demo-cards-wrapper">
-
-    <!-- Card 1: VS Code -->
-    <div class="demo-row">
-    <div class="demo-label"><h3>Vibe Coding</h3></div>
-    <div class="card" id="dc-vscode">
-      <div class="titlebar">
-        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
-      </div>
-      <div class="body" style="display:flex;flex-direction:column;">
-        <div style="display:flex;flex:1;overflow:hidden;">
-          <div class="dc-sidebar">
-            <div class="icon active"></div><div class="icon"></div><div class="icon"></div><div class="icon"></div>
-          </div>
-          <div class="dc-file-tree">
-            <div class="folder">src</div>
-            <div>  train.py</div>
-            <div>  model.py</div>
-            <div>  dataset.py</div>
-            <div class="folder">configs</div>
-            <div>  config.yaml</div>
-          </div>
-          <div class="dc-editor-area"><span class="cmt"># Training Pipeline</span>
-<span class="kw">import</span> torch
-<span class="kw">import</span> torch.nn <span class="kw">as</span> nn
-<span class="kw">from</span> torch.utils.data <span class="kw">import</span> <span class="typ">DataLoader</span>
-<span class="kw">from</span> model <span class="kw">import</span> <span class="typ">VoiceTransformer</span>
-
-device = torch.<span class="fn">device</span>(<span class="str">"cuda"</span> <span class="kw">if</span> torch.cuda.<span class="fn">is_available</span>() <span class="kw">else</span> <span class="str">"cpu"</span>)
-
-model = <span class="typ">VoiceTransformer</span>(d_model=<span class="str">512</span>, nhead=<span class="str">8</span>)
-model.<span class="fn">to</span>(device)
-optimizer = torch.optim.<span class="fn">AdamW</span>(model.<span class="fn">parameters</span>(), lr=<span class="str">3e-4</span>)</div>
-        </div>
-        <div class="dc-claude-terminal">
-          <div class="dc-claude-header">
-            <span class="dc-claude-icon">✨</span>
-            <span class="dc-claude-title">Claude Code</span>
-            <span class="dc-claude-path">~/project</span>
-          </div>
-          <div class="dc-claude-body">
-            <div class="dc-claude-prompt"><span class="dc-claude-gt">&gt;</span> <span id="dc-vscode-typing" class="dc-claude-input"></span><span class="dc-typing-cursor"></span></div>
-          </div>
-        </div>
-      </div>
-      <div class="voice-capsule" id="dvc-0">
-        <div class="dc-capsule-stage dc-stage-recording active" id="dc-stg-rec-0">
-          <div class="status-orb"><svg style="width:14px;height:14px"><use href="#dc-mic-icon"/></svg></div>
-          <div class="dc-waveform"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
-          <span class="dc-capsule-label">Listening...</span>
-        </div>
-        <div class="dc-capsule-stage dc-stage-expanded" id="dc-stg-recog-0">
-          <div class="dc-stage-header">
-            <div class="status-orb"><svg style="width:14px;height:14px"><use href="#dc-wave-icon"/></svg></div>
-            <span class="dc-capsule-label">Recognizing...</span>
-          </div>
-          <div class="dc-stage-text" id="dc-ct-raw-0"></div>
-        </div>
-        <div class="dc-capsule-stage dc-stage-expanded" id="dc-stg-polish-0">
-          <div class="dc-stage-header">
-            <div class="status-orb"><svg style="width:14px;height:14px"><use href="#dc-wave-icon"/></svg></div>
-            <span class="dc-capsule-label">Vibing…</span>
-          </div>
-          <div class="dc-stage-text" id="dc-ct-polish-0"></div>
-        </div>
-        <div class="dc-capsule-stage dc-stage-expanded" id="dc-stg-done-0">
-          <div class="dc-stage-header">
-            <div class="status-orb"><svg style="width:14px;height:14px"><use href="#dc-check-icon"/></svg></div>
-            <span class="dc-capsule-label">Done</span>
-          </div>
-          <div class="dc-stage-text" id="dc-ct-done-0"></div>
-        </div>
-      </div>
-    </div>
-    </div>
-
-    <!-- Card 2: PowerPoint -->
-    <div class="demo-row">
-    <div class="demo-label"><h3>Presentation</h3></div>
-    <div class="card" id="dc-ppt">
-      <div class="titlebar">
-        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
-      </div>
-      <div class="body">
-        <div class="dc-slide-panel">
-          <div class="dc-slide-thumb active" style="flex-direction:column;align-items:flex-start;justify-content:flex-start;padding:6px 8px;font-size:6px;color:#222;gap:2px;border-top:2px solid #2b579a;">
-            <div style="font-size:7px;font-weight:700;">Q1 Business Review</div>
-            <div style="font-size:5px;color:#888;">FY2026 · Quarterly Performance</div>
-            <div style="font-size:5px;color:#444;margin-top:2px;">Revenue grew 23% YoY</div>
-          </div>
-        </div>
-        <div class="dc-slide-canvas">
-          <div class="slide">
-            <h1>Q1 Business Review</h1>
-            <div class="slide-sub">FY2026 · Quarterly Performance</div>
-            <p><b>Revenue</b> grew 23% year over year</p>
-            <p style="margin-top:14px;white-space:pre-wrap;" id="dc-slide-typing"></p>
-          </div>
-        </div>
-      </div>
-      <div class="voice-capsule" id="dvc-2">
-        <div class="dc-capsule-stage dc-stage-recording active" id="dc-stg-rec-2">
-          <div class="status-orb"><svg style="width:14px;height:14px"><use href="#dc-mic-icon"/></svg></div>
-          <div class="dc-waveform"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
-          <span class="dc-capsule-label">Listening...</span>
-        </div>
-        <div class="dc-capsule-stage dc-stage-expanded" id="dc-stg-recog-2">
-          <div class="dc-stage-header">
-            <div class="status-orb"><svg style="width:14px;height:14px"><use href="#dc-wave-icon"/></svg></div>
-            <span class="dc-capsule-label">Recognizing...</span>
-          </div>
-          <div class="dc-stage-text" id="dc-ct-raw-2"></div>
-        </div>
-        <div class="dc-capsule-stage dc-stage-expanded" id="dc-stg-polish-2">
-          <div class="dc-stage-header">
-            <div class="status-orb"><svg style="width:14px;height:14px"><use href="#dc-wave-icon"/></svg></div>
-            <span class="dc-capsule-label">Vibing…</span>
-          </div>
-          <div class="dc-stage-text" id="dc-ct-polish-2"></div>
-        </div>
-        <div class="dc-capsule-stage dc-stage-expanded" id="dc-stg-done-2">
-          <div class="dc-stage-header">
-            <div class="status-orb"><svg style="width:14px;height:14px"><use href="#dc-check-icon"/></svg></div>
-            <span class="dc-capsule-label">Done</span>
-          </div>
-          <div class="dc-stage-text" id="dc-ct-done-2"></div>
-        </div>
-      </div>
-    </div>
-    </div>
-
-    <!-- Card 3: Office Word -->
-    <div class="demo-row">
-    <div class="demo-label"><h3>Document</h3></div>
-    <div class="card" id="dc-office">
-      <div class="titlebar">
-        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
-      </div>
-      <div class="body">
-        <div class="dc-ribbon">
-          <span class="active-tab">Home</span><span>Insert</span><span>Design</span><span>Layout</span><span>References</span><span>Review</span>
-        </div>
-        <div class="dc-doc-page">
-          <h2>Q1 Product Planning — Meeting Notes</h2>
-          <p>Date: March 25, 2026<br>Attendees: Product, Engineering, Design<br><br>
-          <b>1. Core Objectives</b><br>
-          This quarter we focus on cross-platform voice input,<br>
-          ensuring seamless typing across VS Code, Office, and<br>
-          presentation environments.<br><br>
-          <b>2. Key Decisions</b><br>
-          <span id="dc-doc-typing" style="white-space:pre-wrap"></span><span class="dc-typing-cursor"></span></p>
-        </div>
-      </div>
-      <div class="voice-capsule" id="dvc-3">
-        <div class="dc-capsule-stage dc-stage-recording active" id="dc-stg-rec-3">
-          <div class="status-orb"><svg style="width:14px;height:14px"><use href="#dc-mic-icon"/></svg></div>
-          <div class="dc-waveform"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
-          <span class="dc-capsule-label">Listening...</span>
-        </div>
-        <div class="dc-capsule-stage dc-stage-expanded" id="dc-stg-recog-3">
-          <div class="dc-stage-header">
-            <div class="status-orb"><svg style="width:14px;height:14px"><use href="#dc-wave-icon"/></svg></div>
-            <span class="dc-capsule-label">Recognizing...</span>
-          </div>
-          <div class="dc-stage-text" id="dc-ct-raw-3"></div>
-        </div>
-        <div class="dc-capsule-stage dc-stage-expanded" id="dc-stg-polish-3">
-          <div class="dc-stage-header">
-            <div class="status-orb"><svg style="width:14px;height:14px"><use href="#dc-wave-icon"/></svg></div>
-            <span class="dc-capsule-label">Vibing…</span>
-          </div>
-          <div class="dc-stage-text" id="dc-ct-polish-3"></div>
-        </div>
-        <div class="dc-capsule-stage dc-stage-expanded" id="dc-stg-done-3">
-          <div class="dc-stage-header">
-            <div class="status-orb"><svg style="width:14px;height:14px"><use href="#dc-check-icon"/></svg></div>
-            <span class="dc-capsule-label">Done</span>
-          </div>
-          <div class="dc-stage-text" id="dc-ct-done-3"></div>
-        </div>
-      </div>
-    </div>
-    </div>
-
-    <!-- Card 4: Teams -->
-    <div class="demo-row">
-    <div class="demo-label"><h3>Chat &amp; Message</h3></div>
-    <div class="card" id="dc-teams">
-      <div class="titlebar">
-        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
-      </div>
-      <div class="body">
-        <div class="dc-teams-sidebar">
-          <div class="t-icon active">💬</div>
-          <div class="t-icon">👥</div>
-          <div class="t-icon">📅</div>
-          <div class="t-icon">📁</div>
-        </div>
-        <div class="dc-teams-channels">
-          <div class="ch-header">Engineering</div>
-          <div class="ch-item active">general</div>
-          <div class="ch-item">voice-engine</div>
-          <div class="ch-item">frontend</div>
-          <div class="ch-item">releases</div>
-        </div>
-        <div class="dc-teams-chat">
-          <div class="dc-teams-chat-header"># general</div>
-          <div class="dc-teams-messages">
-            <div class="dc-teams-msg">
-              <div class="dc-teams-avatar" style="background:#4a90d9;">A</div>
-              <div class="dc-teams-msg-body">
-                <span class="dc-teams-msg-name">Alice Chen</span><span class="dc-teams-msg-time">10:32 AM</span>
-                <div class="dc-teams-msg-text">新的语音引擎通过了所有集成测试，可以开始 review 了！</div>
+        <!-- Card 1: LLM-Powered Rewriting -->
+        <div class="sc-card">
+          <span class="sc-badge">LLM-Powered Rewriting</span>
+          <div data-lang-block="en">
+            <div class="sc-ba">
+              <div class="sc-ba-col">
+                <div class="sc-ba-label before">What you said</div>
+                <div class="sc-ba-text">Rewriting does three things, <span class="del">um</span>, first it removes filler words like um and uh, second it handles <span class="del">auto-corrections</span> — <span class="del">no</span>, <span class="ins">self-corrections</span>, and <span class="del">uh</span>, third it <span class="del">like</span> auto-formats lists</div>
               </div>
-            </div>
-            <div class="dc-teams-msg">
-              <div class="dc-teams-avatar" style="background:#e67e22;">B</div>
-              <div class="dc-teams-msg-body">
-                <span class="dc-teams-msg-name">Bob Kim</span><span class="dc-teams-msg-time">10:45 AM</span>
-                <div class="dc-teams-msg-text">太好了！下午我来看 PR，有没有 breaking changes？</div>
-              </div>
-            </div>
-            <div class="dc-teams-msg">
-              <div class="dc-teams-avatar" style="background:#27ae60;">Y</div>
-              <div class="dc-teams-msg-body">
-                <span class="dc-teams-msg-name">You</span><span class="dc-teams-msg-time">Now</span>
-                <div class="dc-teams-msg-text" style="white-space:pre-wrap"><span id="dc-teams-typing"></span><span class="dc-typing-cursor"></span></div>
+              <div class="sc-ba-col">
+                <div class="sc-ba-label after">What Vibing types</div>
+                <div class="sc-ba-text">Rewriting does three things:<br>1. Remove filler words like um and uh<br>2. Handle self-corrections<br>3. Auto-format lists</div>
               </div>
             </div>
           </div>
-          <div class="dc-teams-compose">
-            <div class="dc-teams-compose-box">Type a message...</div>
+          <div data-lang-block="zh">
+            <div class="sc-ba">
+              <div class="sc-ba-col">
+                <div class="sc-ba-label before">你说的</div>
+                <div class="sc-ba-text">Vibing 能做三件事，<span class="del">呃</span>，第一个是去掉嗯啊之类的填充词，第二个是处理口误自我更—<span class="del">不对</span>，<span class="ins">自我纠正</span>，<span class="del">嗯</span>第三个就是自动把列表格式化</div>
+              </div>
+              <div class="sc-ba-col">
+                <div class="sc-ba-label after">Vibing 输出</div>
+                <div class="sc-ba-text">Vibing 能做三件事：<br>1. 去除嗯、啊等填充词<br>2. 处理自我纠正<br>3. 自动格式化列表</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Context-Aware Hotwords -->
+        <div class="sc-card">
+          <span class="sc-badge">Context-Aware Hotwords</span>
+          <div data-lang-block="en">
+            <div class="sc-hw-layout">
+              <div class="sc-app-mock" style="margin-bottom:0;">
+                <div class="sc-app-bar" style="background:var(--ink-08); color:var(--ink-50);">
+                  <span class="sc-app-dot r"></span><span class="sc-app-dot y"></span><span class="sc-app-dot g"></span>
+                  <span style="margin-left:8px;">Chat</span>
+                </div>
+                <div class="sc-app-body" style="font-size:13px;">
+                  <div style="margin-bottom:8px;"><strong>Priyatham Reddy:</strong> "The new build of <span class="hl">Kaleido</span> is ready for testing."</div>
+                  <div><strong>You:</strong></div>
+                </div>
+              </div>
+              <div class="sc-hw-right">
+                <div class="sc-hw-item">
+                  <div class="sc-hw-arrow other">Other voice tools</div>
+                  <div class="sc-ba-text" style="background:rgba(229,83,75,0.06); border:1.5px solid rgba(229,83,75,0.18);">Got it <strong>pretty thumb</strong>, I'll test the <strong>collide-o</strong> build this afternoon.</div>
+                </div>
+                <div class="sc-hw-item">
+                  <div class="sc-hw-arrow vibing"><img src="src/logo.png" alt="Vibing"> Vibing</div>
+                  <div class="sc-ba-text" style="background:rgba(52,168,108,0.06); border:1.5px solid rgba(52,168,108,0.18);">Got it <span class="hl">Priyatham</span>, I'll test the <span class="hl">Kaleido</span> build this afternoon.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div data-lang-block="zh">
+            <div class="sc-hw-layout">
+              <div class="sc-app-mock" style="margin-bottom:0;">
+                <div class="sc-app-bar" style="background:var(--ink-08); color:var(--ink-50);">
+                  <span class="sc-app-dot r"></span><span class="sc-app-dot y"></span><span class="sc-app-dot g"></span>
+                  <span style="margin-left:8px;">Chat</span>
+                </div>
+                <div class="sc-app-body" style="font-size:13px;">
+                  <div style="margin-bottom:8px;"><strong>Priyatham Reddy:</strong> "<span class="hl">Kaleido</span> 的新版本已经可以测试了。"</div>
+                  <div><strong>你:</strong></div>
+                </div>
+              </div>
+              <div class="sc-hw-right">
+                <div class="sc-hw-item">
+                  <div class="sc-hw-arrow other">其他语音输入</div>
+                  <div class="sc-ba-text" style="background:rgba(229,83,75,0.06); border:1.5px solid rgba(229,83,75,0.18);">收到<strong>普利亚森</strong>，我下午测一下<strong>卡雷多</strong>的新版本。</div>
+                </div>
+                <div class="sc-hw-item">
+                  <div class="sc-hw-arrow vibing"><img src="src/logo.png" alt="Vibing"> Vibing</div>
+                  <div class="sc-ba-text" style="background:rgba(52,168,108,0.06); border:1.5px solid rgba(52,168,108,0.18);">收到 <span class="hl">Priyatham</span>，我下午测一下 <span class="hl">Kaleido</span> 的新版本。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sc-desc">
+            <span data-lang="en">Automatically extracts names, project names, places, and other hotwords from your context — and recognizes them accurately.</span>
+            <span data-lang="zh">从上下文中自动提取人名、项目名、地名等热词，并准确识别。</span>
+          </div>
+        </div>
+
+        <!-- Card 3: AutoFormat -->
+        <div class="sc-card">
+          <span class="sc-badge">App-Aware Formatting</span>
+          <div data-lang-block="en">
+            <div class="sc-fork">
+              <div class="sc-fork-input">
+                <div class="sc-ba-label before"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;opacity:0.8;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
+                <div class="sc-ba-text">"Ugh this bug is driving me crazy, I've been debugging for two hours and it turns out it was just a typo in the config file, I can't believe it"</div>
+              </div>
+              <div class="sc-fork-mid">
+                <div class="sc-ba-arrow-line"></div>
+                <img src="src/logo.png" alt="Vibing">
+                <div class="sc-ba-arrow-line"></div>
+              </div>
+              <div class="sc-fork-outputs">
+                <div class="sc-fork-out">
+                  <div class="sc-fork-out-label">💬 Chat → Keep the vibe</div>
+                  <div class="sc-ba-text">Ugh this bug is driving me crazy, I've been debugging for two hours and it turns out it was just a typo in the config file, I can't believe it 😩</div>
+                </div>
+                <div class="sc-fork-out">
+                  <div class="sc-fork-out-label">📄 Document → Just the facts</div>
+                  <div class="sc-ba-text">Spent two hours debugging; root cause was a typo in the config file.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div data-lang-block="zh">
+            <div class="sc-fork">
+              <div class="sc-fork-input">
+                <div class="sc-ba-label before"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;opacity:0.8;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
+                <div class="sc-ba-text">"我靠这个bug搞了我两小时，结果就是配置文件里一个拼写错误，我真的服了"</div>
+              </div>
+              <div class="sc-fork-mid">
+                <div class="sc-ba-arrow-line"></div>
+                <img src="src/logo.png" alt="Vibing">
+                <div class="sc-ba-arrow-line"></div>
+              </div>
+              <div class="sc-fork-outputs">
+                <div class="sc-fork-out">
+                  <div class="sc-fork-out-label">💬 聊天 → 保留情绪</div>
+                  <div class="sc-ba-text">我靠这个bug搞了我两小时，结果就是配置文件里一个拼写错误，我真的服了😩</div>
+                </div>
+                <div class="sc-fork-out">
+                  <div class="sc-fork-out-label">📄 文档 → 只留事实</div>
+                  <div class="sc-ba-text">排查两小时，根本原因是配置文件中的拼写错误。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Mixed Language -->
+        <div class="sc-card">
+          <span class="sc-badge">Multilingual & Mixed Input</span>
+          <div data-lang-block="en">
+            <div class="sc-ba-text" style="background:rgba(52,168,108,0.06); border:1.5px solid rgba(52,168,108,0.18); border-left:3.5px solid var(--green);">Vibing supports 50+ languages. No need to set the language beforehand — <span class="hl">por ejemplo, ahora estoy hablando en español</span> and Vibing handles it perfectly. You can even mix languages in a single sentence, which is essential for bilingual teams, cross-border business, multicultural content creation, and more.</div>
+          </div>
+          <div data-lang-block="zh">
+            <div class="sc-ba-text" style="background:rgba(52,168,108,0.06); border:1.5px solid rgba(52,168,108,0.18); border-left:3.5px solid var(--green);">Vibing 支持五十多种语言。不需要提前设置语言，<span class="hl">for example, I am speaking English now</span> and Vibing handles it well. 也可以在同一句话里夹杂多种语言，Vibing 都能准确识别，这对于 vibe coding、各个学科的 frontier research、创意自媒体等 scenario 都非常关键。</div>
+          </div>
+        </div>
+
+        <!-- Card 5: Long-Form Dictation / Vibe Coding -->
+        <div class="sc-card">
+          <span class="sc-badge">Long-Form Dictation</span>
+          <div data-lang-block="en">
+            <div class="sc-ba">
+              <div class="sc-ba-col">
+                <div class="sc-ba-label before">Voice input</div>
+                <div class="sc-ba-text">The longer you speak, the better it gets. <span class="del">Uh,</span> first, up to 10 minutes of continuous input. Second, think while talking — pause, reflect, and even... <span class="silence">[30 seconds of thinking]</span> ...and even change your, <span class="del">well,</span> not just change your mind — take back what you said entirely, and Vibing will sort it out. Third, done thinking, done writing.</div>
+              </div>
+              <div class="sc-ba-col">
+                <div class="sc-ba-label after">Output</div>
+                <div class="sc-ba-text">The longer you speak, the better it gets.<br>1. Up to 10 minutes of continuous input.<br>2. Think while talking — pause, reflect, and even change your mind as you go.<br>3. Done thinking, done writing.</div>
+              </div>
+            </div>
+          </div>
+          <div data-lang-block="zh">
+            <div class="sc-ba">
+              <div class="sc-ba-col">
+                <div class="sc-ba-label before">语音输入</div>
+                <div class="sc-ba-text">我觉得有几点是适合 long-form dictation 这个事儿的。一是 Vibing 支持十分钟的输入。二是用户可以边思考边讲，可以不说话，安静地思考，思考完再讲。也可以思考完之后推翻刚才所说的，最后 Vibing <span class="del">会把……</span>会统一最终结果。</div>
+              </div>
+              <div class="sc-ba-col">
+                <div class="sc-ba-label after">Vibing 输出</div>
+                <div class="sc-ba-text">Vibing 支持长达 10 分钟的连续输入。你可以边思考边讲，也可以暂停思考后继续。甚至可以推翻之前的内容，Vibing 会自动整合为最终结果。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6: Translation Mode -->
+        <div class="sc-card">
+          <span class="sc-badge">Translation Mode</span>
+          <div data-lang-block="en">
+            <div class="sc-ba">
+              <div class="sc-ba-col">
+                <div class="sc-ba-label before">Voice input (Español)</div>
+                <div class="sc-ba-text">El modo de traducción de Vibing admite más de 60 idiomas. Presiona Ctrl + Alt + Win, habla en tu idioma y la traducción se escribe directamente. Todas las funciones de transcripción se mantienen: reescritura, reconocimiento de contexto, palabras clave y más.</div>
+              </div>
+              <div class="sc-ba-col">
+                <div class="sc-ba-label after">Output (English)</div>
+                <div class="sc-ba-text">Vibing's translation mode supports over 60 languages. Press Ctrl + Alt + Win, speak in your language, and it types out the translation directly. All the transcription features are still there — rewriting, context awareness, hotwords, everything.</div>
+                <span class="sc-tag green">Español → English</span>
+              </div>
+            </div>
+          </div>
+          <div data-lang-block="zh">
+            <div class="sc-ba">
+              <div class="sc-ba-col">
+                <div class="sc-ba-label before">语音输入（中文）</div>
+                <div class="sc-ba-text">Vibing 的翻译模式支持六十多种语言，按 Ctrl + Alt + Win，说中文，直接打出翻译。而且转录的所有功能都保留——改写、上下文感知、热词，全都有。</div>
+              </div>
+              <div class="sc-ba-col">
+                <div class="sc-ba-label after">Output (English)</div>
+                <div class="sc-ba-text">Vibing's translation mode supports over 60 languages. Press Ctrl + Alt + Win, speak Chinese, and it types the translation directly. All transcription features are preserved — rewriting, context awareness, hotwords, and more.</div>
+                <span class="sc-tag green">中文 → English</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /sc-grid -->
+    </div>
+  </section>
+
+
+
+
+  <!-- Privacy -->
+  <!-- FAQ -->
+  <section id="faq" class="section">
+    <div class="container">
+      <h2 class="section-title">FAQ</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            <span><span data-lang="en">What makes Vibing different from other voice input methods?</span><span data-lang="zh">Vibing 和其他语音输入有什么区别？</span></span>
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            <span data-lang="en">1. <strong>Strong models</strong> — <a href="https://github.com/microsoft/VibeVoice" style="color:var(--azure);">VibeVoice-ASR</a> for speech recognition, plus a multimodal model for intelligent rewriting.<br>2. <strong>Context-aware</strong> — reads your active app, input field, and surrounding text to deliver results that fit your situation.</span>
+            <span data-lang="zh">1. <strong>强大的模型</strong>——<a href="https://github.com/microsoft/VibeVoice" style="color:var(--azure);">VibeVoice-ASR</a> 负责语音识别，多模态模型负责智能改写。<br>2. <strong>上下文感知</strong>——读取当前应用、输入框内容和周围文本，输出匹配你当前场景的结果。</span>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            <span><span data-lang="en">Does it work in every app?</span><span data-lang="zh">所有应用都支持吗？</span></span>
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            <span data-lang="en">Yes. Vibing works at the system level — any app that accepts text input, including editors, browsers, chat apps, terminals, and email.</span>
+            <span data-lang="zh">是的。Vibing 在系统层面工作——任何接受文字输入的应用都支持，包括编辑器、浏览器、聊天软件、终端和邮件。</span>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            <span><span data-lang="en">Does Vibing work offline?</span><span data-lang="zh">Vibing 可以离线使用吗？</span></span>
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            <span data-lang="en">No. An internet connection is required for speech recognition and AI rewriting.</span>
+            <span data-lang="zh">不可以。语音识别和 AI 改写需要联网。</span>
+          </div>
+        </div>
+        <div class="faq-item" data-lang-block="zh">
+          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            <span>在中国大陆需要 VPN 吗？</span>
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            不需要。Vibing 可以在中国大陆直接使用，无需 VPN。
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            <span><span data-lang="en">What languages are supported?</span><span data-lang="zh">支持哪些语言？</span></span>
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            <span data-lang="en"><a href="https://github.com/microsoft/VibeVoice/blob/main/docs/vibevoice-asr.md#language-distribution" style="color:var(--azure);">50+ languages</a> with automatic detection. Mixed-language input fully supported.</span>
+            <span data-lang="zh"><a href="https://github.com/microsoft/VibeVoice/blob/main/docs/vibevoice-asr.md#language-distribution" style="color:var(--azure);">50+ 语言</a>，自动检测语种，完全支持多语言混合输入。</span>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+            <span><span data-lang="en">Is my data safe and private?</span><span data-lang="zh">我的数据安全且隐私受保护吗？</span></span>
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">
+            <span data-lang="en">All data is encrypted in transit. Audio and user context are deleted immediately after processing is complete. Nothing is stored or used for any other purpose.</span>
+            <span data-lang="zh">所有数据在传输中均加密。音频和用户上下文在处理完成后立即删除，不会存储或用于任何其他用途。</span>
           </div>
         </div>
       </div>
-      <div class="voice-capsule" id="dvc-4">
-        <div class="dc-capsule-stage dc-stage-recording active" id="dc-stg-rec-4">
-          <div class="status-orb"><svg style="width:14px;height:14px"><use href="#dc-mic-icon"/></svg></div>
-          <div class="dc-waveform"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
-          <span class="dc-capsule-label">Recording (Translate)</span>
-        </div>
-        <div class="dc-capsule-stage dc-stage-expanded" id="dc-stg-recog-4">
-          <div class="dc-stage-header">
-            <div class="status-orb"><svg style="width:14px;height:14px"><use href="#dc-wave-icon"/></svg></div>
-            <span class="dc-capsule-label">Recognizing...</span>
-          </div>
-          <div class="dc-stage-text" id="dc-ct-raw-4"></div>
-        </div>
-        <div class="dc-capsule-stage dc-stage-expanded" id="dc-stg-polish-4">
-          <div class="dc-stage-header">
-            <div class="status-orb"><svg style="width:14px;height:14px"><use href="#dc-wave-icon"/></svg></div>
-            <span class="dc-capsule-label">Translating…</span>
-          </div>
-          <div class="dc-stage-text" id="dc-ct-polish-4"></div>
-        </div>
-        <div class="dc-capsule-stage dc-stage-expanded" id="dc-stg-done-4">
-          <div class="dc-stage-header">
-            <div class="status-orb"><svg style="width:14px;height:14px"><use href="#dc-check-icon"/></svg></div>
-            <span class="dc-capsule-label">Done</span>
-          </div>
-          <div class="dc-stage-text" id="dc-ct-done-4"></div>
-        </div>
+    </div>
+  </section>
+
+  <section id="privacy" class="section">
+    <div class="container" style="max-width:720px;">
+      <h2 class="section-title"><span data-lang="en">Privacy</span><span data-lang="zh">隐私</span></h2>
+      <div style="font-size:17px; color:var(--ink-50); line-height:1.47; text-align:left; letter-spacing:-0.374px;">
+        <p style="margin-bottom:24px;">
+          <strong style="color:var(--ink-80);"><span data-lang="en">Data processing:</span><span data-lang="zh">数据处理：</span></strong> <span data-lang="en">To provide more accurate transcription, context-aware rewriting, and translation results, Vibing sends your audio and contextual information (such as screenshots, text in the active input field, and the current application name) to our servers. This data is used solely to process your request and return results. It is not retained after processing is complete.</span><span data-lang="zh">为了提供更准确的转录、上下文感知改写和翻译结果，Vibing 会将你的音频和上下文信息（如截图、当前输入框中的文本和当前应用名称）发送到我们的服务器。这些数据仅用于处理你的请求并返回结果，处理完成后不会保留。</span>
+        </p>
+        <p style="margin-bottom:20px;">
+          <strong style="color:var(--ink-80);"><span data-lang="en">Privacy commitment:</span><span data-lang="zh">隐私承诺：</span></strong> <span data-lang="en">Your data is never stored or used for model training, analytics, or any other purpose beyond fulfilling your immediate request.</span><span data-lang="zh">你的数据不会被存储，也不会用于模型训练、数据分析或任何超出即时请求处理之外的用途。</span>
+        </p>
       </div>
     </div>
-    </div>
+  </section>
 
-  </div>
-</section>
-<!-- Privacy -->
-<section class="section" style="padding: 60px 0 20px;">
-  <div class="container" style="text-align:center">
-    <h2 class="section-title" style="font-size: 28px; margin-bottom: 20px;">Privacy</h2>
-    <div style="max-width:900px; margin:0 auto; text-align:left; font-size:13px; color:rgba(26,26,46,0.45); line-height:1.9;">
-      <p style="margin-bottom:10px;">
-        <strong style="color:rgba(26,26,46,0.6);">Data processing:</strong>
-        To provide more accurate transcription, context-aware rewriting, and translation results, Vibing sends your audio and contextual information (such as screenshots, text in the active input field, and the current application name) to our servers. This data is used solely to process your request and return results. It is not retained after processing is complete.
-      </p>
-      <p>
-        <strong style="color:rgba(26,26,46,0.6);">Privacy commitment:</strong>
-        Your data is never stored or used for model training, analytics, or any other purpose beyond fulfilling your immediate request.
-      </p>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="src/logo.png" alt="Vibing"><span>Vibing</span>
+      </div>
+      <div>&copy; 2026 Vibing. All rights reserved.</div>
     </div>
-  </div>
-</section>
+  </footer>
 
-<footer class="footer">
-  <div class="container footer-inner">
-    <div class="footer-brand">
-      <img src="src/logo.png" alt="Vibing">
-    </div>
-    <div>&copy; 2026 Vibing. All rights reserved.</div>
-  </div>
-</footer>
+</div><!-- /main-content -->
 
 <script>
-/* ═══ Demo Cards Animation ═══ */
+/* ── Language Switcher ── */
+function setLang(lang) {
+  document.documentElement.setAttribute('data-current-lang', lang);
+  document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+  document.getElementById('lang-zh').classList.toggle('active', lang === 'zh');
+  try { localStorage.setItem('vibing-lang', lang); } catch(e) {}
+}
+
+// Init: restore saved language, default to English
 (function() {
-  const BLUE   = '#6694f5';
-  const VIOLET = '#9975f2';
-  const GREEN  = '#42bd78';
+  var saved = null;
+  try { saved = localStorage.getItem('vibing-lang'); } catch(e) {}
+  setLang(saved === 'zh' ? 'zh' : 'en');
+})();
 
-  function tintVars(hex) {
-    const r = parseInt(hex.slice(1,3),16);
-    const g = parseInt(hex.slice(3,5),16);
-    const b = parseInt(hex.slice(5,7),16);
-    return {
-      '--tint': hex,
-      '--tint-18': `rgba(${r},${g},${b},0.18)`,
-      '--tint-05': `rgba(${r},${g},${b},0.05)`,
-      '--glow':    `rgba(${r},${g},${b},0.10)`,
-      '--orb-top': `rgba(${r},${g},${b},0.28)`,
-      '--orb-bot': `rgba(${r},${g},${b},0.08)`,
-    };
-  }
-  function applyTint(el, hex) {
-    const vars = tintVars(hex);
-    for (const [k, v] of Object.entries(vars)) el.style.setProperty(k, v);
-  }
+/* ── Sidebar: highlight active section on scroll ── */
 
-  const vcIds = [0, 2, 3, 4];
-  const capsules = vcIds.map(i => document.getElementById('dvc-' + i));
-
-  const rawTexts = [
-    "I want you to first import torch and configure the CUDA device, then define the transformer model with eight heads, after that implement the training loop with AdamW optimizer, and finally add gradient clipping and learning rate scheduling",
-    "add a new bullet point, first customer acquisition cost decreased by fifteen percent, second retention rate improved to ninety four percent, and third net promoter score reached all time high",
-    "for the technical approach section, first we adopt end to end streaming recognition, second target sub two hundred millisecond latency, third support multi language mixed input, and finally integrate with clipboard API for universal paste",
-    "No breaking changes, just improved the WebSocket reconnection logic. Should be safe to merge after your review.",
-  ];
-
-  const polishedTexts = [
-    "TODO for training pipeline:\n1. Import torch and configure CUDA device\n2. Define Transformer model (d_model=512, nhead=8)\n3. Implement training loop with AdamW optimizer\n4. Add gradient clipping and LR scheduling",
-    "\u2022 Customer acquisition cost \u2193 15%\n\u2022 Retention rate improved to 94%\n\u2022 Net promoter score reached all-time high",
-    "Technical Approach:\n1. Adopt end-to-end streaming recognition\n2. Target sub-200ms latency\n3. Support multi-language mixed input\n4. Integrate with clipboard API for universal paste",
-    "\u6CA1\u6709\u7834\u574F\u6027\u53D8\u66F4\uFF0C\u53EA\u662F\u4F18\u5316\u4E86 WebSocket \u91CD\u8FDE\u903B\u8F91\u3002\u5BA1\u67E5\u540E\u53EF\u4EE5\u653E\u5FC3\u5408\u5E76\uFF01",
-  ];
-
-  const bodyTargets = [
-    document.getElementById('dc-vscode-typing'),
-    document.getElementById('dc-slide-typing'),
-    document.getElementById('dc-doc-typing'),
-    document.getElementById('dc-teams-typing'),
-  ];
-
-  function dcTypeInto(el, text, speed) {
-    el.textContent = '';
-    let i = 0;
-    return new Promise(resolve => {
-      const id = setInterval(() => {
-        if (i < text.length) { el.textContent += text[i]; i++; }
-        else { clearInterval(id); resolve(); }
-      }, speed);
-    });
-  }
-
-  function dcWait(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  function dcShowStage(idx, stageName) {
-    const vc = vcIds[idx];
-    ['rec','recog','polish','done'].forEach(s => {
-      const el = document.getElementById('dc-stg-' + s + '-' + vc);
-      if (el) el.classList.toggle('active', s === stageName);
-    });
-  }
-
-  async function animateCard(idx) {
-    const vc = vcIds[idx];
-    const cap = capsules[idx];
-    const target = bodyTargets[idx];
-
-    while (true) {
-      // Reset
-      if (target) target.textContent = '';
-      const cursor = target ? target.parentElement.querySelector('.dc-typing-cursor') : null;
-      if (cursor) cursor.classList.remove('visible');
-      cap.classList.remove('show', 'expanded-mode');
-      applyTint(cap, BLUE);
-      dcShowStage(idx, 'rec');
-      ['raw','polish','done'].forEach(s => {
-        const el = document.getElementById('dc-ct-' + s + '-' + vc);
-        if (el) el.textContent = '';
-      });
-
-      // Stage 1: Recording (blue, mic icon, waveform) ~3s
-      cap.classList.add('show');
-      await dcWait(3000);
-
-      // Stage 2: Recognizing (blue, raw text streams) ~2s
-      cap.classList.add('expanded-mode');
-      dcShowStage(idx, 'recog');
-      const rawEl = document.getElementById('dc-ct-raw-' + vc);
-      await dcTypeInto(rawEl, rawTexts[idx], 30);
-      await dcWait(400);
-
-      // Stage 3: Polishing / Translating (violet) ~2s
-      applyTint(cap, VIOLET);
-      dcShowStage(idx, 'polish');
-      const polishEl = document.getElementById('dc-ct-polish-' + vc);
-      await dcTypeInto(polishEl, polishedTexts[idx], 25);
-      await dcWait(400);
-
-      // Stage 4: Done (green, checkmark) ~1s
-      applyTint(cap, GREEN);
-      dcShowStage(idx, 'done');
-      const doneEl = document.getElementById('dc-ct-done-' + vc);
-      doneEl.textContent = polishedTexts[idx];
-      await dcWait(1000);
-
-      // Dismiss capsule, paste text into app
-      cap.classList.remove('show');
-      await dcWait(400);
-
-      if (target) {
-        target.textContent = polishedTexts[idx];
-        if (cursor) cursor.classList.add('visible');
-      }
-
-      // Wait before looping
-      await dcWait(2000);
+/* ── Inject arrow bridge into all before/after grids ── */
+(function() {
+  var arrow = '<div class="sc-ba-arrow">' +
+    '<img src="src/logo.png" alt="Vibing">' +
+    '<div class="sc-ba-arrow-line"></div>' +
+    '</div>';
+  var micSvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;opacity:0.8;">' +
+    '<path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>' +
+    '<path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>';
+  document.querySelectorAll('.sc-ba:not(.sc-ba-compare)').forEach(function(ba) {
+    var cols = ba.querySelectorAll(':scope > .sc-ba-col');
+    if (cols.length === 2) {
+      // Insert arrow bridge
+      cols[1].insertAdjacentHTML('beforebegin', arrow);
+      // Replace before label with mic icon only
+      var beforeLabel = cols[0].querySelector('.sc-ba-label.before');
+      if (beforeLabel) beforeLabel.innerHTML = micSvg;
+      // Simplify after label
+      var afterLabel = cols[1].querySelector('.sc-ba-label.after');
+      if (afterLabel) afterLabel.innerHTML = '&#x2714; On screen';
     }
-  }
-
-  // Stagger start: each card begins 1.5s after the previous
-  vcIds.forEach((_, idx) => {
-    setTimeout(() => animateCard(idx), idx * 1500);
   });
 })();
 
-/* ═══ How-to-Use: Toggle & ESC Animations ═══ */
 (function() {
-  var IDX_BLUE = '#6694f5', IDX_VIOLET = '#9975f2', IDX_GREEN = '#42bd78', IDX_RED = '#ff3b30';
+  var navLinks = document.querySelectorAll('.sidebar-nav a[href^="#"]');
+  var sections = [];
+  navLinks.forEach(function(a) {
+    var id = a.getAttribute('href').slice(1);
+    var el = document.getElementById(id);
+    if (el) sections.push({ el: el, link: a });
+  });
 
-  function idxWait(ms) { return new Promise(function(r) { setTimeout(r, ms); }); }
+  function onScroll() {
+    var scrollY = window.scrollY + 120;
+    var current = null;
+    sections.forEach(function(s) {
+      if (s.el.offsetTop <= scrollY) current = s;
+    });
+    navLinks.forEach(function(a) { a.classList.remove('active'); });
+    if (current) current.link.classList.add('active');
+  }
 
-  function idxTypeText(el, text, speed) {
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+
+/* ═══ Quick Start: Keyboard Animation ═══ */
+(function() {
+  function wait(ms) { return new Promise(function(r) { setTimeout(r, ms); }); }
+
+  function setStep(name) {
+    document.querySelectorAll('#qs-steps-hold .qs-step-pill').forEach(function(p) {
+      p.classList.remove('active', 'done-pill');
+    });
+    var t = document.querySelector('#qs-steps-hold [data-step="'+name+'"]');
+    if (t) t.classList.add('active');
+  }
+
+  function showSharedAnim(zone) {
+    var el = document.getElementById('kb-shared-anim');
+    if (!el) return;
+    el.querySelectorAll(':scope > div').forEach(function(d) {
+      d.classList.toggle('show', d.classList.contains('kb-anim-' + zone));
+    });
+  }
+
+  function hideSharedAnim() {
+    var el = document.getElementById('kb-shared-anim');
+    if (!el) return;
+    el.querySelectorAll(':scope > div').forEach(function(d) { d.classList.remove('show'); });
+  }
+
+  function positionFingers(prefix, keys) {
+    var fingers = document.getElementById(prefix + '-fingers');
+    var container = document.getElementById(prefix + '-container');
+    if (!fingers || !container) return;
+    var kbRect = container.getBoundingClientRect();
+    var svgs = fingers.querySelectorAll('.finger-svg');
+    keys.forEach(function(key, i) {
+      if (i >= svgs.length) return;
+      var keyRect = key.getBoundingClientRect();
+      var cx = keyRect.left + keyRect.width/2 - kbRect.left;
+      svgs[i].style.position = 'absolute';
+      svgs[i].style.left = (cx - 14) + 'px';
+      svgs[i].style.bottom = '-44px';
+    });
+  }
+
+  async function typeText(el, text) {
     el.textContent = '';
-    var i = 0;
-    return new Promise(function(resolve) {
-      var id = setInterval(function() {
-        if (i < text.length) { el.textContent += text[i]; i++; }
-        else { clearInterval(id); resolve(); }
-      }, speed);
-    });
-  }
-
-  function idxSetTint(el, hex) {
-    var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
-    el.style.setProperty('--tint', hex);
-    el.style.setProperty('--tint-18', 'rgba('+r+','+g+','+b+',0.18)');
-    el.style.setProperty('--tint-05', 'rgba('+r+','+g+','+b+',0.05)');
-    el.style.setProperty('--glow', 'rgba('+r+','+g+','+b+',0.10)');
-    el.style.setProperty('--orb-top', 'rgba('+r+','+g+','+b+',0.28)');
-    el.style.setProperty('--orb-bot', 'rgba('+r+','+g+','+b+',0.08)');
-  }
-
-  function idxShowStage(prefix, name) {
-    document.querySelectorAll('[id^="'+prefix+'-"]').forEach(function(el) {
-      var stage = el.id.replace(prefix + '-', '');
-      el.classList.toggle('active', stage === name);
-    });
-  }
-
-  function idxSetStep(barId, stepName) {
-    document.querySelectorAll('#'+barId+' .idx-step-pill').forEach(function(p) {
-      p.classList.remove('active', 'done-pill', 'cancel-pill');
-    });
-    var target = document.querySelector('#'+barId+' [data-step="'+stepName+'"]');
-    if (target) target.classList.add('active');
-  }
-
-  async function idxAnimToggle() {
-    var vc = document.getElementById('idx-vc-toggle');
-    var key = document.getElementById('idx-mac-opt-toggle');
-    var wCtrl = document.getElementById('idx-win-ctrl-toggle');
-    var wKey = document.getElementById('idx-win-key-toggle');
-    var rawText = "I want you to first import torch and configure the CUDA device then define the transformer model";
-    var polished = "TODO:\n1. Import torch & configure CUDA\n2. Define Transformer (d_model=512, nhead=8)";
-
-    while (true) {
-      vc.classList.remove('show', 'expanded');
-      idxSetTint(vc, IDX_BLUE);
-      idxShowStage('idx-vt', 'rec');
-      ['recog-txt','done-txt','copy-txt'].forEach(function(s) { document.getElementById('idx-vt-'+s).textContent = ''; });
-      idxSetStep('idx-steps-toggle', '');
-      await idxWait(1500);
-
-      // ① Press key
-      idxSetStep('idx-steps-toggle', 'press1');
-      key.classList.add('pressed'); wCtrl.classList.add('pressed'); wKey.classList.add('pressed');
-      await idxWait(1000);
-      key.classList.remove('pressed'); wCtrl.classList.remove('pressed'); wKey.classList.remove('pressed');
-
-      // ② Recording
-      idxSetStep('idx-steps-toggle', 'recording');
-      vc.classList.add('show');
-      await idxWait(5000);
-
-      // ③ Press again
-      idxSetStep('idx-steps-toggle', 'press2');
-      key.classList.add('pressed'); wCtrl.classList.add('pressed'); wKey.classList.add('pressed');
-      await idxWait(1000);
-      key.classList.remove('pressed'); wCtrl.classList.remove('pressed'); wKey.classList.remove('pressed');
-
-      // ④ Recognizing
-      idxSetStep('idx-steps-toggle', 'recognizing');
-      vc.classList.add('expanded');
-      idxSetTint(vc, IDX_VIOLET);
-      idxShowStage('idx-vt', 'recog');
-      await idxTypeText(document.getElementById('idx-vt-recog-txt'), rawText, 12);
-      await idxWait(200);
-
-      // ⑤ Done
-      idxSetStep('idx-steps-toggle', 'done');
-      idxSetTint(vc, IDX_GREEN);
-      idxShowStage('idx-vt', 'done');
-      document.getElementById('idx-vt-done-txt').textContent = polished;
-      await idxWait(1000);
-
-      // ⑥ Copied
-      idxSetStep('idx-steps-toggle', 'clipboard');
-      idxShowStage('idx-vt', 'copy');
-      document.getElementById('idx-vt-copy-txt').textContent = polished;
-      await idxWait(2000);
-
-      // Paste hint — show immediately
-      vc.classList.remove('show');
-      var pasteN = document.getElementById('idx-notif-toggle-paste');
-      pasteN.classList.add('show');
-      await idxWait(3000);
-      pasteN.classList.remove('show');
+    for (var i = 0; i < text.length; i++) {
+      el.textContent += text[i];
+      await wait(35);
     }
   }
 
-  async function idxAnimEsc() {
-    var vc = document.getElementById('idx-vc-esc');
-    var optKey = document.getElementById('idx-mac-opt-esc');
-    var escKey = document.getElementById('idx-mac-esc');
-    var wCtrl = document.getElementById('idx-win-ctrl-esc');
-    var wKey = document.getElementById('idx-win-key-esc');
-    var wEsc = document.getElementById('idx-win-esc');
-    var escNotif = document.getElementById('idx-notif-esc');
-    var rawText = "I want to schedule a meeting with...";
+  async function runAnimation() {
+    var macOpt = document.getElementById('qs-mac-opt');
+    var wCtrl = document.getElementById('qs-win-ctrl');
+    var wKey = document.getElementById('qs-win-key');
+    var winFingers = document.getElementById('kb-win-fingers');
+    var macFingers = document.getElementById('kb-mac-fingers');
+    var speechBubble = document.getElementById('qs-speech-bubble');
+    var speechText = document.getElementById('qs-speech-text');
+    var inputText = document.getElementById('qs-input-text');
+    var inputField = document.getElementById('qs-input-field');
+    var mouth = document.getElementById('qs-mouth');
+    var inputDone = document.getElementById('qs-input-done');
 
-    while (true) {
-      // — Scenario A: Cancel during recording —
-      vc.classList.remove('show', 'expanded');
-      idxSetTint(vc, IDX_BLUE);
-      idxShowStage('idx-ve', 'rec');
-      document.getElementById('idx-ve-recog-txt').textContent = '';
-      escNotif.classList.remove('show');
-      idxSetStep('idx-steps-esc', '');
-      await idxWait(2000);
-
-      idxSetStep('idx-steps-esc', 'press1');
-      optKey.classList.add('pressed'); wCtrl.classList.add('pressed'); wKey.classList.add('pressed');
-      await idxWait(1000);
-      optKey.classList.remove('pressed'); wCtrl.classList.remove('pressed'); wKey.classList.remove('pressed');
-
-      idxSetStep('idx-steps-esc', 'recording');
-      vc.classList.add('show');
-      await idxWait(2000);
-
-      // ESC!
-      idxSetStep('idx-steps-esc', 'esc');
-      escKey.classList.add('cancel-pressed'); wEsc.classList.add('cancel-pressed');
-      await idxWait(800);
-      escKey.classList.remove('cancel-pressed'); wEsc.classList.remove('cancel-pressed');
-
-      idxSetStep('idx-steps-esc', 'cancelled');
-      idxSetTint(vc, IDX_RED);
-      vc.classList.remove('show');
-      await idxWait(300);
-      escNotif.classList.add('show');
-      await idxWait(2000);
-      escNotif.classList.remove('show');
-      await idxWait(2000);
-
-      // — Scenario B: Cancel during recognizing —
-      vc.classList.remove('show', 'expanded');
-      idxSetTint(vc, IDX_BLUE);
-      idxShowStage('idx-ve', 'rec');
-      document.getElementById('idx-ve-recog-txt').textContent = '';
-      idxSetStep('idx-steps-esc', '');
-      await idxWait(1500);
-
-      idxSetStep('idx-steps-esc', 'press1');
-      optKey.classList.add('pressed'); wCtrl.classList.add('pressed'); wKey.classList.add('pressed');
-      await idxWait(1000);
-      optKey.classList.remove('pressed'); wCtrl.classList.remove('pressed'); wKey.classList.remove('pressed');
-
-      idxSetStep('idx-steps-esc', 'recording');
-      vc.classList.add('show');
-      await idxWait(2000);
-
-      // Stop recording, start recognizing
-      optKey.classList.add('pressed'); wCtrl.classList.add('pressed'); wKey.classList.add('pressed');
-      await idxWait(600);
-      optKey.classList.remove('pressed'); wCtrl.classList.remove('pressed'); wKey.classList.remove('pressed');
-
-      vc.classList.add('expanded');
-      idxShowStage('idx-ve', 'recog');
-      var el = document.getElementById('idx-ve-recog-txt');
+    async function speechType(el, text) {
       el.textContent = '';
-      var ci = 0;
-      var typing = setInterval(function() { if (ci < rawText.length) { el.textContent += rawText[ci]; ci++; } }, 40);
-      await idxWait(1000);
-      clearInterval(typing);
+      for (var i = 0; i < text.length; i++) {
+        el.textContent += text[i];
+        await wait(70);
+      }
+    }
 
-      // ESC during recognizing!
-      idxSetStep('idx-steps-esc', 'esc');
-      escKey.classList.add('cancel-pressed'); wEsc.classList.add('cancel-pressed');
-      await idxWait(800);
-      escKey.classList.remove('cancel-pressed'); wEsc.classList.remove('cancel-pressed');
+    while (true) {
+      // Reset all
+      setStep('');
+      winFingers.classList.remove('show'); winFingers.classList.add('hide');
+      macFingers.classList.remove('show'); macFingers.classList.add('hide');
+      wCtrl.classList.remove('pressed'); wKey.classList.remove('pressed');
+      macOpt.classList.remove('pressed');
+      hideSharedAnim();
+      speechBubble.style.display = 'none';
+      speechText.textContent = '';
+      inputText.textContent = '';
+      inputField.classList.remove('active');
+      mouth.classList.remove('talking');
+      inputDone.classList.remove('show');
+      await wait(1500);
 
-      idxSetStep('idx-steps-esc', 'cancelled');
-      idxSetTint(vc, IDX_RED);
-      vc.classList.remove('show');
-      await idxWait(300);
-      escNotif.classList.add('show');
-      await idxWait(2000);
-      escNotif.classList.remove('show');
-      await idxWait(2500);
+      // ① Press & Hold — fingers slide up
+      setStep('hold');
+      positionFingers('kb-win', [wCtrl, wKey]);
+      positionFingers('kb-mac', [macOpt]);
+      winFingers.classList.remove('hide'); winFingers.classList.add('show');
+      macFingers.classList.remove('hide'); macFingers.classList.add('show');
+      await wait(600);
+      wCtrl.classList.add('pressed'); wKey.classList.add('pressed');
+      macOpt.classList.add('pressed');
+      await wait(400);
+
+      // ② Speaking — mouth + speech bubble
+      setStep('recording');
+      showSharedAnim('listening');
+      speechBubble.style.display = 'block';
+      mouth.classList.add('talking');
+      await speechType(speechText, 'Vibing is, um, the best way to type!');
+      await wait(300);
+      mouth.classList.remove('talking');
+
+      // ③ Release — fingers slide out, keys un-press
+      // Speech bubble stays visible
+      setStep('release');
+      wCtrl.classList.remove('pressed'); wKey.classList.remove('pressed');
+      macOpt.classList.remove('pressed');
+      winFingers.classList.remove('show'); winFingers.classList.add('hide');
+      macFingers.classList.remove('show'); macFingers.classList.add('hide');
+      showSharedAnim('processing');
+      await wait(1500);
+
+      // ④ Auto-pasted — text into input field
+      setStep('done');
+      hideSharedAnim();
+      inputField.classList.add('active');
+      await typeText(inputText, 'Vibing is the best way to type!');
+      inputDone.classList.add('show');
+      await wait(800);
+      // Now hide speech bubble together with done state
+      speechBubble.style.display = 'none';
+      await wait(1200);
     }
   }
 
-  idxAnimToggle();
-  setTimeout(idxAnimEsc, 800);
+  runAnimation();
+})();
+
+/* ── Scroll Reveal Observer ── */
+(function() {
+  var targets = document.querySelectorAll('.sc-card, .kf-card, .inst-method, .faq-item, .qs-panel, .section-title, .hero-subtitle, .hero-actions, .dl-cta h2, .dl-cta p');
+  targets.forEach(function(el) { el.classList.add('reveal'); });
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  targets.forEach(function(el) { observer.observe(el); });
+
+  // Stagger delays for grid items
+  document.querySelectorAll('.kf-card.reveal').forEach(function(card, i) {
+    card.style.transitionDelay = (i * 0.07) + 's';
+  });
+  document.querySelectorAll('.sc-card.reveal').forEach(function(card, i) {
+    card.style.transitionDelay = (i * 0.05) + 's';
+  });
 })();
 
 /* ── Mobile: auto-zoom to fit ── */
 (function() {
-  function fitMobile() {
-    var w = window.innerWidth;
-    if (w < 1100) {
-      var scale = w / 1100;
-      var vp = document.querySelector('meta[name="viewport"]');
-      vp.setAttribute('content', 'width=1100, initial-scale=' + scale + ', maximum-scale=' + scale + ', user-scalable=no');
-    }
+  var minW = 1100;
+  var w = window.innerWidth;
+  if (w < minW) {
+    var scale = w / minW;
+    var vp = document.querySelector('meta[name="viewport"]');
+    vp.setAttribute('content', 'width=' + minW + ', initial-scale=' + scale + ', maximum-scale=' + scale + ', user-scalable=no');
   }
-  fitMobile();
 })();
 </script>
 
