@@ -45,11 +45,9 @@ Step-by-step setup instructions for macOS — accessibility, screen recording & 
 - **LLM-Powered Rewriting** — AI rewrites your speech into polished, context-appropriate text.
 - **Translation** — Real-time voice translation across languages.
 
-## Download Vibing
+## Notice
 
-| Version | macOS | Windows |
-|---------|-------|---------|
-| latest | [Download (.dmg)](https://github.com/VibingJustSpeakIt/Vibing/releases/download/v0.1.0/Vibing-v0.1.0-mac.dmg) | [Microsoft Store](https://get.microsoft.com/installer/download/9pjf89frgg1d) · [Download (.zip)](https://github.com/VibingJustSpeakIt/Vibing/releases/download/v0.1.3/Vibing-v0.1.3-windows.zip) |
+> **2026-04-26:** The application and service have been temporarily suspended as part of an ongoing compliance review.
 
 ## Privacy
 
