@@ -43,7 +43,7 @@ Step-by-step setup instructions for macOS — accessibility, screen recording & 
 
 ## Notice
 
-> **2026-04-26:** The application and service have been temporarily suspended as part of an ongoing compliance review.
+> **2026-04-24:** The application and service have been temporarily suspended as part of an ongoing compliance review.
 
 ## Privacy
 
