@@ -41,10 +41,6 @@ Step-by-step setup instructions for macOS — accessibility, screen recording & 
 - **LLM-Powered Rewriting** — AI rewrites your speech into polished, context-appropriate text.
 - **Translation** — Real-time voice translation across languages.
 
-## Notice
-
-> **2026-04-24:** The application and service have been temporarily suspended as part of an ongoing compliance review.
-
 ## Privacy
 
 **Data processing:** To provide more accurate transcription, context-aware rewriting, and translation results, Vibing sends your audio and contextual information (such as screenshots, text in the active input field, and the current application name) to our servers. This data is used solely to process your request and return results. It is not retained after processing is complete.
